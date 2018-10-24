@@ -1,0 +1,80 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-01 09:58+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:288
+msgid "No flavour detected. Check one at least"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:451
+msgid "Installation succesful. A reboot is required"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:454
+msgid "An error ocurred. See log in /tmp/lliurex-flavours-selector"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:522
+msgid "The selected flavours will be installed. Do you wish to continue?"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:576
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:584
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:604
+msgid "Incompatibility between Server and Client detected"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:579
+msgid "Is not possible adding Desktop Flavour in Server"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:609
+msgid "Choose new flavour to incorporate or close button"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:648
+msgid "Installed"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:662
+msgid "Install"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:677
+msgid "Incompatible"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:712
+msgid "APPLY"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:769
+msgid "CLOSE"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:72
+msgid "Checking system..."
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:97
+msgid "LliureX Flavours Selector"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:138
+msgid "Flavours availables"
+msgstr ""

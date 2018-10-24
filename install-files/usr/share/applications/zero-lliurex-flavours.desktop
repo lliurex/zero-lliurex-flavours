@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=zero-lliurex-flavours
+Name[es]=Selección de sabores de LliureX
+Name[ca]=Selecció de sabors de LliureX
+Name[ca_ES@valencia]=Selecció de sabors de LliureX
+Name[ca_ES.UTF-8@valencia]=Selecció de sabors de LliureX
+Comment=LliureX flavours selector
+Comment[es]=Selección de sabores de LliureX 16
+Comment[ca]=Selecció de sabors de LliureX 16
+Comment[ca_ES.UTF-8@valencia]=Selecció de sabors de LliureX 16
+Comment[ca_ES@valencia]=Selecció de sabors de LliureX 16
+Exec=gksu lliurex-flavours-selector
+Terminal=false
+Icon=zero-lliurex-flavours
+Type=Application
+GenericName=zero-lliurex-flavours
+NoDisplay=true
+Categories=LliureX-Administration;
