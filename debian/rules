@@ -10,8 +10,4 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@  --with llxsrc 
-
-override_dh_auto_install:
-	dllxh_install
-	dh_auto_install
+	dh $@  --with llxsrc,zero,i18n
