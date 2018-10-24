@@ -346,22 +346,22 @@ class AwesomeTabs:
 		
 		#MAIN_LABEL_ENABLED{
 			color: #8297a1;
-			font: Noto Sans Bold 18;
+			font: 18pt Noto Sans Bold;
 		}
 		
 		#ALTERNATIVES_LABEL{
 			color: #8297a1;
-			font: Noto Sans Bold 12;		
+			font: 12pt Noto Sans Bold;		
 		}
 		
 		#DIALOG_LABEL{
 			color: #8297a1;
-			font: Noto Sans Bold 10;		
+			font: 10pt Noto Sans Bold;		
 		}
 
 		#MAIN_LABEL_DISABLED{
 			color: #c9d4e2;
-			font: Noto Sans Bold 18;
+			font: 18pt Noto Sans Bold;
 		}
 		
 		#RED_PROGRESS{
@@ -395,13 +395,13 @@ class AwesomeTabs:
 		#RED_LABEL{
 			
 			color: red;
-			font: Noto Sans Bold 10;
+			font: 10pt Noto Sans Bold;
 		}
 
 		
 		GtkButton#RED GtkLabel {
 			color: #8297a1;
-			font: Noto Sans 11;
+			font: 11pt Noto Sans;
 		}
 
 
