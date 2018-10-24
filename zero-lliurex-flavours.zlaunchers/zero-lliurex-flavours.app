@@ -14,5 +14,5 @@ Icon=zero-lliurex-flavours
 Category=System
 ScriptPath=zero-lliurex-flavours.zmd
 Groups=adm;admins
-Using=pe
+Using=pkexec
 Service=False
