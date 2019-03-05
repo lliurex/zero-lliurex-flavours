@@ -3,7 +3,7 @@
  "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
  "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
-    <action id="net.lliurex.lliurex-flavour-selector.pkexec.lliurex-flavours-selector">
+    <action id="net.lliurex.lliurex-flavours-selector.pkexec.lliurex-flavours-selector">
     <description>Run lliurex-flavours-selector</description>
     <message>Authentication is required to run LliureX Flavours Selector</message>
     <icon_name>zero-lliurex-flavours</icon_name>

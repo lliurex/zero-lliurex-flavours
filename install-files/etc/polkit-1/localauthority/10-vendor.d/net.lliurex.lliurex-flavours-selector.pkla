@@ -1,4 +1,4 @@
-[net.lliurex.lliurex-flavours-selecotr]
+[net.lliurex.lliurex-flavours-selector]
 Identity=unix-group:sudo;unix-groups:admins
 Action=net.lliurex.lliurex-flavours-selector.pkexec.lliurex-flavours-selector
 ResultAny=auth_self_keep
