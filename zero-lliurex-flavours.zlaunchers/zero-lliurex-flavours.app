@@ -13,6 +13,6 @@ Comment[ca@valencia]=Selecció de sabors de LliureX 16
 Icon=zero-lliurex-flavours
 Category=System
 ScriptPath=zero-lliurex-flavours.zmd
-Groups=adm;admins
+Groups=sudo;admins
 Using=pkexec
 Service=False
