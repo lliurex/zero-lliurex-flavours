@@ -1,0 +1,7 @@
+[net.lliurex.lliurex-flavours-selecotr]
+Identity=unix-group:sudo;unix-groups:admins
+Action=net.lliurex.lliurex-flavours-selector.pkexec.lliurex-flavours-selector
+ResultAny=auth_self_keep
+ResultInactive=auth_self_keep
+ResultActive=auth_self_keep
+
