@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.9.32) bionic; urgency=medium
+
+  * Fixed polkit files
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 19 Jul 2019 13:29:26 +0200
+
 zero-lliurex-flavours (0.9.31) bionic; urgency=medium
 
   * Added icon
