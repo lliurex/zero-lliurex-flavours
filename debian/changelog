@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.9.33) bionic; urgency=medium
+
+  * Added ca@valencia po file
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 26 Jul 2019 11:34:36 +0200
+
 zero-lliurex-flavours (0.9.32) bionic; urgency=medium
 
   * Fixed polkit files
