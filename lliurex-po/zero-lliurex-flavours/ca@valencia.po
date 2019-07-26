@@ -1,0 +1,82 @@
+# Spanish translations for PACKAGE package
+# Traducciones al español para el paquete PACKAGE.
+# Copyright (C) 2016 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# lliurex <juapesai@hotmail.com>, 2016.
+# Pilar Embid Giner <embid_mar@gva.es>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-01 09:58+0200\n"
+"PO-Revision-Date: 2016-08-01 10:01+0200\n"
+"Last-Translator: Pilar Embid Giner <embid_mar@gva.es>\n"
+"Language-Team: LliureX\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:288
+msgid "No flavour detected. Check one at least"
+msgstr "No s'ha seleccionat cap sabor. Seleccioneu-ne un, com a mínim"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:451
+msgid "Installation succesful. A reboot is required"
+msgstr "La instal·lació és correcta. Cal que reinicieu"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:454
+msgid "An error ocurred. See log in /tmp/lliurex-flavours-selector"
+msgstr "S'ha produït un error. Reviseu el registre en /tmp/lliurex-flavours-selector"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:522
+msgid "The selected flavours will be installed. Do you wish to continue?"
+msgstr "Els sabors seleccionats seran instal·lats. Desitgeu continuar?"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:576
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:584
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:604
+msgid "Incompatibility between Server and Client detected"
+msgstr "S'ha detectat una incompatibilitat entre servidor i client"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:579
+msgid "Is not possible adding Desktop Flavour in Server"
+msgstr "No es pot incorporar el sabor Escriptori al servidor"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:609
+msgid "Choose new flavour to incorporate or close button"
+msgstr "Seleccioneu un sabor nou per a incorporar-lo o polseu Tanca"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:648
+msgid "Installed"
+msgstr "Instal·lat"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:662
+msgid "Install"
+msgstr "Instal·la"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:677
+msgid "Incompatible"
+msgstr "Incompat"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:712
+msgid "APPLY"
+msgstr "APLICAR"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:769
+msgid "CLOSE"
+msgstr "TANCA"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:72
+msgid "Checking system..."
+msgstr "S'està comprovant el sistema..."
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:97
+msgid "LliureX Flavours Selector"
+msgstr ""
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:138
+msgid "Flavours availables"
+msgstr "Sabors disponibles"
