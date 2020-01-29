@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import gi
@@ -9,7 +9,7 @@ import cairo
 import os
 import glob
 import threading
-import ConfigParser
+import configparser
 import platform
 import subprocess
 import sys
@@ -87,7 +87,7 @@ class ConfigurationParser:
 	def load_plugin(self,path):
 	
 		try:
-			config = ConfigParser.ConfigParser()
+			config = configparser.ConfigParser()
 			config.optionxform=str
 			config.read(path)
 			if config.has_section("FLAVOUR"):
@@ -98,7 +98,7 @@ class ConfigurationParser:
 				return GridButton(info)
 				
 		except Exception as e:
-			print e
+			print(e)
 			return None
 	
 	
@@ -271,11 +271,14 @@ class AwesomeTabs:
 					self.gbs.append(gb)
 					
 		p=subprocess.Popen([base_apt_cmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-		output=p.communicate()
+		output=p.communicate()[0]
+
+		if type(output) is bytes:
+			output=output.decode()
 		
 		for gb in self.gbs:
 			
-			if gb.info["pkg"] not in output[0]:
+			if gb.info["pkg"] not in output:
 				print(" [!] %s not available [!] "%gb.info["pkg"])
 				gb.info["available"]=False
 			else:
@@ -322,7 +325,7 @@ class AwesomeTabs:
 	
 	def set_css_info(self):
 		
-		css = """
+		css = b"""
 		
 		#BLUE {
 			background-image:-gtk-gradient (linear,	left top, left bottom, from (#0f72ff),  to (#0f72ff));;
@@ -424,9 +427,12 @@ class AwesomeTabs:
 		
 		
 		p=subprocess.Popen(["dpkg-query -W -f='${db:Status-Status}' %s"%pkg],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		output=p.communicate()
+		output=p.communicate()[0]
+
+		if type(output) is bytes:
+			output=output.decode()
 		
-		if output[0]=="installed":
+		if output=="installed":
 			self.log(pkg)
 			return True
 			
@@ -445,7 +451,11 @@ class AwesomeTabs:
 		
 		self.thread_ret=-1
 		p=subprocess.Popen([command],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-		output=p.communicate()
+		output=p.communicate()[0]
+
+		if type(output) is bytes:
+			output=output.decode()
+
 		self.thread_ret=p.returncode
 		self.flavour_error=output[1]
 	
@@ -489,7 +499,7 @@ class AwesomeTabs:
 					self.remove_desktop.info["drawingarea"].queue_draw()
 					self.mouse_left(self.remove_desktop.info["drawingarea"],None,self.remove_desktop)
 				except:
-					print "No desktop flavour to remove"
+					print("No desktop flavour to remove")
 					
 				self.install_metas=[]	
 				self.msg_label.show()
@@ -588,7 +598,7 @@ class AwesomeTabs:
 				
 	def install_packages(self,widget):
 		
-			
+		print("INSTALADO")	
 		cmd='lliurex-preseed --update; apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y '
 		pkg=""
 		log_pkg=""
@@ -601,7 +611,7 @@ class AwesomeTabs:
 				x=subprocess.Popen((cmdInfantil),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
 				log_msg="Adding repository recursos"
 				self.log(log_msg)
-				x.communicate("\n")[0]
+				x.communicate(b"\n")[0]
 				
 			if item.info["pkg"]=="lliurex-meta-musica":
 				lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu xenial main",
@@ -616,7 +626,7 @@ class AwesomeTabs:
 					self.log(log_msg)
 					cmdAux=cmdMusica+[repo]
 					x=subprocess.Popen((cmdAux),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
-					x.communicate("\n")[0]
+					x.communicate(b"\n")[0]
 
 			pkg+=item.info["pkg"] + ' '
 			log_pkg=log_pkg+item.info["pkg"]+ ' '
