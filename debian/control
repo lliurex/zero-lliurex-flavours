@@ -8,6 +8,6 @@ Standards-Version: 4.1.2
 
 Package: zero-lliurex-flavours
 Architecture: all
-Depends: ${misc:Depends},python, lliurex-preseed-common, lliurex-preseed-libnss-ldapd, lliurex-preseed-nslcd
+Depends: ${misc:Depends},python3, lliurex-preseed-common, lliurex-preseed-libnss-ldapd, lliurex-preseed-nslcd
 Description: Flavours Selection Tool
  Flavours Selection Tool for changing between LliureX flavours
