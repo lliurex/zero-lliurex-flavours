@@ -246,6 +246,8 @@ class AwesomeTabs:
 		self.client_sourceslist_cb.connect("toggled",self.client_sourceslist_toggled,"mirror")
 		self.client_apply_btn=builder.get_object("client_apply_btn")
 		self.client_apply_btn.connect("clicked",self.client_apply)
+		self.client_cancel_btn=builder.get_object("client_cancel_btn")
+		self.client_cancel_btn.connect("clicked",self.client_cancel)
 
 		self.set_css_info()
 		
@@ -589,6 +591,7 @@ class AwesomeTabs:
 			msg_log="Couldn't open sources.list for writting"
 			self.log(msg_log)	
 
+	#def write_mirror_repository
 		
 	def add_grid_button(self,grid_button):
 		
@@ -685,7 +688,8 @@ class AwesomeTabs:
 		else:
 			return True	
 
-
+	#def is_mirror_in_sourceslist
+			
 	def client_options_toggled(self,button,name):
 
 		if button.get_active():
@@ -696,7 +700,8 @@ class AwesomeTabs:
 				self.full_client=False
 
 		
-				
+	#def client_options_toggled
+
 	def client_sourceslist_toggled(self,button,name):
 	
 		if button.get_active():
@@ -704,13 +709,21 @@ class AwesomeTabs:
 		else:
 			self.add_mirror_repo=False	
 
-
+	#def client_sourceslist_toggled
+			
 	def client_apply(self,widget,event=None):
 	
 		self.configuration_client_window.hide()	
 		self.show_confirm_dialog(widget)	
 
+	#def client_apply	
+
+	def client_cancel(self,widget,event=None):
 	
+		self.configuration_client_window.hide()	
+
+	#def client_cancel
+
 	def show_confirm_dialog(self, widget):
 
 		message=_("The selected flavours will be installed. Do you wish to continue?")
