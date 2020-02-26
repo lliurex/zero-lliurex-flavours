@@ -14,6 +14,7 @@ import platform
 import subprocess
 import sys
 import datetime
+import copy
 from math import pi
 
 from gi.repository import Gtk, Gdk, GObject, GLib, PangoCairo, Pango
@@ -44,6 +45,7 @@ class GridButton:
 		self.info["installed"]=False
 		self.info["checked"]=False
 		self.info["incompatible"]=False
+		self.info["minimal"]=False
 		self.info["shadow_alpha"]=0.1
 		self.info["animation_active"]=False
 		self.info["shadow_start"]=0
@@ -227,19 +229,39 @@ class AwesomeTabs:
 		
 		self.progress_window=builder.get_object("progress_window")
 		self.pbar=builder.get_object("progressbar")
+		self.installing_label=builder.get_object("installing_label")
 		self.progress_window.set_transient_for(self.main_window)
 		
 		self.gather_window=builder.get_object("gather_window")
 		self.gather_pbar=builder.get_object("progressbar1")
 		self.progress_label=builder.get_object("progress_label")
 		
-			
+		self.configuration_client_window=builder.get_object("configuration_client_window")
+		self.configuration_title_label=builder.get_object("configuration_title_label")
+		self.full_client_rb=builder.get_object("full_client_rb")
+		self.full_client_rb.connect("toggled",self.client_options_toggled,"full")
+		self.minimal_client_rb=builder.get_object("minimal_client_rb")
+		self.minimal_client_rb.connect("toggled",self.client_options_toggled,"minimal")
+		self.client_sourceslist_cb=builder.get_object("client_sourceslist_cb")
+		self.client_sourceslist_cb.connect("toggled",self.client_sourceslist_toggled,"mirror")
+		self.client_apply_btn=builder.get_object("client_apply_btn")
+		self.client_apply_btn.connect("clicked",self.client_apply)
+		self.client_cancel_btn=builder.get_object("client_cancel_btn")
+		self.client_cancel_btn.connect("clicked",self.client_cancel)
+
 		self.set_css_info()
 		
+		self.show_client_options=False
+		self.add_mirror_repo=True
+		self.full_client=True
+		self.defaultMirror = 'llx19'
+		self.defaultVersion = 'bionic'
+		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
+		self.sourcesListPath='/etc/apt/sources.list'
 		self.gather_window.show_all()
+		self.minimal_client_installed=False
 		log_msg="-Current flavours installed:"
 		self.log(log_msg)
-
 		GLib.timeout_add(100,self.pulsate_gathering_info)
 		
 		self.t=threading.Thread(target=self.gather_info)
@@ -284,8 +306,16 @@ class AwesomeTabs:
 			else:
 				if gb.info["installed"]==True:
 					self.check_meta_blocked(gb, self.gbs)
-					self.flavours_installed+=1	
-				self.add_grid_button(gb)	
+					self.flavours_installed+=1
+					if gb.info["pkg"]=="lliurex-meta-minimal-client":
+						self.minimal_client_installed=True
+						for flavour in self.gbs:
+							if flavour.info["pkg"]=="lliurex-meta-client":
+								if flavour.info["installed"]==False:
+									if not flavour.info["incompatible"]:
+										flavour.info["minimal"]=True
+				if gb.info["pkg"]!="lliurex-meta-minimal-client":				
+					self.add_grid_button(gb)	
 			
 	#def gather_info
 	
@@ -297,7 +327,7 @@ class AwesomeTabs:
 					gb.info["incompatible"]=True
 				elif gb.info["pkg"]=="lliurex-meta-desktop" and not gb.info["installed"]:
 					gb.info["incompatible"]=True	
-		elif gb.info["pkg"]=="lliurex-meta-client":
+		elif gb.info["pkg"]=="lliurex-meta-client" or gb.info["pkg"]=="lliurex-meta-minimal-client":
 			for gb in self.gbs:
 				if gb.info["pkg"]=="lliurex-meta-server":
 					gb.info["incompatible"]=True				
@@ -354,6 +384,16 @@ class AwesomeTabs:
 		
 		#ALTERNATIVES_LABEL{
 			color: #8297a1;
+			font: 12pt Noto Sans Bold;		
+		}
+
+		#ALTERNATIVES_LABEL_CLIENT{
+			color: #0f72ff;
+			font: 10pt Noto Sans Bold;		
+		}
+
+		#ALTERNATIVES_LABEL_PROGRESS{
+			color: #0f72ff;
 			font: 12pt Noto Sans Bold;		
 		}
 		
@@ -417,7 +457,9 @@ class AwesomeTabs:
 		self.installers_label.set_name("MAIN_LABEL_ENABLED")
 		#self.pbar.set_name("RED_PROGRESS")
 		#self.gather_pbar.set_name("RED_PROGRESS")
-		self.progress_label.set_name("ALTERNATIVES_LABEL")
+		self.progress_label.set_name("ALTERNATIVES_LABEL_PROGRESS")
+		self.installing_label.set_name("ALTERNATIVES_LABEL_PROGRESS")
+		self.configuration_title_label.set_name("ALTERNATIVES_LABEL_CLIENT")
 		self.msg_label.set_name("RED_LABEL")
 		
 		
@@ -451,13 +493,17 @@ class AwesomeTabs:
 		
 		self.thread_ret=-1
 		p=subprocess.Popen([command],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-		output=p.communicate()[0]
+		output,perror=p.communicate()
 
-		if type(output) is bytes:
-			output=output.decode()
+		if len(output)>0:
+			if type(output) is bytes:
+				output=output.decode()
+		if len(perror)>0:
+			if type(perror) is bytes:
+				perror=perror.decode()		
 
 		self.thread_ret=p.returncode
-		self.flavour_error=output[1]
+		self.flavour_error=perror
 	
 		#Delete extra sources if music meta is being installed
 		if 'lliurex-meta-music' in command:
@@ -473,7 +519,7 @@ class AwesomeTabs:
 				sourcesFile.writelines(repos_orig)
 				sourcesFile.close()
 			except e as Exception:
-				msg_log="Couldn't open sources.list fro witting"
+				msg_log="Couldn't open sources.list for writting"
 				self.log(msg_log)
 	#def execute
 	
@@ -493,7 +539,13 @@ class AwesomeTabs:
 						item.info["checked"]=False
 						item.info["drawingarea"].queue_draw()
 						self.mouse_left(item.info["drawingarea"],None,item)
-						item.info["installed"]=True
+						if item.info["pkg"]!="lliurex-meta-minimal-client":
+							item.info["installed"]=True
+						else:
+							item.info["minimal"]=True
+
+						if self.add_mirror_repo:
+							self.write_mirror_repository()
 				try:
 					self.remove_desktop.info["checked"]=False
 					self.remove_desktop.info["drawingarea"].queue_draw()
@@ -517,7 +569,29 @@ class AwesomeTabs:
 	#def pulsate_pbar
 
 	
-	
+	def write_mirror_repository(self):
+
+		sourcesFile=open(self.sourcesListPath,'r')
+		repos=sourcesFile.readlines()
+		repos_orig=[]
+		for repo in repos:
+			if self.textsearch_mirror not in repo:
+				repos_orig.append(repo)
+		sourcesFile.close()
+		try:
+			f = open(self.sourcesListPath,'w')
+			f.write('deb http://mirror/{version_mirror} {version} main restricted universe multiverse\n'.format(version_mirror=self.defaultMirror,version=self.defaultVersion))
+			f.write('deb http://mirror/{version_mirror} {version}-updates main restricted universe multiverse\n'.format(version_mirror=self.defaultMirror,version=self.defaultVersion))
+			f.write('deb http://mirror/{version_mirror} {version}-security main restricted universe multiverse\n'.format(version_mirror=self.defaultMirror,version=self.defaultVersion))
+			f.writelines(repos_orig)
+			f.close()
+			log_msg="Addedd local mirror repository to sources list"
+			self.log(log_msg)
+		except e as Exception:
+			msg_log="Couldn't open sources.list for writting"
+			self.log(msg_log)	
+
+	#def write_mirror_repository
 		
 	def add_grid_button(self,grid_button):
 		
@@ -550,12 +624,18 @@ class AwesomeTabs:
 			if grid_button.info["checked"]:
 				self.install_metas.remove(grid_button)
 				grid_button.info["checked"]=False
+				if self.minimal_client_installed:
+					if grid_button.info["pkg"]=="lliurex-meta-client":
+						grid_button.info["minimal"]=True
 				grid_button.info["drawingarea"].queue_draw()
 				self.mouse_left(grid_button.info["drawingarea"],None,grid_button)
 			else:
 				self.install_metas.append(grid_button)
 				grid_button.info["checked"]=True
 				grid_button.info["shadow_alpha"]+=0.1
+				if self.minimal_client_installed:
+					if grid_button.info["pkg"]=="lliurex-meta-client":
+						grid_button.info["minimal"]=False
 				
 				widget.queue_draw()
 		
@@ -572,22 +652,94 @@ class AwesomeTabs:
 			return
 		else:
 			self.msg_label.hide()
-			self.show_confirm_dialog(widget)
+			#self.show_confirm_dialog(widget)
+			for item in self.install_metas:
+				if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
+					self.show_client_options=True
+					self.client_sourceslist_cb.set_active("mirror")
+					self.full_client_rb.set_active("full")
+					if self.minimal_client_installed:
+						self.full_client_rb.set_sensitive(False)
+						self.minimal_client_rb.set_sensitive(False)
+						if self.is_mirror_in_sourceslist():
+							self.client_sourceslist_cb.set_active(False)
+							self.show_client_options=False
+							self.add_mirror_repo=False	
+										
+
+			if self.show_client_options:
+				self.configuration_client_window.show()
+			else:
+				self.show_confirm_dialog(widget)		
 	
-	# def accept_clicked			
+	# def accept_clicked	
+
+	def is_mirror_in_sourceslist(self):
+
+		count=0
+		if os.path.exists(self.sourcesListPath):
+			origsources=open(self.sourcesListPath,'r')
+			for line in origsources:
+				if self.textsearch_mirror in line:
+					count=+1
+
+		if count==0:			
+			return False
+		else:
+			return True	
+
+	#def is_mirror_in_sourceslist
+			
+	def client_options_toggled(self,button,name):
+
+		if button.get_active():
+			if name=="full":
+				self.full_client=True
+				
+			else:
+				self.full_client=False
+
+		
+	#def client_options_toggled
+
+	def client_sourceslist_toggled(self,button,name):
 	
+		if button.get_active():
+			self.add_mirror_repo=True
+		else:
+			self.add_mirror_repo=False	
+
+	#def client_sourceslist_toggled
+			
+	def client_apply(self,widget,event=None):
+	
+		self.configuration_client_window.hide()	
+		self.show_confirm_dialog(widget)	
+
+	#def client_apply	
+
+	def client_cancel(self,widget,event=None):
+	
+		self.configuration_client_window.hide()	
+
+	#def client_cancel
+
 	def show_confirm_dialog(self, widget):
+
 		message=_("The selected flavours will be installed. Do you wish to continue?")
+		'''
 		label = Gtk.Label(message)
 
-		dialog = Gtk.Dialog("Warning", None, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, (Gtk.STOCK_YES, Gtk.ResponseType.YES,Gtk.STOCK_NO, Gtk.ResponseType.NO))
+		dialog = Gtk.Dialog("Lliurex Flavours Selector", None, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT, (Gtk.STOCK_YES, Gtk.ResponseType.YES,Gtk.STOCK_NO, Gtk.ResponseType.NO))
 		dialog.vbox.pack_start(label,True,True,10)
 
 		label.show()
 		dialog.set_border_width(6)
 		dialog.set_name("BACK_GRADIENT")
 		label.set_name("DIALOG_LABEL")
-
+		'''
+		dialog = Gtk.MessageDialog(None,0,Gtk.MessageType.WARNING,Gtk.ButtonsType.YES_NO, "LliureX Flavours Selector")
+		dialog.format_secondary_text(message)
 		response = dialog.run()
 
 		if response==Gtk.ResponseType.YES:
@@ -598,7 +750,6 @@ class AwesomeTabs:
 				
 	def install_packages(self,widget):
 		
-		print("INSTALADO")	
 		cmd='lliurex-preseed --update; apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y '
 		pkg=""
 		log_pkg=""
@@ -606,6 +757,10 @@ class AwesomeTabs:
 			pkg+=item.info["pkg"] + ' '
 			
 		for item in self.install_metas:
+			if item.info["pkg"]=="lliurex-meta-client":
+				if not self.full_client:
+					item.info["pkg"]="lliurex-meta-minimal-client"
+
 			if item.info["pkg"]=="lliurex-meta-infantil":
 				cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/xenial xenial preschool"]
 				x=subprocess.Popen((cmdInfantil),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
@@ -658,13 +813,13 @@ class AwesomeTabs:
 							
 						if gb.info["pkg"]=="lliurex-meta-server":
 							for item in self.install_metas:
-								if item.info["pkg"]=="lliurex-meta-client":
+								if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
 									return [False,_("Incompatibility between Server and Client detected")]
 																		
 								if item.info["pkg"]=="lliurex-meta-desktop":
 									return [False, _("Is not possible adding Desktop Flavour in Server")] 	
 									
-						if gb.info["pkg"]=="lliurex-meta-client":
+						if gb.info["pkg"]=="lliurex-meta-client" or gb.info["pkg"]=="lliurex-meta-minimal-client":
 							for item in self.install_metas:
 								if item.info["pkg"]=="lliurex-meta-server":
 									return [False,_("Incompatibility between Server and Client detected")]
@@ -680,7 +835,7 @@ class AwesomeTabs:
 				if item.info["pkg"]=="lliurex-meta-server":
 					i+=1
 					for item in self.install_metas:
-						if item.info["pkg"]=="lliurex-meta-client":
+						if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
 							i+=1
 						if item.info["pkg"]=="lliurex-meta-desktop":
 							self.install_metas.remove(item)
@@ -768,6 +923,20 @@ class AwesomeTabs:
 			
 			ctx.rectangle(5,139,130,1)
 			ctx.fill()
+
+		if grid_button.info["minimal"]:
+		
+			desc = Pango.font_description_from_string ("Noto Sans Bold 7")
+			pctx.set_font_description(desc)
+			ctx.set_source_rgba(0,0,255,1)
+			txt=_("Minimal")
+			pctx.set_markup(txt)
+			width=pctx.get_pixel_size()[0]
+			ctx.move_to(140-width-5,120)
+			PangoCairo.show_layout(ctx, pctx)
+			
+			ctx.rectangle(5,139,130,1)
+			ctx.fill()	
 	#def draw_button
 	
 	
