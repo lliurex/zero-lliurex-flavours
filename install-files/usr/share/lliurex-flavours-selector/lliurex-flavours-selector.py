@@ -46,6 +46,7 @@ class GridButton:
 		self.info["checked"]=False
 		self.info["incompatible"]=False
 		self.info["minimal"]=False
+		self.info["lite"]=False
 		self.info["shadow_alpha"]=0.1
 		self.info["animation_active"]=False
 		self.info["shadow_start"]=0
@@ -240,6 +241,8 @@ class AwesomeTabs:
 		self.configuration_title_label=builder.get_object("configuration_title_label")
 		self.full_client_rb=builder.get_object("full_client_rb")
 		self.full_client_rb.connect("toggled",self.client_options_toggled,"full")
+		self.lite_client_rb=builder.get_object("lite_client_rb")
+		self.lite_client_rb.connect("toggled",self.client_options_toggled,"lite")
 		self.minimal_client_rb=builder.get_object("minimal_client_rb")
 		self.minimal_client_rb.connect("toggled",self.client_options_toggled,"minimal")
 		self.client_sourceslist_cb=builder.get_object("client_sourceslist_cb")
@@ -249,17 +252,54 @@ class AwesomeTabs:
 		self.client_cancel_btn=builder.get_object("client_cancel_btn")
 		self.client_cancel_btn.connect("clicked",self.client_cancel)
 
+		self.configuration_server_window=builder.get_object("configuration_server_window")
+		self.configuration_title_label_server=builder.get_object("configuration_title_label_server")
+		self.full_server_rb=builder.get_object("full_server_rb")
+		self.full_server_rb.connect("toggled",self.server_options_toggled,"full")
+		self.lite_server_rb=builder.get_object("lite_server_rb")
+		self.lite_server_rb.connect("toggled",self.server_options_toggled,"lite")
+		self.server_apply_btn=builder.get_object("server_apply_btn")
+		self.server_apply_btn.connect("clicked",self.server_apply)
+		self.server_cancel_btn=builder.get_object("server_cancel_btn")
+		self.server_cancel_btn.connect("clicked",self.server_cancel)
+
+		self.configuration_desktop_window=builder.get_object("configuration_desktop_window")
+		self.configuration_title_label_desktop=builder.get_object("configuration_title_label_desktop")
+		self.full_desktop_rb=builder.get_object("full_desktop_rb")
+		self.full_desktop_rb.connect("toggled",self.desktop_options_toggled,"full")
+		self.lite_desktop_rb=builder.get_object("lite_desktop_rb")
+		self.lite_desktop_rb.connect("toggled",self.desktop_options_toggled,"lite")
+		self.desktop_apply_btn=builder.get_object("desktop_apply_btn")
+		self.desktop_apply_btn.connect("clicked",self.desktop_apply)
+		self.desktop_cancel_btn=builder.get_object("desktop_cancel_btn")
+		self.desktop_cancel_btn.connect("clicked",self.desktop_cancel)
+
 		self.set_css_info()
 		
 		self.show_client_options=False
 		self.add_mirror_repo=True
 		self.full_client=True
+		self.lite_client=False
+		self.minimal_client=False
+		self.full_server=True
+		self.full_desktop=True
 		self.defaultMirror = 'llx19'
 		self.defaultVersion = 'bionic'
 		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
 		self.sourcesListPath='/etc/apt/sources.list'
 		self.gather_window.show_all()
 		self.minimal_client_installed=False
+		self.lite_server_installed=False
+		self.lite_client_installed=False
+		self.lite_desktop_installed=False
+		self.full_desktop_installed=False
+		self.button_selected=False
+
+		self.server_meta_available=["lliurex-meta-server","lliurex-meta-server-lite"]
+		self.client_meta_available=["lliurex-meta-client","lliurex-meta-client-lite","lliure-meta-minimal-client"]
+		self.desktop_meta_avaiable=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
+		self.hide_meta_banners=["lliurex-meta-server-lite","lliurex-meta-client-lite","lliurex-meta-minimal-client","lliurex-meta-desktop-lite"]
+
 		log_msg="-Current flavours installed:"
 		self.log(log_msg)
 		GLib.timeout_add(100,self.pulsate_gathering_info)
@@ -305,34 +345,77 @@ class AwesomeTabs:
 				gb.info["available"]=False
 			else:
 				if gb.info["installed"]==True:
-					self.check_meta_blocked(gb, self.gbs)
+					if gb.info["pkg"]=="lliurex-meta-desktop":
+						self.full_desktop_installed=True
+					self.check_meta_blocked(gb)
 					self.flavours_installed+=1
+					self.check_meta_lite(gb)
+
+					'''
 					if gb.info["pkg"]=="lliurex-meta-minimal-client":
 						self.minimal_client_installed=True
 						for flavour in self.gbs:
-							if flavour.info["pkg"]=="lliurex-meta-client":
+							if flavour.info["pkg"]=="lliurex-meta-client" or flavor.info["pkg"]=="lliurex-meta-client-lite":
 								if flavour.info["installed"]==False:
 									if not flavour.info["incompatible"]:
 										flavour.info["minimal"]=True
-				if gb.info["pkg"]!="lliurex-meta-minimal-client":				
+					'''
+				if gb.info["pkg"] not in self.hide_meta_banners:				
 					self.add_grid_button(gb)	
 			
 	#def gather_info
 	
-	def check_meta_blocked(self, gb, gbs):
+	def check_meta_blocked(self, gb):
 
-		if gb.info["pkg"]=="lliurex-meta-server":
+		if gb.info["pkg"] in self.server_meta_available:
 			for gb in self.gbs:
-				if gb.info["pkg"]=="lliurex-meta-client": 
+				if gb.info["pkg"] in self.client_meta_available: 
 					gb.info["incompatible"]=True
-				elif gb.info["pkg"]=="lliurex-meta-desktop" and not gb.info["installed"]:
+				elif gb.info["pkg"] in self.desktop_meta_avaiable and not gb.info["installed"]:
 					gb.info["incompatible"]=True	
-		elif gb.info["pkg"]=="lliurex-meta-client" or gb.info["pkg"]=="lliurex-meta-minimal-client":
+		elif gb.info["pkg"] in self.client_meta_available:
 			for gb in self.gbs:
-				if gb.info["pkg"]=="lliurex-meta-server":
+				if gb.info["pkg"] in self.server_meta_available or gb.info["pkg"] in self.desktop_meta_avaiable:
 					gb.info["incompatible"]=True				
 
-	#def check_meta_blocked				
+	
+	#def check_meta_blocked		
+
+	def check_meta_lite(self,gb):
+
+		if gb.info["pkg"]=="lliurex-meta-minimal-client":
+			self.minimal_client_installed=True
+			for flavour in self.gbs:
+				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-client-lite"]:
+					if flavour.info["installed"]==False:
+						if not flavour.info["incompatible"]:
+							flavour.info["minimal"]=True
+		
+		elif gb.info["pkg"]=="lliurex-meta-client-lite":
+			self.lite_client_installed=True
+			for flavour in self.gbs:
+				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-minimal-client"]:
+					if flavour.info["installed"]==False:
+						if not flavour.info["incompatible"]:
+							flavour.info["lite"]=True
+
+		elif gb.info["pkg"]=="lliurex-meta-server-lite":
+			self.lite_server_installed=True
+			for flavour in self.gbs:
+				if flavour.info["pkg"]=="lliurex-meta-server":
+					if flavour.info["installed"]==False:
+						if not flavour.info["incompatible"]:
+							flavour.info["lite"]=True
+
+		elif gb.info["pkg"]=="lliurex-meta-desktop-lite":
+			self.lite_desktop_installed=True
+			for flavour in self.gbs:
+				if flavour.info["pkg"]=="lliurex-meta-desktop":
+					if flavour.info["installed"]==False:
+						if not flavour.info["incompatible"]:
+							flavour.info["lite"]=True	
+
+	#def check_meta_lite																								
 
 	def pulsate_gathering_info(self):
 		
@@ -539,10 +622,12 @@ class AwesomeTabs:
 						item.info["checked"]=False
 						item.info["drawingarea"].queue_draw()
 						self.mouse_left(item.info["drawingarea"],None,item)
-						if item.info["pkg"]!="lliurex-meta-minimal-client":
+						if item.info["pkg"] not in self.hide_meta_banners:
 							item.info["installed"]=True
-						else:
+						elif item.info["pkg"] =="lliurex-meta-minimal-client":
 							item.info["minimal"]=True
+						else:
+							item.info["lite"]=True	
 
 						if self.add_mirror_repo:
 							self.write_mirror_repository()
@@ -617,33 +702,65 @@ class AwesomeTabs:
 			
 	#def add_grid_button
 	
-	
+	#Function to show in each banner information about type of meta to be installed
 	def button_clicked(self,widget,event,grid_button):
 		
+	
 		if not (grid_button.info["installed"] or grid_button.info["incompatible"]):
 			if grid_button.info["checked"]:
 				self.install_metas.remove(grid_button)
 				grid_button.info["checked"]=False
-				if self.minimal_client_installed:
-					if grid_button.info["pkg"]=="lliurex-meta-client":
+				if grid_button.info["pkg"]=="lliurex-meta-client":
+					if self.minimal_client_installed:
 						grid_button.info["minimal"]=True
+					elif self.lite_client_installed:
+						grid_button.info["lite"]=True
+					self.button_selected=False	
+				elif grid_button.info["pkg"]=="lliurex-meta-server":
+					if self.lite_server_installed:
+						grig_button.info["lite"]=True
+					self.button_selected=False	
+				elif grid_button.info["pkg"]=="lliurex-meta-desktop":
+					if self.lite_desktop_installed:
+						grid_button.info["lite"]=True
+					self.button_selected=False				
+
 				grid_button.info["drawingarea"].queue_draw()
 				self.mouse_left(grid_button.info["drawingarea"],None,grid_button)
-			else:
-				self.install_metas.append(grid_button)
-				grid_button.info["checked"]=True
-				grid_button.info["shadow_alpha"]+=0.1
-				if self.minimal_client_installed:
-					if grid_button.info["pkg"]=="lliurex-meta-client":
-						grid_button.info["minimal"]=False
 				
-				widget.queue_draw()
+			
+			else:
+				if grid_button.info["pkg"] in ["lliurex-meta-server","lliurex-meta-client","lliurex-meta-desktop"]:
+					if not self.button_selected:
+						self.button_selected=True
+						self.install_metas.append(grid_button)
+						grid_button.info["checked"]=True
+						grid_button.info["shadow_alpha"]+=0.1
+						widget.queue_draw()
+						if grid_button.info["pkg"]=="lliurex-meta-client":
+							if self.minimal_client_installed:
+								grid_button.info["minimal"]=False
+							elif self.lite_client_installed:
+								grid_button.info["lite"]=False
+						elif grid_button.info["pkg"]=="lliurex-meta-server":
+							if self.lite_server_installed:
+								grid_button.info["lite"]=False
+						elif grid_button.info["pkg"]=="lliurex-meta-desktop":
+							if self.lite_desktop_installed:
+								grid_button.info["lite"]=False				
+						
+				else:
+					self.install_metas.append(grid_button)
+					grid_button.info["checked"]=True
+					grid_button.info["shadow_alpha"]+=0.1
+					widget.queue_draw()
 		
 	#def button_clicked
 	
-	
+
 	def apply_clicked(self,widget,even=None):
 		
+		type_dialog=""
 		ret, msg=self.check_meta_compatibility()
 		
 		if not ret:
@@ -654,25 +771,79 @@ class AwesomeTabs:
 			self.msg_label.hide()
 			#self.show_confirm_dialog(widget)
 			for item in self.install_metas:
-				if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
-					self.show_client_options=True
-					self.client_sourceslist_cb.set_active("mirror")
-					self.full_client_rb.set_active("full")
-					if self.minimal_client_installed:
-						self.full_client_rb.set_sensitive(False)
-						self.minimal_client_rb.set_sensitive(False)
-						if self.is_mirror_in_sourceslist():
-							self.client_sourceslist_cb.set_active(False)
-							self.show_client_options=False
-							self.add_mirror_repo=False	
-										
-
-			if self.show_client_options:
-				self.configuration_client_window.show()
-			else:
-				self.show_confirm_dialog(widget)		
+				if item.info["pkg"] in self.client_meta_available:
+					type_dialog="client"
+				elif item.info["pkg"] in self.server_meta_available:
+					type_dialog="server"
+					
+				elif item.info["pkg"] in self.desktop_meta_avaiable:
+					type_dialog="desktop"
+				
+			
+			if type_dialog=="":
+				self.show_confirm_dialog(widget)
+			elif type_dialog=="client":
+				self.config_client_meta(widget)
+			elif type_dialog=="server":
+				self.config_server_meta(widget)
+			elif type_dialog=="desktop":
+				self.config_desktop_meta(widget)		
 	
 	# def accept_clicked	
+
+	def config_client_meta(self,widget):
+
+		self.show_client_options=True
+		self.client_sourceslist_cb.set_active("mirror")
+		self.full_client_rb.set_active("full")
+
+		if self.full_desktop_installed:
+			self.minimal_client_rb.set_sensitive(True)
+			self.full_client_rb.set_sensitive(True)
+			self.lite_client_rb.set_sensitive(False)
+
+		else:
+			if self.minimal_client_installed:
+				self.minimal_client_rb.set_sensitive(False)
+				self.full_client_rb.set_sensitive(True)
+				self.lite_client_rb.set_sensitive(True)
+			elif self.lite_client_installed:
+				self.minimal_client_rb.set_sensitive(False)
+				self.full_client_rb.set_sensitive(False)
+				self.lite_client_rb.set_sensitive(False) 	
+
+				if self.is_mirror_in_sourceslist():
+					self.client_sourceslist_cb.set_active(False)
+					self.show_client_options=False
+					self.add_mirror_repo=False
+				
+		if self.show_client_options:
+			self.configuration_client_window.show()
+		else:
+			self.show_confirm_dialog(widget)	
+
+	#def config_client_meta
+
+	def config_server_meta(self,widget):
+
+		if self.full_desktop_installed:
+			self.show_confirm_dialog(widget)
+		else:	
+			if self.lite_server_installed:
+				self.show_confirm_dialog(widget)
+			else:
+				self.configuration_server_window.show()
+
+	#def config_server_meta
+
+	def config_desktop_meta(self,widget):
+
+		if self.lite_desktop_installed:
+			self.show_confirm_dialog(widget)
+		else:
+			self.configuration_desktop_window.show()
+
+	#def config_server_meta
 
 	def is_mirror_in_sourceslist(self):
 
@@ -695,10 +866,16 @@ class AwesomeTabs:
 		if button.get_active():
 			if name=="full":
 				self.full_client=True
-				
-			else:
+				self.lite_client=False
+				self.minimal_client=False
+			elif name=="lite":
 				self.full_client=False
-
+				self.minimal_client=False
+				self.lite_client=True
+			elif name=="minimal":
+				self.full_client=False
+				self.lite_client=False
+				self.minimal_client=True
 		
 	#def client_options_toggled
 
@@ -723,6 +900,54 @@ class AwesomeTabs:
 		self.configuration_client_window.hide()	
 
 	#def client_cancel
+
+
+
+	def server_options_toggled(self,button,name):
+
+		if button.get_active():
+			if name=="full":
+				self.full_server=True
+			else:
+				self.full_server=False
+	
+	#def server_options_toggled
+
+	def server_apply(self,widget,event=None):
+	
+		self.configuration_server_window.hide()	
+		self.show_confirm_dialog(widget)	
+
+	#def server_apply	
+
+	def server_cancel(self,widget,event=None):
+	
+		self.configuration_server_window.hide()	
+
+	#def server_cancel
+
+	def desktop_options_toggled(self,button,name):
+
+		if button.get_active():
+			if name=="full":
+				self.full_desktop=True
+			else:
+				self.full_desktop=False
+	
+	#def desktop_options_toggled
+
+	def desktop_apply(self,widget,event=None):
+	
+		self.configuration_desktop_window.hide()	
+		self.show_confirm_dialog(widget)	
+
+	#def desktop_apply	
+
+	def desktop_cancel(self,widget,event=None):
+	
+		self.configuration_desktop_window.hide()	
+
+	#def desktop_cancel
 
 	def show_confirm_dialog(self, widget):
 
@@ -759,16 +984,27 @@ class AwesomeTabs:
 		for item in self.install_metas:
 			if item.info["pkg"]=="lliurex-meta-client":
 				if not self.full_client:
-					item.info["pkg"]="lliurex-meta-minimal-client"
+					if not self.minimal_client:
+						item.info["pkg"]="lliurex-meta-minimal-client"
+					else:
+						item.info["pkg"]="lliurex-meta-client-lite"
 
-			if item.info["pkg"]=="lliurex-meta-infantil":
+			elif item.info["pkg"]=="lliurex-meta-server":
+				if not self.full_server:
+					item.info["pkg"]="lliurex-meta-server-lite"
+			
+			elif item.info["pkg"]=="lliurex-meta-desktop":
+				if not self.full_desktop:
+					item.info["pkg"]="lliurex-meta-desktop-lite"						
+
+			elif item.info["pkg"]=="lliurex-meta-infantil":
 				cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/xenial xenial preschool"]
 				x=subprocess.Popen((cmdInfantil),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
 				log_msg="Adding repository recursos"
 				self.log(log_msg)
 				x.communicate(b"\n")[0]
 				
-			if item.info["pkg"]=="lliurex-meta-musica":
+			elif item.info["pkg"]=="lliurex-meta-musica":
 				lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu xenial main",
 					"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu xenial main",
 					"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu xenial main",
@@ -811,33 +1047,33 @@ class AwesomeTabs:
 						if not gb in self.update_metas:
 							self.update_metas.append(gb)
 							
-						if gb.info["pkg"]=="lliurex-meta-server":
+						if gb.info["pkg"] in self.server_meta_available:
 							for item in self.install_metas:
-								if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
+								if item.info["pkg"] in self.client_meta_available:
 									return [False,_("Incompatibility between Server and Client detected")]
 																		
-								if item.info["pkg"]=="lliurex-meta-desktop":
+								if item.info["pkg"] in self.desktop_meta_avaiable:
 									return [False, _("Is not possible adding Desktop Flavour in Server")] 	
 									
-						if gb.info["pkg"]=="lliurex-meta-client" or gb.info["pkg"]=="lliurex-meta-minimal-client":
+						if gb.info["pkg"] in self.client_meta_available:
 							for item in self.install_metas:
-								if item.info["pkg"]=="lliurex-meta-server":
+								if item.info["pkg"] in self.server_meta_available:
 									return [False,_("Incompatibility between Server and Client detected")]
 						
-						if gb.info["pkg"]=="lliurex-meta-desktop":
+						if gb.info["pkg"] in self.desktop_meta_avaiable:
 							for item in self.install_metas:
-								if item.info["pkg"]=="lliurex-meta-server":
+								if item.info["pkg"] in self.server_meta_available:
 									if  gb in self.update_metas:
 										self.update_metas.remove(gb)			
 			i=0		
 			
 			for item in self.install_metas:
-				if item.info["pkg"]=="lliurex-meta-server":
+				if item.info["pkg"] in self.server_meta_available:
 					i+=1
 					for item in self.install_metas:
-						if item.info["pkg"]=="lliurex-meta-client" or item.info["pkg"]=="lliurex-meta-minimal-client":
+						if item.info["pkg"] in self.client_meta_available:
 							i+=1
-						if item.info["pkg"]=="lliurex-meta-desktop":
+						if item.info["pkg"] in self.desktop_meta_avaiable:
 							self.install_metas.remove(item)
 							self.remove_desktop=item
 									
@@ -937,6 +1173,21 @@ class AwesomeTabs:
 			
 			ctx.rectangle(5,139,130,1)
 			ctx.fill()	
+
+		if grid_button.info["lite"]:
+		
+			desc = Pango.font_description_from_string ("Noto Sans Bold 7")
+			pctx.set_font_description(desc)
+			ctx.set_source_rgba(0,0,255,1)
+			txt=_("Lite")
+			pctx.set_markup(txt)
+			width=pctx.get_pixel_size()[0]
+			ctx.move_to(140-width-5,120)
+			PangoCairo.show_layout(ctx, pctx)
+			
+			ctx.rectangle(5,139,130,1)
+			ctx.fill()	
+
 	#def draw_button
 	
 	
