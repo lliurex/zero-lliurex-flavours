@@ -346,6 +346,7 @@ class AwesomeTabs:
 			else:
 				if gb.info["installed"]==True:
 					if gb.info["pkg"]=="lliurex-meta-desktop":
+						print("INSTALADO")
 						self.full_desktop_installed=True
 					self.check_meta_blocked(gb)
 					self.flavours_installed+=1
@@ -386,16 +387,17 @@ class AwesomeTabs:
 		if gb.info["pkg"]=="lliurex-meta-minimal-client":
 			self.minimal_client_installed=True
 			for flavour in self.gbs:
-				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-client-lite"]:
-					if flavour.info["installed"]==False:
+				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-minimal-client"]:
+					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
-							flavour.info["minimal"]=True
+							if not flavour.info["lite"]:
+								flavour.info["minimal"]=True
 		
 		elif gb.info["pkg"]=="lliurex-meta-client-lite":
 			self.lite_client_installed=True
 			for flavour in self.gbs:
-				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-minimal-client"]:
-					if flavour.info["installed"]==False:
+				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-client-lite"]:
+					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True
 
@@ -403,7 +405,7 @@ class AwesomeTabs:
 			self.lite_server_installed=True
 			for flavour in self.gbs:
 				if flavour.info["pkg"]=="lliurex-meta-server":
-					if flavour.info["installed"]==False:
+					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True
 
@@ -411,7 +413,7 @@ class AwesomeTabs:
 			self.lite_desktop_installed=True
 			for flavour in self.gbs:
 				if flavour.info["pkg"]=="lliurex-meta-desktop":
-					if flavour.info["installed"]==False:
+					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True	
 
@@ -711,10 +713,11 @@ class AwesomeTabs:
 				self.install_metas.remove(grid_button)
 				grid_button.info["checked"]=False
 				if grid_button.info["pkg"]=="lliurex-meta-client":
-					if self.minimal_client_installed:
-						grid_button.info["minimal"]=True
-					elif self.lite_client_installed:
+					if self.lite_client_installed:
 						grid_button.info["lite"]=True
+					if self.minimal_client_installed:
+						if not self.lite_client_installed:
+							grid_button.info["minimal"]=True		
 					self.button_selected=False	
 				elif grid_button.info["pkg"]=="lliurex-meta-server":
 					if self.lite_server_installed:
@@ -740,7 +743,7 @@ class AwesomeTabs:
 						if grid_button.info["pkg"]=="lliurex-meta-client":
 							if self.minimal_client_installed:
 								grid_button.info["minimal"]=False
-							elif self.lite_client_installed:
+							if self.lite_client_installed:
 								grid_button.info["lite"]=False
 						elif grid_button.info["pkg"]=="lliurex-meta-server":
 							if self.lite_server_installed:
@@ -794,28 +797,40 @@ class AwesomeTabs:
 	def config_client_meta(self,widget):
 
 		self.show_client_options=True
+		check_sourceslist=True
 		self.client_sourceslist_cb.set_active("mirror")
 		self.full_client_rb.set_active("full")
 
 		if self.full_desktop_installed:
-			self.minimal_client_rb.set_sensitive(True)
-			self.full_client_rb.set_sensitive(True)
-			self.lite_client_rb.set_sensitive(False)
+			if not self.minimal_client_installed:
+				if not self.lite_client_installed:
+					check_sourceslist=False
+					self.minimal_client_rb.set_sensitive(True)
+					self.full_client_rb.set_sensitive(True)
+					self.lite_client_rb.set_sensitive(False)
+			
+			else:
+				self.minimal_client_rb.set_sensitive(False)
+				self.full_client_rb.set_sensitive(False)
+				self.lite_client_rb.set_sensitive(False)
 
 		else:
 			if self.minimal_client_installed:
-				self.minimal_client_rb.set_sensitive(False)
-				self.full_client_rb.set_sensitive(True)
-				self.lite_client_rb.set_sensitive(True)
-			elif self.lite_client_installed:
+				if not self.lite_client_installed:
+					check_sourceslist=False
+					self.minimal_client_rb.set_sensitive(False)
+					self.full_client_rb.set_sensitive(True)
+					self.lite_client_rb.set_sensitive(True)
+			if self.lite_client_installed:
 				self.minimal_client_rb.set_sensitive(False)
 				self.full_client_rb.set_sensitive(False)
 				self.lite_client_rb.set_sensitive(False) 	
 
-				if self.is_mirror_in_sourceslist():
-					self.client_sourceslist_cb.set_active(False)
-					self.show_client_options=False
-					self.add_mirror_repo=False
+		if check_sourceslist:
+			if self.is_mirror_in_sourceslist():
+				self.client_sourceslist_cb.set_active(False)
+				self.show_client_options=False
+				self.add_mirror_repo=False
 				
 		if self.show_client_options:
 			self.configuration_client_window.show()
@@ -985,9 +1000,9 @@ class AwesomeTabs:
 			if item.info["pkg"]=="lliurex-meta-client":
 				if not self.full_client:
 					if not self.minimal_client:
-						item.info["pkg"]="lliurex-meta-minimal-client"
-					else:
 						item.info["pkg"]="lliurex-meta-client-lite"
+					else:
+						item.info["pkg"]="lliurex-meta-minimal-client"
 
 			elif item.info["pkg"]=="lliurex-meta-server":
 				if not self.full_server:
