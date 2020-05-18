@@ -296,8 +296,8 @@ class AwesomeTabs:
 		self.button_selected=False
 
 		self.server_meta_available=["lliurex-meta-server","lliurex-meta-server-lite"]
-		self.client_meta_available=["lliurex-meta-client","lliurex-meta-client-lite","lliure-meta-minimal-client"]
-		self.desktop_meta_avaiable=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
+		self.client_meta_available=["lliurex-meta-client","lliurex-meta-client-lite","lliurex-meta-minimal-client"]
+		self.desktop_meta_available=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
 		self.hide_meta_banners=["lliurex-meta-server-lite","lliurex-meta-client-lite","lliurex-meta-minimal-client","lliurex-meta-desktop-lite"]
 
 		log_msg="-Current flavours installed:"
@@ -346,11 +346,10 @@ class AwesomeTabs:
 			else:
 				if gb.info["installed"]==True:
 					if gb.info["pkg"]=="lliurex-meta-desktop":
-						print("INSTALADO")
 						self.full_desktop_installed=True
-					self.check_meta_blocked(gb)
+					self.check_meta_blocked(gb.info["pkg"])
 					self.flavours_installed+=1
-					self.check_meta_lite(gb)
+					self.check_meta_lite(gb.info["pkg"])
 
 					'''
 					if gb.info["pkg"]=="lliurex-meta-minimal-client":
@@ -368,23 +367,25 @@ class AwesomeTabs:
 	
 	def check_meta_blocked(self, gb):
 
-		if gb.info["pkg"] in self.server_meta_available:
+		if gb in self.server_meta_available:
 			for gb in self.gbs:
 				if gb.info["pkg"] in self.client_meta_available: 
 					gb.info["incompatible"]=True
-				elif gb.info["pkg"] in self.desktop_meta_avaiable and not gb.info["installed"]:
+				elif gb.info["pkg"] in self.desktop_meta_available and not gb.info["installed"]:
 					gb.info["incompatible"]=True	
-		elif gb.info["pkg"] in self.client_meta_available:
+		elif gb in self.client_meta_available:
 			for gb in self.gbs:
-				if gb.info["pkg"] in self.server_meta_available or gb.info["pkg"] in self.desktop_meta_avaiable:
-					gb.info["incompatible"]=True				
+				if gb.info["pkg"] in self.server_meta_available: 
+					gb.info["incompatible"]=True
+				elif gb.info["pkg"] in self.desktop_meta_available and not gb.info["installed"]:
+					gb.info["incompatible"]=True					
 
 	
 	#def check_meta_blocked		
 
 	def check_meta_lite(self,gb):
 
-		if gb.info["pkg"]=="lliurex-meta-minimal-client":
+		if gb =="lliurex-meta-minimal-client":
 			self.minimal_client_installed=True
 			for flavour in self.gbs:
 				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-minimal-client"]:
@@ -393,7 +394,7 @@ class AwesomeTabs:
 							if not flavour.info["lite"]:
 								flavour.info["minimal"]=True
 		
-		elif gb.info["pkg"]=="lliurex-meta-client-lite":
+		elif gb =="lliurex-meta-client-lite":
 			self.lite_client_installed=True
 			for flavour in self.gbs:
 				if flavour.info["pkg"] in ["lliurex-meta-client","lliurex-meta-client-lite"]:
@@ -401,18 +402,18 @@ class AwesomeTabs:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True
 
-		elif gb.info["pkg"]=="lliurex-meta-server-lite":
+		elif gb =="lliurex-meta-server-lite":
 			self.lite_server_installed=True
 			for flavour in self.gbs:
-				if flavour.info["pkg"]=="lliurex-meta-server":
+				if flavour.info["pkg"] =="lliurex-meta-server":
 					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True
 
-		elif gb.info["pkg"]=="lliurex-meta-desktop-lite":
+		elif gb=="lliurex-meta-desktop-lite":
 			self.lite_desktop_installed=True
 			for flavour in self.gbs:
-				if flavour.info["pkg"]=="lliurex-meta-desktop":
+				if flavour.info["pkg"] == "lliurex-meta-desktop":
 					if not flavour.info["installed"]:
 						if not flavour.info["incompatible"]:
 							flavour.info["lite"]=True	
@@ -733,22 +734,22 @@ class AwesomeTabs:
 				
 			
 			else:
-				if grid_button.info["pkg"] in ["lliurex-meta-server","lliurex-meta-client","lliurex-meta-desktop"]:
+				if grid_button.info["pkg"] in self.server_meta_available or grid_button.info["pkg"] in self.client_meta_available or grid_button.info["pkg"] in self.desktop_meta_available:
 					if not self.button_selected:
 						self.button_selected=True
 						self.install_metas.append(grid_button)
 						grid_button.info["checked"]=True
 						grid_button.info["shadow_alpha"]+=0.1
 						widget.queue_draw()
-						if grid_button.info["pkg"]=="lliurex-meta-client":
+						if grid_button.info["pkg"] in self.client_meta_available:
 							if self.minimal_client_installed:
 								grid_button.info["minimal"]=False
 							if self.lite_client_installed:
 								grid_button.info["lite"]=False
-						elif grid_button.info["pkg"]=="lliurex-meta-server":
+						elif grid_button.info["pkg"] in self.server_meta_available:
 							if self.lite_server_installed:
 								grid_button.info["lite"]=False
-						elif grid_button.info["pkg"]=="lliurex-meta-desktop":
+						elif grid_button.info["pkg"] in self.desktop_meta_available:
 							if self.lite_desktop_installed:
 								grid_button.info["lite"]=False				
 						
@@ -779,7 +780,7 @@ class AwesomeTabs:
 				elif item.info["pkg"] in self.server_meta_available:
 					type_dialog="server"
 					
-				elif item.info["pkg"] in self.desktop_meta_avaiable:
+				elif item.info["pkg"] in self.desktop_meta_available:
 					type_dialog="desktop"
 				
 			
@@ -797,14 +798,13 @@ class AwesomeTabs:
 	def config_client_meta(self,widget):
 
 		self.show_client_options=True
-		check_sourceslist=True
+		check_sourceslist=False
 		self.client_sourceslist_cb.set_active("mirror")
 		self.full_client_rb.set_active("full")
 
 		if self.full_desktop_installed:
 			if not self.minimal_client_installed:
 				if not self.lite_client_installed:
-					check_sourceslist=False
 					self.minimal_client_rb.set_sensitive(True)
 					self.full_client_rb.set_sensitive(True)
 					self.lite_client_rb.set_sensitive(False)
@@ -817,11 +817,11 @@ class AwesomeTabs:
 		else:
 			if self.minimal_client_installed:
 				if not self.lite_client_installed:
-					check_sourceslist=False
 					self.minimal_client_rb.set_sensitive(False)
 					self.full_client_rb.set_sensitive(True)
 					self.lite_client_rb.set_sensitive(True)
 			if self.lite_client_installed:
+				check_sourceslist=True
 				self.minimal_client_rb.set_sensitive(False)
 				self.full_client_rb.set_sensitive(False)
 				self.lite_client_rb.set_sensitive(False) 	
@@ -1067,7 +1067,7 @@ class AwesomeTabs:
 								if item.info["pkg"] in self.client_meta_available:
 									return [False,_("Incompatibility between Server and Client detected")]
 																		
-								if item.info["pkg"] in self.desktop_meta_avaiable:
+								if item.info["pkg"] in self.desktop_meta_available:
 									return [False, _("Is not possible adding Desktop Flavour in Server")] 	
 									
 						if gb.info["pkg"] in self.client_meta_available:
@@ -1075,7 +1075,7 @@ class AwesomeTabs:
 								if item.info["pkg"] in self.server_meta_available:
 									return [False,_("Incompatibility between Server and Client detected")]
 						
-						if gb.info["pkg"] in self.desktop_meta_avaiable:
+						if gb.info["pkg"] in self.desktop_meta_available:
 							for item in self.install_metas:
 								if item.info["pkg"] in self.server_meta_available:
 									if  gb in self.update_metas:
@@ -1088,7 +1088,7 @@ class AwesomeTabs:
 					for item in self.install_metas:
 						if item.info["pkg"] in self.client_meta_available:
 							i+=1
-						if item.info["pkg"] in self.desktop_meta_avaiable:
+						if item.info["pkg"] in self.desktop_meta_available:
 							self.install_metas.remove(item)
 							self.remove_desktop=item
 									
