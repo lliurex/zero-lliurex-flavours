@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-18 11:01+0200\n"
-"PO-Revision-Date: 2020-05-23 10:24+0000\n"
+"PO-Revision-Date: 2020-05-25 12:25+0000\n"
 "Last-Translator: Empar <montoro_mde@gva.es>\n"
 "Language-Team: Valencian <http://172.20.8.37/weblate/projects/"
 "zero-lliurex-flavours/zerolliurexflavour/ca@valencia/>\n"
@@ -75,7 +75,7 @@ msgstr "Lite"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:75
 msgid "Checking system..."
-msgstr "S'està comprovant el sistema..."
+msgstr "S'està comprovant el sistema…"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:100
 msgid "LliureX Flavours Selector"
