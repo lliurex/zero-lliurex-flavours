@@ -270,7 +270,7 @@
   <object class="GtkWindow" id="configuration_client_window">
     <property name="width_request">480</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Cllent Flavour Configuration</property>
+    <property name="title" translatable="yes">Client Flavour Configuration</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>

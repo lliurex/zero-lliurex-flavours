@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 15:59+0200\n"
-"PO-Revision-Date: 2020-05-27 16:00+0200\n"
+"POT-Creation-Date: 2020-05-27 16:45+0200\n"
+"PO-Revision-Date: 2020-05-27 16:46+0200\n"
 "Last-Translator: lliurex <juapesai@hotmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -82,7 +82,8 @@ msgid "Flavours availables"
 msgstr "Sabores disponibles"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:273
-msgid "Cllent Flavour Configuration"
+#, fuzzy
+msgid "Client Flavour Configuration"
 msgstr "Configuración del sabor Cliente"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:302
@@ -140,9 +141,3 @@ msgstr "Servidor Lite: similar a instalar una ISO de un servidor lite de LliureX
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:778
 msgid "Installing the selected flavours. Wait a moment..."
 msgstr "Instalando los sabores seleccionados. Espere un momento..."
-
-#~ msgid "APPLY"
-#~ msgstr "APLICAR"
-
-#~ msgid "CLOSE"
-#~ msgstr "CERRAR"
