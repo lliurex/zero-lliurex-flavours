@@ -469,7 +469,7 @@
   <object class="GtkWindow" id="configuration_desktop_window">
     <property name="width_request">480</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Server Flavour Configuration</property>
+    <property name="title" translatable="yes">Desktop Flavour Configuration</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="icon_name">lliurex-flavours-selector</property>

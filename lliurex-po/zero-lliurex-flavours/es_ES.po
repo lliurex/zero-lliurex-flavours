@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-18 11:01+0200\n"
-"PO-Revision-Date: 2020-05-18 13:39+0200\n"
+"POT-Creation-Date: 2020-05-27 15:59+0200\n"
+"PO-Revision-Date: 2020-05-27 16:01+0200\n"
 "Last-Translator: lliurex <juapesai@hotmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -19,53 +19,53 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:433
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:435
 msgid "No flavour detected. Check one at least"
 msgstr "Ningún sabor detectado. Seleccione al menos uno"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:644
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:646
 msgid "Installation succesful. A reboot is required"
 msgstr "Instalación correcta. Es necesario reiniciar"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:649
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:651
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
 msgstr "A ocurrido un error. Revise el log en /var/log/lliurex-flavours-selector"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:964
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:969
 msgid "The selected flavours will be installed. Do you wish to continue?"
 msgstr "Los sabores seleccionados serán instalados. ¿Desea continuar?"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1063
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1071
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1091
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1068
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1076
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1096
 msgid "Incompatibility between Server and Client detected"
 msgstr "Detectada incompatibilidad entre Servidor y Cliente"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1066
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1071
 msgid "Is not possible adding Desktop Flavour in Server"
 msgstr "No es posible incorporar el sabor Desktop en el Servidor"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1096
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1101
 msgid "Choose new flavour to incorporate or close button"
 msgstr "Seleccione un nuevo sabor a incorporar o pulse cerrar"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1135
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1140
 msgid "Installed"
 msgstr "Instalado"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1149
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1154
 msgid "Install"
 msgstr "Instalar"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1164
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1169
 msgid "Incompatible"
 msgstr "Incompat"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1178
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1183
 msgid "Minimal"
 msgstr "Mínimo"
 
-#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1192
+#: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:1197
 msgid "Lite"
 msgstr ""
 
@@ -106,9 +106,8 @@ msgid "Add the classroom server mirror repository to the sources list"
 msgstr "Añadir al sources list el repositorio del mirror del servidor del aula"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:472
-#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:615
-msgid "Server Flavour Configuration"
-msgstr "Configuración del sabor Servidor"
+msgid "Desktop Flavour Configuration"
+msgstr "Configuración del sabor Desktop"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:498
 msgid "Options to configure the desktop flavour install"
@@ -121,6 +120,10 @@ msgstr "Desktop Completo: similar a instalar una ISO de un desktop de LliureX"
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:539
 msgid "Desktop Lite: similar to install  a Lliurex desktop lite ISO"
 msgstr "Desktop Lite: similar a instalar una ISO de un desktop lite de LliureX"
+
+#: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:615
+msgid "Server Flavour Configuration"
+msgstr "Configuración del sabor Servidor"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:641
 msgid "Options to configure the server flavour install"
