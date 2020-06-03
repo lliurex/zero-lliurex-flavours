@@ -1,3 +1,11 @@
+zero-lliurex-flavours (0.9.36) bionic; urgency=medium
+
+  * Added support to lliurex lite metas
+  * Update option to configure client flavour
+  * Added options to configure server and desktop flavours
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 03 Jun 2020 13:43:00 +0200
+
 zero-lliurex-flavours (0.9.35) bionic; urgency=medium
 
   * Added support to lliurex-meta-minimal-client
