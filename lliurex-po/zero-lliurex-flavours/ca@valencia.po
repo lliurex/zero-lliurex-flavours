@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-27 16:45+0200\n"
-"PO-Revision-Date: 2020-05-27 16:46+0200\n"
+"PO-Revision-Date: 2020-06-03 07:08+0000\n"
 "Last-Translator: Empar <montoro_mde@gva.es>\n"
-"Language-Team: Valencian <http://172.20.8.37/weblate/projects/zero-lliurex-"
-"flavours/zerolliurexflavour/ca@valencia/>\n"
+"Language-Team: Valencian <http://172.20.8.37/weblate/projects/"
+"zero-lliurex-flavours/zerolliurexflavour/ca@valencia/>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Weblate 4.0.3\n"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:435
 msgid "No flavour detected. Check one at least"
@@ -114,7 +114,7 @@ msgstr "Afig el repositori mirror del servidor d'aula a la llista de fonts"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:472
 msgid "Desktop Flavour Configuration"
-msgstr ""
+msgstr "Configuració del sabor Desktop"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/rsrc/lliurex-flavours-selector.ui:498
 msgid "Options to configure the desktop flavour install"
