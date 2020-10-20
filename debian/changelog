@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.9.37) bionic; urgency=medium
+
+  * Fixed po files
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 20 Oct 2020 11:43:37 +0200
+
 zero-lliurex-flavours (0.9.36) bionic; urgency=medium
 
   * Added support to lliurex lite metas
