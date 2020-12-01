@@ -234,7 +234,7 @@ class flavourSelectorManager:
 	
 			elif self.empty:
 				if self.flavour_list[item]["pkg"] not in ["lliurex-meta-server","lliurex-meta-client","lliurex-meta-desktop","lliurex-meta-music","lliurex-meta-infantil"]:
-					self.flavour_list["item"]["show"]=False
+					self.flavour_list[item]["show"]=False
 	#def showHideMeta			
 
 	def createAlternatives(self):

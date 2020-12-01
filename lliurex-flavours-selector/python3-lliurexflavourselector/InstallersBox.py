@@ -55,6 +55,11 @@ class InstallersBox(QWidget):
 					if len(self.core.flavourSelectorManager.server_alternatives)>0:
 						alternative_type="server"
 						alternative_list=self.core.flavourSelectorManager.server_alternatives
+				if "desktop" in self.core.flavourSelectorManager.flavour_list[item]["pkg"]:
+					if len(self.core.flavourSelectorManager.desktop_alternatives)>0:
+						alternative_type="desktop"
+						alternative_list=self.core.flavourSelectorManager.desktop_alternatives
+
 
 				self.newInstallerBox(self.core.flavourSelectorManager.flavour_list[item],item,alternative_type,alternative_list)
 			
@@ -161,6 +166,9 @@ class InstallersBox(QWidget):
 		elif alternative_type=="server":
 			self.menuServer=menu
 			self.setContextMenuPolicy(Qt.CustomContextMenu)
+		elif alternative_type=="desktop":
+			self.menuDesktop=menu
+			self.setContextMenuPolicy(Qt.CustomContextMenu)
 			
 	#def setMenu
 
@@ -172,6 +180,8 @@ class InstallersBox(QWidget):
 			self.menuClientLite.exec_(self.sender().mapToGlobal(QPoint(10,23)))
 		elif alternative_type=="server":
 			self.menuServer.exec_(self.sender().mapToGlobal(QPoint(10,23)))
+		elif alternative_type=="desktop":
+			self.menuDesktop.exec_(self.sender().mapToGlobal(QPoint(10,23)))
 	
 	#def openContextMenu
 
