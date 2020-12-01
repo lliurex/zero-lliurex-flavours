@@ -124,6 +124,7 @@ class flavourSelectorManager:
 		self.minimal_client=False
 		self.desktop=False
 		self.desktop_lite=False
+		self.pime=False
 		self.music=False
 		self.infantil=False
 		self.empty=False
@@ -135,33 +136,42 @@ class flavourSelectorManager:
 					self.server_lite=False
 					self.desktop=False
 					self.desktop_lite=False
+					self.pime=False
 					break
 				elif item=="lliurex-meta-server-lite":
 					self.server_lite=True
 					self.desktop=False
 					self.desktop_lite=False
+					self.pime=False
 				elif item=="lliurex-meta-client":
 					self.client=True
 					self.cliente_lite=False
 					self.minimal_client=False
 					self.desktop=False
 					self.desktop_lite=False
+					self.pime=False
 					break
 				elif item=="lliurex-meta-client-lite":
 					self.client_lite=True
 					self.minimal_client=False
 					self.desktop=False
 					self.desktop_lite=False
+					self.pime=False
 				elif item=="lliurex-meta-minimal-client":
 					if not self.client_lite:
 						self.minimal_client=True
 					self.desktop=False
 					self.desktop_lite=False
+					self.pime=False
 				elif item=="lliurex-meta-desktop":
 					self.desktop=True
 					self.desktop_lite=False
+					self.pime=False
 				elif item=="lliurex-meta-desktop-lite":
 					self.desktop_lite=True
+					self.pime=False
+				elif item=="lliurex-meta-pime":
+					self.pime=True
 				elif item=="lliurex-meta-music":
 					self.music=True
 				elif item=="lliurex-meta-infantil":
@@ -182,6 +192,9 @@ class flavourSelectorManager:
 				elif self.flavour_list[item]["pkg"] in self.desktop_meta_available:
 					self.flavour_list[item]["incompatible"]=True	
 					self.flavour_list[item]["show"]=False
+				elif self.flavour_list[item]["pkg"]=="lliurex-meta-pime":
+					self.flavour_list[item]["incompatible"]=True
+					self.flavour_list[item]["show"]=False	
 				elif self.flavour_list[item]["pkg"]=="lliurex-meta-server-lite" and self.server:
 					self.flavour_list[item]["show"]=False
 			
@@ -192,6 +205,9 @@ class flavourSelectorManager:
 				elif self.flavour_list[item]["pkg"] in self.desktop_meta_available:
 					self.flavour_list[item]["incompatible"]=True	
 					self.flavour_list[item]["show"]=False
+				elif self.flavour_list[item]["pkg"]=="lliurex-meta-pime":
+					self.flavour_list[item]["incompatible"]=True
+					self.flavour_list[item]["show"]=False	
 				elif self.flavour_list[item]["pkg"] in ["lliurex-meta-client-lite","lliurex-meta-minimal-client"] and self.client:
 					self.flavour_list[item]["show"]=False
 				elif self.client_lite and self.flavour_list[item]["pkg"]=="lliurex-meta-minimal-client":
@@ -212,6 +228,10 @@ class flavourSelectorManager:
 				if self.flavour_list[item]["pkg"] not in ["lliurex-meta-desktop","lliurex-meta-server","lliurex-meta-client"]: 
 					self.flavour_list[item]["show"]=False	
 			
+			elif self.pime:
+				if self.flavour_list[item]["pkg"] not in ["lliurex-meta-desktop","lliurex-meta-server-lite","lliurex-meta-client-lite","lliurex-meta-music","lliurex-meta-infantil"]: 
+					self.flavour_list[item]["show"]=False
+	
 			elif self.empty:
 				if self.flavour_list[item]["pkg"] not in ["lliurex-meta-server","lliurex-meta-client","lliurex-meta-desktop","lliurex-meta-music","lliurex-meta-infantil"]:
 					self.flavour_list["item"]["show"]=False
@@ -225,7 +245,7 @@ class flavourSelectorManager:
 		self.desktop_alternatives=[]
 
 		for item in self.flavour_list:
-			if self.desktop or self.desktop_lite or self.music or self.infantil or self.empty:
+			if self.desktop or self.desktop_lite or self.music or self.infantil or self.empty or self.pime:
 				if self.flavour_list[item]["pkg"] in self.client_meta_available and self.flavour_list[item]["pkg"] not in self.flavours_installed:
 					tmp=[]
 					tmp.append(self.flavour_list[item]["name"])
