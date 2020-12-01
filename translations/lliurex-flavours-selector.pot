@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-30 11:34+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:118
+msgid "Install"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:123
+msgid "Help"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:163
+msgid "None"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:165
+msgid "Current flavours installed: "
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:181
+msgid "No Flavours version availables detected"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:201
+msgid "The selected flavor is not compatible with those already installed"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:204
+msgid "You must select a Flavour to install"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:211
+msgid "Installing selected Flavour. Wait a moment..."
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:261
+msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:263
+msgid "Installation succesful. A reboot is required"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:272
+msgid ""
+"Do you want to add the classroom server \n"
+"mirror repository to the sources list?"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:279
+msgid "Yes"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:282
+msgid "No"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:306
+msgid "The selected flavours will be installed. Do you wish to continue?"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:313
+msgid "Ok"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:316
+msgid "Cancel"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:132
+msgid "Click to select an option"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:224
+msgid "similar to install a LliureX Server Lite ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:226
+msgid "similar to install a LliureX Server ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:228
+msgid "similar to install  a LliureX Client Lite ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:230
+msgid "install only the basic functionalities of a LliureX Client"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:232
+msgid "similar to install  a LliureX Client ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:234
+msgid "similar to install  a LliureX Desktop Lite ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:236
+msgid "similar to install  a LliureX Desktop ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:238
+msgid "similar to install a LliureX Infantil ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
+msgid "similar to install LliureX Music ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
+msgid "Checking system..."
+msgstr ""
