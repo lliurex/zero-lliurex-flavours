@@ -147,6 +147,8 @@ class MainWindow(QMainWindow):
 		centerPoint = QDesktopWidget().availableGeometry().center()
 		qtRectangle.moveCenter(centerPoint)
 		self.move(qtRectangle.topLeft())
+		
+		self.exitLocked=True
 		self.gatherInfo.start()
 		self.gatherInfo.finished.connect(self._finishProcess)
 		
@@ -185,6 +187,7 @@ class MainWindow(QMainWindow):
 			self.loadingBox.spinner.hide()
 			self.messageLabel.setText(_("No Flavours version availables detected"))	
 		
+		self.exitLocked=False
 	#def _finishProcess
 
 	def applyButtonClicked(self):
@@ -233,6 +236,7 @@ class MainWindow(QMainWindow):
 					pass	
 				self.othersBox.append(item)	
 
+		self.exitLocked=True
 		self.install=installProcess(self.flavoursToInstall[0],self.mirrorRepository)
 		self.install.start()
 		self.install.finished.connect(self._finishInstall)
@@ -267,6 +271,7 @@ class MainWindow(QMainWindow):
 		else:
 			self.messageLabel.setText(_("Installation succesful. A reboot is required"))					     
 
+		self.exitLocked=False	
 	#def _finishInstall
 			
 	
@@ -359,4 +364,12 @@ class MainWindow(QMainWindow):
 
 	#def helpButtonClicked		
 
+	def closeEvent(self,event):
+
+		if self.exitLocked:
+			event.ignore()
+		else:
+			event.accept()			
+
+	#def closeEvent
 from . import Core
