@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.9.38) bionic; urgency=medium
+
+  * Fixed kxstudio repository
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 15 Dec 2020 12:40:42 +0100
+
 zero-lliurex-flavours (0.9.37) bionic; urgency=medium
 
   * Fixed po files
