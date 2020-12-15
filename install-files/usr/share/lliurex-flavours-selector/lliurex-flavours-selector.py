@@ -1020,11 +1020,11 @@ class AwesomeTabs:
 				x.communicate(b"\n")[0]
 				
 			elif item.info["pkg"]=="lliurex-meta-musica":
-				lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu xenial main",
-					"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu xenial main",
-					"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu xenial main",
-					"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu xenial main",
-					"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu xenial main"]
+				lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu bionic main",
+					"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu bionic main",
+					"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu bionic main",
+					"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu bionic main",
+					"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu bionic main"]
 
 				cmdMusica=["sudo","/usr/bin/add-apt-repository"]
 				for repo in lxRepos:
