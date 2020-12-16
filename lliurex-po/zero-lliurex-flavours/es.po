@@ -29,7 +29,7 @@ msgstr "Instalación correcta. Es necesario reiniciar"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:651
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
-msgstr "A ocurrido un error. Revise el log en /var/log/lliurex-flavours-selector"
+msgstr "Ha ocurrido un error. Revise el log en /var/log/lliurex-flavours-selector"
 
 #: ../install-files/usr/share/lliurex-flavours-selector/lliurex-flavours-selector.py:969
 msgid "The selected flavours will be installed. Do you wish to continue?"
