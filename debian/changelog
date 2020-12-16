@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.9.39) bionic; urgency=medium
+
+  * Fixed spanish translations
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 16 Dec 2020 08:32:38 +0100
+
 zero-lliurex-flavours (0.9.38) bionic; urgency=medium
 
   * Fixed kxstudio repository
