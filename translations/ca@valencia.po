@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:34+0100\n"
-"PO-Revision-Date: 2020-12-11 14:40+0000\n"
-"Last-Translator: Raul Rodrigo <raurodse@gmail.com>\n"
+"PO-Revision-Date: 2021-01-26 10:40+0000\n"
+"Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/"
 "zero-lliurex-flavours/zero-lliurex-flavours/ca@valencia/>\n"
 "Language: ca@valencia\n"
@@ -20,48 +20,43 @@ msgstr ""
 "X-Generator: Weblate 4.3.1\n"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:118
-#, fuzzy
 msgid "Install"
 msgstr "Intal·la"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:123
-#, fuzzy
 msgid "Help"
 msgstr "Ajuda"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:163
-#, fuzzy
 msgid "None"
 msgstr "Cap"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:165
 msgid "Current flavours installed: "
-msgstr ""
+msgstr "Sabors instal·lats actualment: "
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:181
 msgid "No Flavours version availables detected"
-msgstr ""
+msgstr "No s'ha detectat cap versió de sabor disponible"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:201
 msgid "The selected flavor is not compatible with those already installed"
-msgstr ""
+msgstr "El sabor seleccionat no és compatible amb els sabors ja instal·lats"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:204
 msgid "You must select a Flavour to install"
-msgstr ""
+msgstr "Seleccioneu un sabor per a instal·lar"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:211
 msgid "Installing selected Flavour. Wait a moment..."
-msgstr ""
+msgstr "S'està instal·lant el sabor seleccionat. Espereu un moment..."
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:261
-#, fuzzy
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
 msgstr ""
-"S'ha produït un error. Reviseu el registre en /tmp/lliurex-flavours-selector"
+"S'ha produït un error. Reviseu el registre /var/log/lliurex-flavour-selector"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:263
-#, fuzzy
 msgid "Installation succesful. A reboot is required"
 msgstr "La instal·lació és correcta. Cal que reinicieu"
 
@@ -70,44 +65,40 @@ msgid ""
 "Do you want to add the classroom server \n"
 "mirror repository to the sources list?"
 msgstr ""
+"Voleu afegir el repositori de la rèplica del servidor\n"
+"de l'aula a la llista de fonts?"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:279
-#, fuzzy
 msgid "Yes"
 msgstr "Sí"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:282
-#, fuzzy
 msgid "No"
 msgstr "No"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:306
-#, fuzzy
 msgid "The selected flavours will be installed. Do you wish to continue?"
-msgstr "Els recursos seleccionats s'instal·laran. Voleu continuar?"
+msgstr "S'instal·laran els recursos seleccionats. Voleu continuar?"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:313
-#, fuzzy
 msgid "Ok"
-msgstr "Ok"
+msgstr "D'acord"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:316
-#, fuzzy
 msgid "Cancel"
-msgstr "Cancela"
+msgstr "Canceŀla"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:132
-#, fuzzy
 msgid "Click to select an option"
 msgstr "Feu clic per a seleccionar una opció"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:224
 msgid "similar to install a LliureX Server Lite ISO"
-msgstr ""
+msgstr "semblant a intal·lar una ISO de LliureX Server Lite ISO"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:226
 msgid "similar to install a LliureX Server ISO"
-msgstr ""
+msgstr "semblant a instal·lar una ISO de LliureX Server"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:228
 msgid "similar to install  a LliureX Client Lite ISO"
