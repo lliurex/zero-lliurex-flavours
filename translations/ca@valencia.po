@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:34+0100\n"
-"PO-Revision-Date: 2021-01-26 10:40+0000\n"
+"PO-Revision-Date: 2021-02-01 12:48+0000\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/"
 "zero-lliurex-flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -102,33 +102,32 @@ msgstr "semblant a instal·lar una ISO de LliureX Server"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:228
 msgid "similar to install  a LliureX Client Lite ISO"
-msgstr ""
+msgstr "semblant a intal·lar  una ISO de LliureX Client Lite"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:230
 msgid "install only the basic functionalities of a LliureX Client"
-msgstr ""
+msgstr "instal·la només la funcionalitat bàsica d'un client de LliureX"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:232
 msgid "similar to install  a LliureX Client ISO"
-msgstr ""
+msgstr "semblant a instal·lar  una ISO de LliureX Client"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:234
 msgid "similar to install  a LliureX Desktop Lite ISO"
-msgstr ""
+msgstr "semblant a intal·lar  una ISO de LliureX Escriptori"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:236
 msgid "similar to install  a LliureX Desktop ISO"
-msgstr ""
+msgstr "semblant a intal·lar   una ISO de LliureX Escriptori"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:238
 msgid "similar to install a LliureX Infantil ISO"
-msgstr ""
+msgstr "semblant a instal·lar una ISO de LliureX Infantil"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
 msgid "similar to install LliureX Music ISO"
-msgstr ""
+msgstr "semblant a instal·lar una ISO de LliureX Música"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
-#, fuzzy
 msgid "Checking system..."
 msgstr "S'està comprovant el sistema..."
