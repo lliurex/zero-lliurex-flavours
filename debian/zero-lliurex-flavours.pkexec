@@ -1,0 +1,25 @@
+[
+    {
+        "prefix": "net.lliurex.lliurex-flavours-selector",
+        "cmd": "/usr/sbin/lliurex-flavours-selector",
+        "nameaction": "gui",
+        "icon": "lliurex-flavours-selector",
+        "default_auth": {
+            "any": "no",
+            "inactive": "no",
+            "active": "no"
+        },
+        "auths": [
+            {
+                "type": "group",
+                "members": [
+                    "sudo",
+                    "admins"
+                ],
+                "any": "yes",
+                "inactive": "yes",
+                "active": "yes"
+            }
+        ]
+    }   
+]

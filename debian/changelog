@@ -1,0 +1,262 @@
+zero-lliurex-flavours (0.10) bionic-updates; urgency=medium
+
+  * Migrated to PyQt
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 15 Feb 2021 11:28:21 +0100
+
+zero-lliurex-flavours (0.9.39) bionic; urgency=medium
+
+  * Fixed spanish translations
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 16 Dec 2020 08:32:38 +0100
+
+zero-lliurex-flavours (0.9.38) bionic; urgency=medium
+
+  * Fixed kxstudio repository
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 15 Dec 2020 12:40:42 +0100
+
+zero-lliurex-flavours (0.9.37) bionic; urgency=medium
+
+  * Fixed po files
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 20 Oct 2020 11:43:37 +0200
+
+zero-lliurex-flavours (0.9.36) bionic; urgency=medium
+
+  * Added support to lliurex lite metas
+  * Update option to configure client flavour
+  * Added options to configure server and desktop flavours
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 03 Jun 2020 13:43:00 +0200
+
+zero-lliurex-flavours (0.9.35) bionic; urgency=medium
+
+  * Added support to lliurex-meta-minimal-client
+  * Added option to configure client flavour
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 26 Feb 2020 12:13:42 +0100
+
+zero-lliurex-flavours (0.9.34) bionic; urgency=medium
+
+  * Migrated to python3
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 29 Jan 2020 17:38:56 +0100
+
+zero-lliurex-flavours (0.9.33) bionic; urgency=medium
+
+  * Added ca@valencia po file
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 26 Jul 2019 11:34:36 +0200
+
+zero-lliurex-flavours (0.9.32) bionic; urgency=medium
+
+  * Fixed polkit files
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 19 Jul 2019 13:29:26 +0200
+
+zero-lliurex-flavours (0.9.31) bionic; urgency=medium
+
+  * Added icon
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Thu, 27 Jun 2019 13:50:24 +0200
+
+zero-lliurex-flavours (0.9.30) bionic; urgency=medium
+
+  * Added pkexex configuration
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 05 Mar 2019 12:44:03 +0100
+
+zero-lliurex-flavours (0.9.29) bionic; urgency=medium
+
+  * Initial release for bionic
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 24 Oct 2018 17:10:54 +0200
+
+zero-lliurex-flavours (0.9.19-lliurex4) xenial; urgency=medium
+
+  * Redesign gui. Change to stock buttons
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 22 Sep 2017 12:51:16 +0200
+
+zero-lliurex-flavours (0.9.19-lliurex3) xenial; urgency=medium
+
+  * Reworked metainfo
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Mon, 07 Aug 2017 10:07:37 +0200
+
+zero-lliurex-flavours (0.9.19-lliurex2) xenial; urgency=medium
+
+  * Removed deprecated locale
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Thu, 22 Jun 2017 09:20:37 +0200
+
+zero-lliurex-flavours (0.9.19-lliurex1) xenial; urgency=medium
+
+  * Fixed appstream file
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Tue, 30 May 2017 16:50:19 +0200
+
+zero-lliurex-flavours (0.9.19) xenial; urgency=medium
+
+  * Added metainfo
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Tue, 30 May 2017 12:28:53 +0200
+
+zero-lliurex-flavours (0.9.18) xenial; urgency=medium
+
+  * Added musica flavour
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Thu, 26 Jan 2017 13:19:17 +0100
+
+zero-lliurex-flavours (0.9.17-lliurex+1) xenial; urgency=medium
+
+  * Added component "preschool" to the sources when installing infantil flavour
+
+ -- Juanma Navarro Mañez <juanma1980@gmail.com>  Wed, 25 Jan 2017 12:22:36 +0100
+
+zero-lliurex-flavours (0.9.16) xenial; urgency=medium
+
+  * Add desktop file
+  * Add lliurex-preseed depends and call to update this 
+  * Fix bug in error message
+  * Improve log file
+  * Add check for admin users	
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 18 Jan 2017 14:00:22 +0100
+
+zero-lliurex-flavours (0.9.15) xenial; urgency=medium
+
+  * Add checking of incompatible flavours when gui start
+  * Add dialog to confirm the installation of flavours
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 01 Aug 2016 10:37:47 +0200
+
+zero-lliurex-flavours (0.9.14) xenial; urgency=medium
+
+  * Add valencian po file
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 13 Jul 2016 09:12:34 +0200
+
+zero-lliurex-flavours (0.9.13) xenial; urgency=medium
+
+  * New gui based in python+Gtk
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 11 Jul 2016 10:54:35 +0200
+
+zero-lliurex-flavours (0.9.12) xenial; urgency=medium
+
+  * First release to xenial
+  * Fixed depends (llxcfg-runtime)
+  * Fixed zmd bug (ALL_CEROS var)
+  * Updated zmd message (Lliurex 16.xx)
+  * Updated app message (Lliurex 16.xx)
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 01 Mar 2016 09:33:45 +0100
+
+zero-lliurex-flavours (0.9.9) trusty; urgency=high
+
+  * Updated translations
+  * Updated zmd to solve some bugs:
+    - Removed some uninstallable flavours from list
+    - Updated Message (LliureX 15.05) 
+
+ -- Angel Berlanas Vicente <angel.berlanas@gmail.com>  Fri, 01 May 2015 09:13:47 +0200
+
+zero-lliurex-flavours (0.9.7) trusty; urgency=high
+
+  * Progress bar to Zenity 
+
+ -- Daniel Duran Vecino <daduve@gmail.com>  Tue, 03 Feb 2015 09:28:24 +0100
+
+zero-lliurex-flavours (0.9.6) trusty; urgency=high
+
+  * Activated apt-get update in script 
+
+ -- Daniel Duran Vecino <daduve@gmail.com>  Mon, 02 Feb 2015 13:42:05 +0100
+
+zero-lliurex-flavours (0.9.5) trusty; urgency=high
+
+  * Changing zmd script for trusty
+
+ -- Daniel Duran Vecino <daduve@gmail.com>  Mon, 02 Feb 2015 13:38:51 +0100
+
+zero-lliurex-flavours (0.9.4) trusty; urgency=high
+
+  * Reupdated with new icon 
+
+ -- Angel Berlanas Vicente <angel.berlanas@gmail.com>  Fri, 30 Jan 2015 11:59:16 +0100
+
+zero-lliurex-flavours (0.9.3) trusty; urgency=high
+
+  * Updated to trusty
+
+ -- Angel Berlanas Vicente <angel.berlanas@gmail.com>  Thu, 29 Jan 2015 14:48:36 +0100
+
+zero-lliurex-flavours (0.9.2) trusty; urgency=medium
+
+  * Add build depends
+
+ -- Daniel Duran Vecino <daduve@gmail.com>  Mon, 19 Jan 2015 17:26:00 +0100
+
+zero-lliurex-flavours (0.9.1) trusty; urgency=low
+
+  * Upgrading for trusty 
+
+ -- Daniel Duran Vecino <daduve@gmail.com>  Mon, 19 Jan 2015 16:41:06 +0100
+
+zero-lliurex-flavours (0.9) precise; urgency=high
+
+  * Adding zero-center banners 
+
+ -- Hector Garcia Huerta <hectorgh@gmail.com>  Tue, 13 May 2014 09:27:13 +0200
+
+zero-lliurex-flavours (0.8) precise; urgency=low
+
+  * Testing diversion for lsb_release 
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Tue, 15 Oct 2013 11:44:36 +0200
+
+zero-lliurex-flavours (0.7) precise; urgency=low
+
+  * First release for pandora
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Mon, 14 Oct 2013 11:55:00 +0200
+
+zero-lliurex-flavours (0.6) unstable; urgency=low
+
+  * Added update repositories
+
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Fri, 19 Oct 2012 08:52:37 +0200
+
+zero-lliurex-flavours (0.5) lucid; urgency=low
+
+  * Fixed service 
+
+ -- Angel Berlanas Vicente <lliurex_devel2@edu.gva.es>  Thu, 27 Sep 2012 13:59:53 +0200
+
+zero-lliurex-flavours (0.4) unstable; urgency=low
+
+  * Fixed
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Tue, 25 Sep 2012 08:26:30 +0200
+
+zero-lliurex-flavours (0.3) unstable; urgency=low
+
+  * Adding new testing between flavours
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Tue, 25 Sep 2012 08:25:26 +0200
+
+zero-lliurex-flavours (0.2) unstable; urgency=low
+
+  * Using synaptic to install meta packages
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Fri, 21 Sep 2012 12:36:48 +0200
+
+zero-lliurex-flavours (0.1) unstable; urgency=low
+
+  * Initial release.
+   
+
+ -- Jaime Munyoz Fayos <munyoz_jaifay@gva.es>  Mon, 30 Jul 2012 11:16:49 +0200

@@ -1,0 +1,19 @@
+Source: zero-lliurex-flavours
+Section: x11
+Priority: extra
+Maintainer: Equipo LliureX <lliurex@gva.es>
+Uploaders: Equipo LliureX <lliurex@gva.es>
+Build-Depends:debhelper (>= 10),
+			dh-python,
+			llxsrchelper,
+			zero-dev,
+			python3-poinstaller,
+			python3-setuptools,
+			python3-all
+Standards-Version: 4.1.2
+
+Package: zero-lliurex-flavours
+Architecture: all
+Depends: ${misc:Depends},python3, lliurex-preseed-common, lliurex-preseed-libnss-ldapd, lliurex-preseed-nslcd
+Description: Flavours Selection Tool
+ Flavours Selection Tool for changing between LliureX flavours
