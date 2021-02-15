@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.10) bionic-updates; urgency=medium
+
+  * Migrated to PyQt
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 15 Feb 2021 11:28:21 +0100
+
 zero-lliurex-flavours (0.9.39) bionic; urgency=medium
 
   * Fixed spanish translations
