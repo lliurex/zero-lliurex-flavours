@@ -9,5 +9,6 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export PYBUILD_NAME=zero-lliurex-flavours
 %:
-	dh $@  --with llxsrc,zero,i18n
+	dh $@ --with llxsrc,zero,python3 --buildsystem pybuild

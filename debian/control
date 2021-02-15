@@ -3,7 +3,13 @@ Section: x11
 Priority: extra
 Maintainer: Equipo LliureX <lliurex@gva.es>
 Uploaders: Equipo LliureX <lliurex@gva.es>
-Build-Depends: llxsrchelper,debhelper (>=10),zero-dev,python3-poinstaller
+Build-Depends:debhelper (>= 10),
+			dh-python,
+			llxsrchelper,
+			zero-dev,
+			python3-poinstaller,
+			python3-setuptools,
+			python3-all
 Standards-Version: 4.1.2
 
 Package: zero-lliurex-flavours
