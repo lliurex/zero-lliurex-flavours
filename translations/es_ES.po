@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:34+0100\n"
-"PO-Revision-Date: 2020-12-01 13:00+0100\n"
+"PO-Revision-Date: 2021-02-15 10:07+0100\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -53,7 +53,7 @@ msgstr "Instalando el sabor seleccionado. Espere un momento..."
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:261
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
-msgstr "A ocurrido un error. Revise el log /var/log/lliurex-flavour-selector"
+msgstr "Ha ocurrido un error. Revise el log /var/log/lliurex-flavour-selector"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:263
 msgid "Installation succesful. A reboot is required"
