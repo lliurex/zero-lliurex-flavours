@@ -25,8 +25,8 @@ class flavourSelectorManager:
 		self.desktop_meta_available=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
 		self.minimal_client_installed=False
 		self.flavours_installed=[]
-		self.defaultMirror = 'llx19'
-		self.defaultVersion = 'bionic'
+		self.defaultMirror = 'llx21'
+		self.defaultVersion = 'focal'
 		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
 		self.sourcesListPath='/etc/apt/sources.list'
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
@@ -365,7 +365,7 @@ class flavourSelectorManager:
 	
 	def addRecursosRepository(self):
 
-		cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/bionic bionic preschool"]
+		cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/focal focal preschool"]
 		x=subprocess.Popen((cmdInfantil),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
 		log_msg="Adding repository recursos"
 		self.log(log_msg)
@@ -375,11 +375,11 @@ class flavourSelectorManager:
 
 	def addMusicRepository(self):
 		
-		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu bionic main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu bionic main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu bionic main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu bionic main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu bionic main"]
+		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main",
+			"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu focal main",
+			"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu focal main",
+			"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu focal main",
+			"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu focal main"]
 
 		cmdMusica=["sudo","/usr/bin/add-apt-repository"]
 
