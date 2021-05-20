@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12) focal; urgency=medium
+
+  * Fixed path of logrotate conf file
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Thu, 20 May 2021 09:40:00 +0200
+
 zero-lliurex-flavours (0.11) focal; urgency=medium
 
   * Initial release for focal
