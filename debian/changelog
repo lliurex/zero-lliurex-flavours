@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12.1) focal; urgency=medium
+
+  * Fixed zero app file
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 25 May 2021 13:07:07 +0200
+
 zero-lliurex-flavours (0.12) focal; urgency=medium
 
   * Fixed path of logrotate conf file
