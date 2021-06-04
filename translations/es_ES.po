@@ -124,8 +124,8 @@ msgid "similar to install a LliureX Infantil ISO"
 msgstr "similar a instalar una ISO de LliureX Infantil"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
-msgid "similar to install LliureX Music ISO"
-msgstr "similar a instalar una ISO de LliureX Música"
+msgid "similar to install LliureX Multimedia ISO"
+msgstr "similar a instalar una ISO de LliureX Multimedia"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
 msgid "Checking system..."
