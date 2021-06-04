@@ -247,7 +247,7 @@ class InstallersBox(QWidget):
 		elif 'infantil' in pkg:
 			title=_("similar to install a LliureX Infantil ISO")
 		elif 'music' in pkg:
-			title=_("similar to install LliureX Music ISO")	
+			title=_("similar to install LliureX Multimedia ISO")	
 		
 		return title
 	

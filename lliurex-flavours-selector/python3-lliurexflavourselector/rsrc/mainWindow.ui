@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>630</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -108,7 +108,7 @@
            <x>0</x>
            <y>0</y>
            <width>764</width>
-           <height>468</height>
+           <height>478</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -175,7 +175,10 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="messageBox" stretch="0">
+           <layout class="QHBoxLayout" name="messageBox" stretch="0,0">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <property name="leftMargin">
              <number>10</number>
             </property>
@@ -189,7 +192,47 @@
              <number>10</number>
             </property>
             <item>
+             <widget class="QLabel" name="messageImg">
+              <property name="minimumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>dialog-error.png</pixmap>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="margin">
+               <number>10</number>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="messageLabel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>40</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
@@ -199,7 +242,10 @@
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="margin">
+               <number>10</number>
               </property>
              </widget>
             </item>
