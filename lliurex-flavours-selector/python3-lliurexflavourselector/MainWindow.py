@@ -110,6 +110,7 @@ class MainWindow(QMainWindow):
 		self.bannerBox=self.findChild(QLabel,'bannerLabel')
 		self.bannerBox.setStyleSheet("background-color: #07237f") 
 		self.messageBox=self.findChild(QVBoxLayout,'messageBox')
+		self.messageImg=self.findChild(QLabel,'messageImg')
 		self.messageLabel=self.findChild(QLabel,'messageLabel')
 		self.controlsBox=self.findChild(QVBoxLayout,'controlsBox')
 		self.applyButton=self.findChild(QPushButton,'applyButton')
@@ -136,7 +137,8 @@ class MainWindow(QMainWindow):
 		self.flavourTitle.hide()
 		
 		self.mirrorRepository=False
-		self.messageLabel.hide()
+		#self.messageLabel.hide()
+		self._manageMsgBox(True,False)	
 		self.applyButton.hide()
 		self.helpButton.hide()
 
@@ -183,11 +185,13 @@ class MainWindow(QMainWindow):
 			self.installersBox.drawInstallerList()
 			self.fader_widget = FaderWidget(self.QtStack.currentWidget(), self.QtStack.widget(1))
 			self.QtStack.setCurrentIndex(1)
-			self.messageLabel.show()
+			self._manageMsgBox(True,False)	
+			#self.messageLabel.show()
 			self.applyButton.show()
 			self.helpButton.show()
 			
 		else:
+			self._manageMsgBox(False,True)	
 			self.messageLabel.show()
 			self.loadingBox.spinner.hide()
 			self.messageLabel.setText(_("No Flavours version availables detected"))	
@@ -201,6 +205,7 @@ class MainWindow(QMainWindow):
 		self.flavoursToInstall=self.installersBox.flavours_selected
 		self.boxSelected=self.installersBox.box_selected
 		
+		self._manageMsgBox(True,False)	
 		self.messageLabel.setText("")
 		if len(self.flavoursToInstall)>0:
 			if not self.core.flavourSelectorManager.isIncompatibleMeta(self.flavoursToInstall[0]):
@@ -211,9 +216,11 @@ class MainWindow(QMainWindow):
 				
 				self.showConfirmDialog()
 			else:
+				self._manageMsgBox(False,True)	
 				self.messageLabel.setText(_("The selected flavor is not compatible with those already installed"))
 	
-		else:		
+		else:
+			self._manageMsgBox(False,True)	
 			self.messageLabel.setText(_("You must select a Flavour to install"))
 
 	#def applyButtonClicked 
@@ -272,8 +279,10 @@ class MainWindow(QMainWindow):
 			error=True		
 		
 		if error:
+			self._manageMsgBox(False,True)	
 			self.messageLabel.setText(_("An error ocurred. See log in /var/log/lliurex-flavours-selector"))					     
 		else:
+			self._manageMsgBox(False,False)	
 			self.messageLabel.setText(_("Installation succesful. A reboot is required"))					     
 
 		self.exitLocked=False	
@@ -389,4 +398,33 @@ class MainWindow(QMainWindow):
 			event.accept()			
 
 	#def closeEvent
+
+	def _manageMsgBox(self,hide,error):
+
+		if hide:
+			self.messageImg.setStyleSheet("background-color: transparent")
+			self.messageLabel.setStyleSheet("background-color: transparent")
+			self.messageImg.hide()
+			self.messageLabel.setAlignment(Qt.AlignCenter|Qt.AlignVCenter)
+
+		else:
+			if error:
+				self.messageImg.setStyleSheet("border-bottom: 1px solid #da4453;border-left: 1px solid #da4453;border-top: 1px solid #da4453;background-color: #ebced2")
+				self.messageLabel.setStyleSheet("border-bottom: 1px solid #da4453;border-right: 1px solid #da4453;border-top: 1px solid #da4453;background-color: #ebced2")
+				pixmap=QPixmap(self.core.rsrc_dir+"dialog-error.png")
+				self.messageImg.setPixmap(pixmap)
+				self.messageImg.show()
+				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
+				self.messageLabel.show()			
+			else:
+				self.messageImg.setStyleSheet("border-bottom: 1px solid #27ae60;border-left: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
+				self.messageLabel.setStyleSheet("border-bottom: 1px solid #27ae60;border-right: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
+				pixmap=QPixmap(self.core.rsrc_dir+"dialog-positive.png")
+				self.messageImg.setPixmap(pixmap)
+				self.messageImg.show()
+				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
+				self.messageLabel.show()			
+
+	#def _manageMsgBox
+
 from . import Core
