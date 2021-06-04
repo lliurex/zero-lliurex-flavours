@@ -120,7 +120,7 @@ msgid "similar to install a LliureX Infantil ISO"
 msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
-msgid "similar to install LliureX Music ISO"
+msgid "similar to install LliureX Multimedia ISO"
 msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28

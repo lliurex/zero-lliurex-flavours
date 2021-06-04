@@ -162,7 +162,12 @@ class MainWindow(QMainWindow):
 		count=1
 		if flavours_installed>0:
 			for item in self.core.flavourSelectorManager.flavours_installed:
-				tmp=tmp+item.split("lliurex-meta-")[1]
+				flavour=item.split("lliurex-meta-")[1]
+				if flavour=="music":
+					flavour="multimedia"
+				flavour=flavour.title()	
+				tmp=tmp+flavour
+
 				if count<flavours_installed:
 					tmp=tmp+", "
 				count+=1	
