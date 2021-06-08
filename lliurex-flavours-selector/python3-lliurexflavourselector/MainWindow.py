@@ -3,8 +3,9 @@ import sys
 import os
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon,QPixmap,QPainter
-from PyQt5.QtCore import Qt,QEvent,QTimeLine,QThread,pyqtSignal,QSize
-from PyQt5.QtWidgets import QLabel, QWidget,QVBoxLayout,QHBoxLayout,QSizePolicy,QMainWindow,QPushButton,QStackedLayout,QDesktopWidget,QMessageBox
+from PyQt5.QtCore import Qt,QEvent,QTimeLine,QThread,pyqtSignal,QSize,QTimer,QEventLoop,QObject
+#from PyQt5.QtWidgets import QLabel, QWidget,QVBoxLayout,QHBoxLayout,QSizePolicy,QMainWindow,QPushButton,QStackedLayout,QDesktopWidget,QMessageBox
+from PyQt5.QtWidgets import *
 
 import time
 import subprocess
@@ -57,6 +58,85 @@ class installProcess(QThread):
 			self.err=1
 	#def run
 # class installProcess
+
+class getPackages(QThread):
+
+	def __init__(self,*args):
+		
+		QThread.__init__(self)
+		self.meta_list=args[0]
+		self.core=Core.Core.get_core()
+
+	
+	#def __init__
+
+	def run(self,*args):
+
+		self.core.flavourSelectorManager.getNumberPackages(self.meta_list)
+	#def run
+
+#class getPackages
+
+class Worker(QObject):
+
+	_finished=pyqtSignal()
+	_progress=pyqtSignal(bool,bool)
+
+	def __init__(self,*args):
+		
+		QObject.__init__(self)
+		self.core=Core.Core.get_core()
+		self.maxRetry=3
+		self.timeToCheck=10
+		self.isWorked=False
+		self.aptStop=False
+		self.aptRun=True
+		self.count=0
+		self.running=False
+		self.countDown=self.maxRetry
+	
+	#def __init__
+
+	def run(self):
+
+		while self.running:
+			self._updateProgress()
+			time.sleep(self.timeToCheck)
+	
+	#def run
+
+	def _updateProgress(self):
+
+		if not self.isWorked:
+			self.isWorked=True
+			if not self.aptStop:
+				isAptRunning=self.core.flavourSelectorManager.isAptRunning()
+				if self.count==2:
+					self.aptRun=isAptRunning
+				else:
+					self.count+=1
+
+			if not self.aptRun:
+				if not self.aptStop:	
+					self._progress.emit(True,False)
+					self.aptStop=True
+			
+				if self.countDown==self.maxRetry:
+					self.countDown=0
+					self.core.flavourSelectorManager.checkProgressInstallation()
+					if self.core.flavourSelectorManager.progressInstallation!=len(self.core.flavourSelectorManager.initialNumberPackages):
+						self._progress.emit(False,False)
+					else:
+						self.running=False
+						self._progress.emit(False,True)
+						self._finished.emit()
+				else:
+					self.countDown+=1
+
+			self.isWorked=False
+
+	#def _updateProgress
+
 class FaderWidget(QWidget):
 	
 	def __init__(self, old_widget, new_widget):
@@ -112,6 +192,7 @@ class MainWindow(QMainWindow):
 		self.messageBox=self.findChild(QVBoxLayout,'messageBox')
 		self.messageImg=self.findChild(QLabel,'messageImg')
 		self.messageLabel=self.findChild(QLabel,'messageLabel')
+
 		self.controlsBox=self.findChild(QVBoxLayout,'controlsBox')
 		self.applyButton=self.findChild(QPushButton,'applyButton')
 		icn=QIcon.fromTheme(os.path.join(settings.ICONS_THEME,"gtk-ok.svg"))
@@ -138,7 +219,7 @@ class MainWindow(QMainWindow):
 		
 		self.mirrorRepository=False
 		#self.messageLabel.hide()
-		self._manageMsgBox(True,False)	
+		self.manage_msg_box(True,False)	
 		self.applyButton.hide()
 		self.helpButton.hide()
 
@@ -185,14 +266,12 @@ class MainWindow(QMainWindow):
 			self.installersBox.drawInstallerList()
 			self.fader_widget = FaderWidget(self.QtStack.currentWidget(), self.QtStack.widget(1))
 			self.QtStack.setCurrentIndex(1)
-			self._manageMsgBox(True,False)	
-			#self.messageLabel.show()
+			self.manage_msg_box(True,False)	
 			self.applyButton.show()
 			self.helpButton.show()
 			
 		else:
-			self._manageMsgBox(False,True)	
-			self.messageLabel.show()
+			self.manage_msg_box(False,True)	
 			self.loadingBox.spinner.hide()
 			self.messageLabel.setText(_("No Flavours version availables detected"))	
 		
@@ -204,8 +283,8 @@ class MainWindow(QMainWindow):
 		self.othersBox=[]
 		self.flavoursToInstall=self.installersBox.flavours_selected
 		self.boxSelected=self.installersBox.box_selected
-		
-		self._manageMsgBox(True,False)	
+
+		self.manage_msg_box(True,False)	
 		self.messageLabel.setText("")
 		if len(self.flavoursToInstall)>0:
 			if not self.core.flavourSelectorManager.isIncompatibleMeta(self.flavoursToInstall[0]):
@@ -216,11 +295,11 @@ class MainWindow(QMainWindow):
 				
 				self.showConfirmDialog()
 			else:
-				self._manageMsgBox(False,True)	
+				self.manage_msg_box(False,True)	
 				self.messageLabel.setText(_("The selected flavor is not compatible with those already installed"))
 	
 		else:
-			self._manageMsgBox(False,True)	
+			self.manage_msg_box(False,True)	
 			self.messageLabel.setText(_("You must select a Flavour to install"))
 
 	#def applyButtonClicked 
@@ -228,7 +307,6 @@ class MainWindow(QMainWindow):
 	def launchInstall(self):				
 
 		self.applyButton.setEnabled(False)
-		self.messageLabel.setText(_("Installing selected Flavour. Wait a moment..."))
 
 		for item in self.boxSelected:
 			item.itemAt(0).widget().setEnabled(False)
@@ -249,14 +327,48 @@ class MainWindow(QMainWindow):
 				self.othersBox.append(item)	
 
 		self.exitLocked=True
+		
+		self.getPackages=getPackages(self.flavoursToInstall[0])
+		self.manage_msg_box(True,False)
+		self.messageLabel.setText(_("Obtaining information about the flavor to install..."))
+		self.getPackages.start()
+		self.getPackages.finished.connect(self._finishGetPackages)
+		
+	#def launchInstall
+
+	def _finishGetPackages(self):
+
+		self.messageLabel.setText(_("Downloading packages..."))
+		self.checkProgress=QThread()
+		self.worker=Worker()
+		self.worker.moveToThread(self.checkProgress)
+		self.checkProgress.started.connect(self.worker.run)
+		self.worker._finished.connect(self.checkProgress.quit)
+		self.worker._progress.connect(self._updateMessage)
 		self.install=installProcess(self.flavoursToInstall[0],self.mirrorRepository)
 		self.install.start()
 		self.install.finished.connect(self._finishInstall)
+		self.worker.running=True
+		self.checkProgress.start()
 
-	#def launchInstall
-			
+	#def _finishGetPackages
+	
+	def _updateMessage(self,apt,end=False):
+
+		if not end:
+			if apt:
+				self.messageLabel.setText(_("Installing and configuring packages: 0 of %s packages")%len(self.core.flavourSelectorManager.initialNumberPackages))
+			else:
+				self.messageLabel.setText(_("Installing and configuring packages: %s of %s packages")%(str(self.core.flavourSelectorManager.progressInstallation),len(self.core.flavourSelectorManager.initialNumberPackages)))
+		else:
+			self.messageLabel.setText(_("Finishing the installation..."))
+	
+	#def _updateMessage		
+
+
 	def _finishInstall(self):
 
+		self.worker.running=False
 		result=self.core.flavourSelectorManager.thread_ret
 		error=False
 		if result==0:
@@ -279,13 +391,14 @@ class MainWindow(QMainWindow):
 			error=True		
 		
 		if error:
-			self._manageMsgBox(False,True)	
+			self.manage_msg_box(False,True)	
 			self.messageLabel.setText(_("An error ocurred. See log in /var/log/lliurex-flavours-selector"))					     
 		else:
-			self._manageMsgBox(False,False)	
+			self.manage_msg_box(False,False)	
 			self.messageLabel.setText(_("Installation succesful. A reboot is required"))					     
 
 		self.exitLocked=False	
+	
 	#def _finishInstall
 			
 	
@@ -399,7 +512,7 @@ class MainWindow(QMainWindow):
 
 	#def closeEvent
 
-	def _manageMsgBox(self,hide,error):
+	def manage_msg_box(self,hide,error):
 
 		if hide:
 			self.messageImg.setStyleSheet("background-color: transparent")
@@ -425,6 +538,5 @@ class MainWindow(QMainWindow):
 				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 				self.messageLabel.show()			
 
-	#def _manageMsgBox
 
 from . import Core

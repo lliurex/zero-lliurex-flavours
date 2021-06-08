@@ -6,6 +6,9 @@ import os
 import subprocess
 import configparser
 import datetime
+import dpkgunlocker.dpkgunlockermanager as DpkgUnlockerManager
+import copy
+
 
 BASE_DIR="/usr/share/lliurex-flavours-selector/"
 
@@ -29,8 +32,13 @@ class flavourSelectorManager:
 		self.defaultVersion = 'focal'
 		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
 		self.sourcesListPath='/etc/apt/sources.list'
+		self.numberPackages=[]
+		self.initialNumberPackages=[]
+		self.progressInstallation=0
+		self.aptIsRunning=False
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
 		self.log(log_msg)
+		self.dpkgUnlocker=DpkgUnlockerManager.DpkgUnlockerManager()
 
 	
 	def loadFile(self,path):
@@ -375,11 +383,7 @@ class flavourSelectorManager:
 
 	def addMusicRepository(self):
 		
-		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu focal main"]
+		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main"]
 
 		cmdMusica=["sudo","/usr/bin/add-apt-repository"]
 
@@ -434,6 +438,41 @@ class flavourSelectorManager:
 			self.log(msg_log)	
 
 	#def writeMirrorRepository
+
+	def getNumberPackages(self,meta):
+
+		cmd="LANG=C LANGUAGE=en apt-get update; apt-get install --simulate %s"%meta
+		psimulate = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
+		rawoutputpsimulate = psimulate.stdout.readlines()
+		rawpackagestoinstall = [ aux.decode().strip() for aux in rawoutputpsimulate if aux.decode().startswith('Inst') ]
+		r = [ aux.replace('Inst ','') for aux in rawpackagestoinstall ]
+		for allinfo in r :
+			self.numberPackages.append(allinfo.split(' ')[0])
+
+		self.initialNumberPackages=copy.deepcopy(self.numberPackages)
+
+	#def getNumberPackages
+
+	def isAptRunning(self):
+
+		locks_info=self.dpkgUnlocker.isDpkgLocked()
+		if locks_info==3:
+			return True
+		else:
+			return False
+
+	#def isAptRunning
+
+	def checkProgressInstallation(self):
+
+		for i in range(len(self.numberPackages)-1,-1,-1):
+			is_installed=self.isInstalled(self.numberPackages[i])
+			if is_installed:
+				self.numberPackages.pop(i)
+
+		self.progressInstallation=len(self.initialNumberPackages)-len(self.numberPackages)
+	
+	#def checkProgressInstallation
 	
 	def log(self,log_msg):
 		log_file="/var/log/lliurex-flavour-selector.log"
