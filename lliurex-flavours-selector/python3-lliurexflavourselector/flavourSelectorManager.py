@@ -383,11 +383,7 @@ class flavourSelectorManager:
 
 	def addMusicRepository(self):
 		
-		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/music/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/plugins/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/apps/ubuntu focal main",
-			"deb http://ppa.launchpad.net/kxstudio-debian/kxstudio/ubuntu focal main"]
+		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main"]
 
 		cmdMusica=["sudo","/usr/bin/add-apt-repository"]
 
