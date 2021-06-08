@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-30 11:34+0100\n"
-"PO-Revision-Date: 2021-02-15 10:07+0100\n"
+"POT-Creation-Date: 2021-06-08 11:19+0200\n"
+"PO-Revision-Date: 2021-06-08 11:19+0200\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -17,49 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:118
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:202
 msgid "Install"
 msgstr "Instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:123
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:207
 msgid "Help"
 msgstr "Ayuda"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:163
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:260
 msgid "None"
 msgstr "Ninguno"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:165
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:262
 msgid "Current flavours installed: "
 msgstr "Sabores instalados actualmente: "
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:181
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:278
 msgid "No Flavours version availables detected"
 msgstr "No se ha detectado ninguna versión de sabor disponible"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:201
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:301
 msgid "The selected flavor is not compatible with those already installed"
 msgstr "El sabor seleccionado no es compatible con los sabores ya instalados"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:204
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:305
 msgid "You must select a Flavour to install"
 msgstr "Debe seleccionar un sabor para instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:211
-msgid "Installing selected Flavour. Wait a moment..."
-msgstr "Instalando el sabor seleccionado. Espere un momento..."
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:335
+msgid "Obtaining information about the flavor to install..."
+msgstr "Obteniendo información sobre el sabor a instalar..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:261
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:343
+msgid "Downloading packages..."
+msgstr "Descargando paquetes..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:362
+#, python-format
+msgid "Installing and configuring packages: 0 of %s packages"
+msgstr "Instalando y configurando paquetes: 0 de %s paquetes"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:364
+#, python-format
+msgid "Installing and configuring packages: %s of %s packages"
+msgstr "Instalando y configurando paquetes: %s de %s paquetes"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:366
+msgid "Finishing the installation..."
+msgstr "Finalizando la instalación"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:397
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
 msgstr "Ha ocurrido un error. Revise el log /var/log/lliurex-flavour-selector"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:263
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:400
 msgid "Installation succesful. A reboot is required"
 msgstr "Instalación correcta. Debe reiniciar el equipo"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:272
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:411
 msgid ""
 "Do you want to add the classroom server \n"
 "mirror repository to the sources list?"
@@ -67,63 +85,63 @@ msgstr ""
 "Desea añadir  al sources list el repositorio\n"
 "del mirror del servidor del aula"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:279
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:418
 msgid "Yes"
 msgstr "Si"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:282
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:421
 msgid "No"
 msgstr "No"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:306
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:445
 msgid "The selected flavours will be installed. Do you wish to continue?"
 msgstr "El sabor seleccionado será instalado. ¿Desea continuar?\""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:313
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:452
 msgid "Ok"
 msgstr "Aceptar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:316
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:455
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:132
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:137
 msgid "Click to select an option"
 msgstr "Haga clic para seleccionar una opción"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:224
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:234
 msgid "similar to install a LliureX Server Lite ISO"
 msgstr "similar a instalar una ISO de LliureX  Server Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:226
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:236
 msgid "similar to install a LliureX Server ISO"
 msgstr "similar a instalar una ISO de LliureX Server"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:228
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:238
 msgid "similar to install  a LliureX Client Lite ISO"
 msgstr "similar a instalar una ISO de LliureX  Client Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:230
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
 msgid "install only the basic functionalities of a LliureX Client"
 msgstr "sólo instala la funcionalidad básica de un cliente de LliureX"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:232
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:242
 msgid "similar to install  a LliureX Client ISO"
 msgstr "similar a instalar una ISO de LliureX Clilent"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:234
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:244
 msgid "similar to install  a LliureX Desktop Lite ISO"
 msgstr "similar a instalar una ISO de LliureX Desktop Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:236
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:246
 msgid "similar to install  a LliureX Desktop ISO"
 msgstr "similar a instalar una ISO de LliureX Desktop"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:238
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:248
 msgid "similar to install a LliureX Infantil ISO"
 msgstr "similar a instalar una ISO de LliureX Infantil"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:250
 msgid "similar to install LliureX Multimedia ISO"
 msgstr "similar a instalar una ISO de LliureX Multimedia"
 
