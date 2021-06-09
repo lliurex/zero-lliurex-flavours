@@ -80,7 +80,7 @@ class getPackages(QThread):
 class Worker(QObject):
 
 	_finished=pyqtSignal()
-	_progress=pyqtSignal(bool,bool)
+	_progress=pyqtSignal(str)
 
 	def __init__(self,*args):
 		
@@ -91,6 +91,7 @@ class Worker(QObject):
 		self.isWorked=False
 		self.aptStop=False
 		self.aptRun=True
+		self.unpackedRun=False
 		self.count=0
 		self.running=False
 		self.countDown=self.maxRetry
@@ -118,18 +119,27 @@ class Worker(QObject):
 
 			if not self.aptRun:
 				if not self.aptStop:	
-					self._progress.emit(True,False)
+					self._progress.emit("unpack")
 					self.aptStop=True
-			
+					self.unpackedRun=True
+
 				if self.countDown==self.maxRetry:
 					self.countDown=0
-					self.core.flavourSelectorManager.checkProgressInstallation()
-					if self.core.flavourSelectorManager.progressInstallation!=len(self.core.flavourSelectorManager.initialNumberPackages):
-						self._progress.emit(False,False)
+					if self.unpackedRun:
+						self.core.flavourSelectorManager.checkProgressUnpacked()
+						if self.core.flavourSelectorManager.progressUnpacked!=len(self.core.flavourSelectorManager.initialNumberPackages):
+							self._progress.emit("unpack")
+						else:
+							self._progress.emit("install")
+							self.unpackedRun=False
 					else:
-						self.running=False
-						self._progress.emit(False,True)
-						self._finished.emit()
+						self.core.flavourSelectorManager.checkProgressInstallation()
+						if self.core.flavourSelectorManager.progressInstallation!=len(self.core.flavourSelectorManager.initialNumberPackages):
+							self._progress.emit("install")
+						else:
+							self.running=False
+							self._progress.emit("end")
+							self._finished.emit()
 				else:
 					self.countDown+=1
 
@@ -330,7 +340,7 @@ class MainWindow(QMainWindow):
 		
 		self.getPackages=getPackages(self.flavoursToInstall[0])
 		self.manage_msg_box(True,False)
-		self.messageLabel.setText(_("Obtaining information about the flavor to install..."))
+		self.messageLabel.setText(_("1 of 5: Obtaining information about the flavor to install..."))
 		self.getPackages.start()
 		self.getPackages.finished.connect(self._finishGetPackages)
 		
@@ -338,7 +348,7 @@ class MainWindow(QMainWindow):
 
 	def _finishGetPackages(self):
 
-		self.messageLabel.setText(_("Downloading packages..."))
+		self.messageLabel.setText(_("2 of 5: Downloading packages..."))
 		self.checkProgress=QThread()
 		self.worker=Worker()
 		self.worker.moveToThread(self.checkProgress)
@@ -353,15 +363,14 @@ class MainWindow(QMainWindow):
 
 	#def _finishGetPackages
 	
-	def _updateMessage(self,apt,end=False):
+	def _updateMessage(self,step):
 
-		if not end:
-			if apt:
-				self.messageLabel.setText(_("Installing and configuring packages: 0 of %s packages")%len(self.core.flavourSelectorManager.initialNumberPackages))
-			else:
-				self.messageLabel.setText(_("Installing and configuring packages: %s of %s packages")%(str(self.core.flavourSelectorManager.progressInstallation),len(self.core.flavourSelectorManager.initialNumberPackages)))
-		else:
-			self.messageLabel.setText(_("Finishing the installation..."))
+		if step=="unpack":
+			self.messageLabel.setText(_("3 of 5: Unpacking packages: %s of %s packages")%(str(self.core.flavourSelectorManager.progressUnpacked),len(self.core.flavourSelectorManager.initialNumberPackages)))
+		elif step=="install":
+			self.messageLabel.setText(_("4 of 5: Configuring packages: %s of %s packages")%(str(self.core.flavourSelectorManager.progressInstallation),len(self.core.flavourSelectorManager.initialNumberPackages)))
+		elif step=="end":
+			self.messageLabel.setText(_("5 of 5: Finishing the installation..."))
 	
 	#def _updateMessage		
 
