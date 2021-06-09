@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-08 11:19+0200\n"
-"PO-Revision-Date: 2021-06-08 11:19+0200\n"
+"POT-Creation-Date: 2021-06-09 10:02+0200\n"
+"PO-Revision-Date: 2021-06-09 10:18+0200\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -19,89 +19,89 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:202
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:210
 msgid "Install"
 msgstr "Instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:207
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:215
 msgid "Help"
 msgstr "Ayuda"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:260
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:268
 msgid "None"
 msgstr "Ninguno"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:262
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:270
 msgid "Current flavours installed: "
 msgstr "Sabores instalados actualmente: "
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:278
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:286
 msgid "No Flavours version availables detected"
 msgstr "No se ha detectado ninguna versión de sabor disponible"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:301
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:309
 msgid "The selected flavor is not compatible with those already installed"
 msgstr "El sabor seleccionado no es compatible con los sabores ya instalados"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:305
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:313
 msgid "You must select a Flavour to install"
 msgstr "Debe seleccionar un sabor para instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:335
-msgid "Obtaining information about the flavor to install..."
-msgstr "Obteniendo información sobre el sabor a instalar..."
-
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:343
-msgid "Downloading packages..."
-msgstr "Descargando paquetes..."
+msgid "1 of 5: Obtaining information about the flavor to install..."
+msgstr "1 de 5: Obteniendo información sobre el sabor a instalar..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:362
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:351
+msgid "2 of 5: Downloading packages..."
+msgstr "2 de 5: Descargando los paquetes..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:369
 #, python-format
-msgid "Installing and configuring packages: 0 of %s packages"
-msgstr "Instalando y configurando paquetes: 0 de %s paquetes"
+msgid "3 of 5: Unpacking packages: %s of %s packages"
+msgstr "3 de 5: Desempaquetando los paquetes: %s de %s paquetes"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:364
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:371
 #, python-format
-msgid "Installing and configuring packages: %s of %s packages"
-msgstr "Instalando y configurando paquetes: %s de %s paquetes"
+msgid "4 of 5: Configuring packages: %s of %s packages"
+msgstr "4 de 5: Configurando los paquetes: %s de %s paquetes"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:366
-msgid "Finishing the installation..."
-msgstr "Finalizando la instalación"
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:373
+msgid "5 of 5: Finishing the installation..."
+msgstr "5 de 5: Finalizando la instalación..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:397
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:404
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
 msgstr "Ha ocurrido un error. Revise el log /var/log/lliurex-flavour-selector"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:400
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:407
 msgid "Installation succesful. A reboot is required"
 msgstr "Instalación correcta. Debe reiniciar el equipo"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:411
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:418
 msgid ""
 "Do you want to add the classroom server \n"
 "mirror repository to the sources list?"
 msgstr ""
-"Desea añadir  al sources list el repositorio\n"
-"del mirror del servidor del aula"
+"¿Desea añadir  al sources list el repositorio\n"
+"del mirror del servidor del aula?"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:418
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:425
 msgid "Yes"
 msgstr "Si"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:421
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:428
 msgid "No"
 msgstr "No"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:445
-msgid "The selected flavours will be installed. Do you wish to continue?"
-msgstr "El sabor seleccionado será instalado. ¿Desea continuar?\""
-
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:452
+msgid "The selected flavours will be installed. Do you wish to continue?"
+msgstr "El sabor seleccionado será instalado. ¿Desea continuar?"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:459
 msgid "Ok"
 msgstr "Aceptar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:455
+#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:462
 msgid "Cancel"
 msgstr "Cancelar"
 
