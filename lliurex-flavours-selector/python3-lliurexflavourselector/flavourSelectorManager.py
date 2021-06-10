@@ -6,6 +6,8 @@ import os
 import subprocess
 import configparser
 import datetime
+import dpkgunlocker.dpkgunlockermanager as DpkgUnlockerManager
+import copy
 
 BASE_DIR="/usr/share/lliurex-flavours-selector/"
 
@@ -29,8 +31,15 @@ class flavourSelectorManager:
 		self.defaultVersion = 'bionic'
 		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
 		self.sourcesListPath='/etc/apt/sources.list'
+		self.initialNumberPackages=[]
+		self.numberPackagesInstalled=[]
+		self.numberPackagesUnpacked=[]
+		self.progressInstallation=0
+		self.progressUnpacked=0
+		self.aptIsRunning=False
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
 		self.log(log_msg)
+		self.dpkgUnlocker=DpkgUnlockerManager.DpkgUnlockerManager()
 
 	
 	def loadFile(self,path):
@@ -434,7 +443,76 @@ class flavourSelectorManager:
 			self.log(msg_log)	
 
 	#def writeMirrorRepository
+
+	def getNumberPackages(self,meta):
+
+		cmd="LANG=C LANGUAGE=en apt-get update; apt-get install --simulate %s"%meta
+		psimulate = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
+		rawoutputpsimulate = psimulate.stdout.readlines()
+		rawpackagestoinstall = [ aux.decode().strip() for aux in rawoutputpsimulate if aux.decode().startswith('Inst') ]
+		r = [ aux.replace('Inst ','') for aux in rawpackagestoinstall ]
+		for allinfo in r :
+			self.initialNumberPackages.append(allinfo.split(' ')[0])
+
+		self.numberPackagesUnpacked=copy.deepcopy(self.initialNumberPackages)
+		self.numberPackagesInstalled=copy.deepcopy(self.initialNumberPackages)
+
+	#def getNumberPackages
+
+	def isAptRunning(self):
+
+		locks_info=self.dpkgUnlocker.isDpkgLocked()
+		if locks_info==3:
+			return True
+		else:
+			return False
+
+	#def isAptRunning
+
+	def checkProgressUnpacked(self):
+
+		for i in range(len(self.numberPackagesUnpacked)-1,-1,-1):
+			status=self.checkStatus(self.numberPackagesUnpacked[i])
+			if status==1:
+				self.numberPackagesUnpacked.pop(i)
+			elif status==0:
+				self.numberPackagesUnpacked.pop(i)
+				self.numberPackagesInstalled.pop(i)	
+
+		self.progressUnpacked=len(self.initialNumberPackages)-len(self.numberPackagesUnpacked)
 	
+	#def checkProgressUnpacked
+
+	def checkProgressInstallation(self):
+
+		for i in range(len(self.numberPackagesInstalled)-1,-1,-1):
+			status=self.checkStatus(self.numberPackagesInstalled[i])
+			if status==0:
+				self.numberPackagesInstalled.pop(i)
+
+		self.progressInstallation=len(self.initialNumberPackages)-len(self.numberPackagesInstalled)
+	
+	#def checkProgressInstallation
+	
+	def checkStatus(self,pkg):
+		
+		p=subprocess.Popen(["dpkg-query -W -f='${db:Status-Status}' %s"%pkg],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		output=p.communicate()[0]
+
+		if type(output) is bytes:
+			output=output.decode()
+		
+		if output=="installed":
+			return 0
+
+		elif output=="unpacked":
+			return 1
+		
+		return -1
+	
+	#def checkStatus
+	
+
 	def log(self,log_msg):
 		log_file="/var/log/lliurex-flavour-selector.log"
 		f=open(log_file,"a+")
