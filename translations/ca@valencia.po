@@ -96,7 +96,7 @@ msgstr "No"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:452
 msgid "The selected flavours will be installed. Do you wish to continue?"
-msgstr "S'instal·laran els recursos seleccionats. Voleu continuar?"
+msgstr "S'instal·laran els sabors seleccionats. Voleu continuar?"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:459
 msgid "Ok"
