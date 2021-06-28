@@ -472,7 +472,7 @@ class MainWindow(QMainWindow):
 
 	def confirmDialogClicked(self,i):
 
-		if str(i.text()) in ["Ok","Aceptar","Accepta"]:
+		if str(i.text()) in ["Ok","Aceptar","D'acord"]:
 			self.launchInstall()
 		
 	#def confirmDialogClicked
