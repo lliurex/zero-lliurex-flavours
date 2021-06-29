@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-09 10:02+0200\n"
-"PO-Revision-Date: 2021-06-09 10:16+0200\n"
+"PO-Revision-Date: 2021-06-29 16:44+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:210
 msgid "Install"
@@ -96,7 +96,7 @@ msgstr "No"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:452
 msgid "The selected flavours will be installed. Do you wish to continue?"
-msgstr "S'instal·laran els recursos seleccionats. Voleu continuar?"
+msgstr "S'instal·laran els sabors seleccionats. Voleu continuar?"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:459
 msgid "Ok"

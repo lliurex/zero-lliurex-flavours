@@ -35,7 +35,9 @@ class flavourSelectorManager:
 		self.numberPackagesInstalled=[]
 		self.numberPackagesUnpacked=[]
 		self.progressInstallation=0
+		self.progressInstallationPercentage=0.00
 		self.progressUnpacked=0
+		self.progressUnpackedPercentage=0.00
 		self.aptIsRunning=False
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
 		self.log(log_msg)
@@ -480,7 +482,7 @@ class flavourSelectorManager:
 				self.numberPackagesInstalled.pop(i)	
 
 		self.progressUnpacked=len(self.initialNumberPackages)-len(self.numberPackagesUnpacked)
-	
+		self.progressUnpackedPercentage="{:.2f}".format(1-float(len(self.numberPackagesUnpacked)/len(self.initialNumberPackages)))
 	#def checkProgressUnpacked
 
 	def checkProgressInstallation(self):
@@ -491,6 +493,7 @@ class flavourSelectorManager:
 				self.numberPackagesInstalled.pop(i)
 
 		self.progressInstallation=len(self.initialNumberPackages)-len(self.numberPackagesInstalled)
+		self.progressInstallationPercentage="{:.2f}".format(1-float(len(self.numberPackagesInstalled)/len(self.initialNumberPackages)))
 	
 	#def checkProgressInstallation
 	

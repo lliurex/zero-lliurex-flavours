@@ -202,6 +202,8 @@ class MainWindow(QMainWindow):
 		self.messageBox=self.findChild(QVBoxLayout,'messageBox')
 		self.messageImg=self.findChild(QLabel,'messageImg')
 		self.messageLabel=self.findChild(QLabel,'messageLabel')
+		self.progressBar=self.findChild(QProgressBar,'progressBar')
+
 		self.controlsBox=self.findChild(QVBoxLayout,'controlsBox')
 		self.applyButton=self.findChild(QPushButton,'applyButton')
 		icn=QIcon.fromTheme(os.path.join(settings.ICONS_THEME,"gtk-ok.svg"))
@@ -340,6 +342,7 @@ class MainWindow(QMainWindow):
 		self.getPackages=getPackages(self.flavoursToInstall[0])
 		self.manage_msg_box(True,False)
 		self.messageLabel.setText(_("1 of 5: Obtaining information about the flavor to install..."))
+		self.progressBar.show()
 		self.getPackages.start()
 		self.getPackages.finished.connect(self._finishGetPackages)
 		
@@ -348,6 +351,8 @@ class MainWindow(QMainWindow):
 	def _finishGetPackages(self):
 
 		self.messageLabel.setText(_("2 of 5: Downloading packages..."))
+		self.progressBar.setValue(100)
+		
 		self.checkProgress=QThread()
 		self.worker=Worker()
 		self.worker.moveToThread(self.checkProgress)
@@ -370,12 +375,32 @@ class MainWindow(QMainWindow):
 			self.messageLabel.setText(_("4 of 5: Configuring packages: %s of %s packages")%(str(self.core.flavourSelectorManager.progressInstallation),len(self.core.flavourSelectorManager.initialNumberPackages)))
 		elif step=="end":
 			self.messageLabel.setText(_("5 of 5: Finishing the installation..."))
-	
+		
+		self._updateProgressBar(step)
 	#def _updateMessage		
 
+	def _updateProgressBar(self,step):
+
+		if step=="unpack":
+			if self.core.flavourSelectorManager.progressUnpackedPercentage==0.00:
+				self.progressBar.setValue(200)
+			else:
+				p_value=2+float(self.core.flavourSelectorManager.progressUnpackedPercentage)
+				self.progressBar.setValue(p_value*100)
+		elif step=="install":
+			if self.core.flavourSelectorManager.progressInstallationPercentage==0.00:
+				self.progressBar.setValue(300)
+			else:
+				p_value=3+float(self.core.flavourSelectorManager.progressInstallationPercentage)
+				self.progressBar.setValue(p_value*100)
+		elif step=="end":
+			self.progressBar.setValue(400)
+
+	#def _updateProgressBar
 
 	def _finishInstall(self):
 
+		self.progressBar.hide()
 		self.worker.running=False
 		result=self.core.flavourSelectorManager.thread_ret
 		error=False
@@ -471,7 +496,7 @@ class MainWindow(QMainWindow):
 
 	def confirmDialogClicked(self,i):
 
-		if str(i.text()) in ["Ok","Aceptar","Accepta"]:
+		if str(i.text()) in ["Ok","Aceptar","D'acord"]:
 			self.launchInstall()
 		
 	#def confirmDialogClicked
@@ -522,6 +547,7 @@ class MainWindow(QMainWindow):
 
 	def manage_msg_box(self,hide,error):
 
+		self.progressBar.hide()
 		if hide:
 			self.messageImg.setStyleSheet("background-color: transparent")
 			self.messageLabel.setStyleSheet("background-color: transparent")
@@ -546,6 +572,7 @@ class MainWindow(QMainWindow):
 				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 				self.messageLabel.show()			
 
-	#def _manageMsgBox
+	#def manage_msg_box
+#class MainWindow
 
 from . import Core
