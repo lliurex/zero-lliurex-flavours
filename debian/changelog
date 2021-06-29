@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.10.4) bionic-updates; urgency=medium
+
+  * Fixed bug in the dialog to accept installarion
+  * Added progress bar to improved feedback
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 29 Jun 2021 17:26:08 +0200
+
 zero-lliurex-flavours (0.10.3) bionic-updates; urgency=medium
 
   * Improved feedback of installation process
