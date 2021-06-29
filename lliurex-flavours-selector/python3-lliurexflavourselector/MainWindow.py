@@ -351,7 +351,7 @@ class MainWindow(QMainWindow):
 	def _finishGetPackages(self):
 
 		self.messageLabel.setText(_("2 of 5: Downloading packages..."))
-		self.progressBar.setValue(10)
+		self.progressBar.setValue(100)
 		
 		self.checkProgress=QThread()
 		self.worker=Worker()
@@ -382,19 +382,19 @@ class MainWindow(QMainWindow):
 	def _updateProgressBar(self,step):
 
 		if step=="unpack":
-			if self.core.flavourSelectorManager.progressUnpackedPercentage==0.0:
-				self.progressBar.setValue(20)
+			if self.core.flavourSelectorManager.progressUnpackedPercentage==0.00:
+				self.progressBar.setValue(200)
 			else:
-				p_value=20+float(self.core.flavourSelectorManager.progressUnpackedPercentage)
-				self.progressBar.setValue(p_value*10)
+				p_value=2+float(self.core.flavourSelectorManager.progressUnpackedPercentage)
+				self.progressBar.setValue(p_value*100)
 		elif step=="install":
-			if self.core.flavourSelectorManager.progressInstallationPercentage==0.0:
-				self.progressBar.setValue(30)
+			if self.core.flavourSelectorManager.progressInstallationPercentage==0.00:
+				self.progressBar.setValue(300)
 			else:
-				p_value=30+float(self.core.flavourSelectorManager.progressInstallationPercentage)
-				self.progressBar.setValue(p_value*10)
+				p_value=3+float(self.core.flavourSelectorManager.progressInstallationPercentage)
+				self.progressBar.setValue(p_value*100)
 		elif step=="end":
-			self.progressBar.setValue(40)
+			self.progressBar.setValue(400)
 
 	#def _updateProgressBar
 

@@ -29,8 +29,7 @@
    <string>LliureX Flavours Selector</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="lliurex-flavours-selector">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset theme="zero-lliurex-flavours"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">
@@ -283,7 +282,7 @@
                </size>
               </property>
               <property name="maximum">
-               <number>50</number>
+               <number>500</number>
               </property>
               <property name="value">
                <number>0</number>
