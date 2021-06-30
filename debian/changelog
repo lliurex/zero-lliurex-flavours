@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.10.5) bionic-updates; urgency=medium
+
+  * Fixed bug when running in desktop with client meta
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 30 Jun 2021 13:30:29 +0200
+
 zero-lliurex-flavours (0.10.4) bionic-updates; urgency=medium
 
   * Fixed bug in the dialog to accept installarion
