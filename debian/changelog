@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12.8) focal; urgency=medium
+
+  * Fixed bug in function to check installed meta
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 30 Jun 2021 13:34:05 +0200
+
 zero-lliurex-flavours (0.12.7) focal; urgency=medium
 
   * Fixed bug when running in desktop with client meta
