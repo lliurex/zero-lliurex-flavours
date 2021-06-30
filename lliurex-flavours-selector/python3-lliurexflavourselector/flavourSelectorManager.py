@@ -156,7 +156,7 @@ class flavourSelectorManager:
 					self.pime=False
 				elif item=="lliurex-meta-client":
 					self.client=True
-					self.cliente_lite=False
+					self.client_lite=False
 					self.minimal_client=False
 					self.desktop=False
 					self.desktop_lite=False
@@ -257,11 +257,12 @@ class flavourSelectorManager:
 
 		for item in self.flavour_list:
 			if self.desktop or self.desktop_lite or self.music or self.infantil or self.empty or self.pime:
-				if self.flavour_list[item]["pkg"] in self.client_meta_available and self.flavour_list[item]["pkg"] not in self.flavours_installed:
-					tmp=[]
-					tmp.append(self.flavour_list[item]["name"])
-					tmp.append(self.flavour_list[item]["pkg"])
-					self.client_desktop_alternatives.append(tmp)
+				if not self.client and not self.client_lite and not self.minimal_client:
+					if self.flavour_list[item]["pkg"] in self.client_meta_available and self.flavour_list[item]["pkg"] not in self.flavours_installed:
+						tmp=[]
+						tmp.append(self.flavour_list[item]["name"])
+						tmp.append(self.flavour_list[item]["pkg"])
+						self.client_desktop_alternatives.append(tmp)
 
 				if self.flavour_list[item]["pkg"] in self.server_meta_available and self.flavour_list[item]["pkg"] not in self.flavours_installed:
 					tmp=[]
