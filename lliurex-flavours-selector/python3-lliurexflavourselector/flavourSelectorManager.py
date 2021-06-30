@@ -157,7 +157,7 @@ class flavourSelectorManager:
 					self.pime=False
 				elif item=="lliurex-meta-client":
 					self.client=True
-					self.cliente_lite=False
+					self.client_lite=False
 					self.minimal_client=False
 					self.desktop=False
 					self.desktop_lite=False
