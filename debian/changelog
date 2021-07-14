@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.10.6) bionic-updates; urgency=medium
+
+  * Simplified code to get buttom pressed from dialogs
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 14 Jul 2021 16:51:19 +0200
+
 zero-lliurex-flavours (0.10.5) bionic-updates; urgency=medium
 
   * Fixed bug when running in desktop with client meta
