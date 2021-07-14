@@ -451,15 +451,18 @@ class MainWindow(QMainWindow):
 		mirrorDialog.children()[2].children()[2].setIcon(icn)
 		mirrorDialog.children()[2].children()[2].setText(_("No"))
 		
-		mirrorDialog.buttonClicked.connect(self.mirrorDialogClicked)
+		#mirrorDialog.buttonClicked.connect(self.mirrorDialogClicked)
 
-		try:
-			mirrorDialog.exec_()
-		except:
-			pass	
+		ret=mirrorDialog.exec_()
+		
+		if ret==QMessageBox.Yes:
+			self.mirrorRepository=True
+		else:
+			self.mirrorRepository=False
+
 	
 	#showMirrorDialog
-
+	'''
 	def mirrorDialogClicked(self,i):
 
 		if str(i.text()) in ["Yes","Si"]:
@@ -468,7 +471,7 @@ class MainWindow(QMainWindow):
 			self.mirrorRepository=False
 		
 	#def mirrorDialogClicked
-
+	'''
 	def showConfirmDialog(self):
 
 		confirmDialog=QMessageBox()
@@ -485,22 +488,23 @@ class MainWindow(QMainWindow):
 		confirmDialog.children()[2].children()[2].setIcon(icn)
 		confirmDialog.children()[2].children()[2].setText(_("Cancel"))
 		
-		confirmDialog.buttonClicked.connect(self.confirmDialogClicked)
+		#confirmDialog.buttonClicked.connect(self.confirmDialogClicked)
 
-		try:
-			confirmDialog.exec_()
-		except:
-			pass	
+		ret=confirmDialog.exec_()
+		
+		if ret==QMessageBox.Ok:
+			self.launchInstall()	
 	
 	#def showConfirmDialog
 
+	'''
 	def confirmDialogClicked(self,i):
 
 		if str(i.text()) in ["Ok","Aceptar","D'acord"]:
 			self.launchInstall()
 		
 	#def confirmDialogClicked
-
+	'''
 	def helpButtonClicked(self):
 
 		lang=os.environ["LANG"]
