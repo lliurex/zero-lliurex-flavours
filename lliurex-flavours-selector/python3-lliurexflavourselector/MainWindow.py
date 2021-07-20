@@ -525,10 +525,10 @@ class MainWindow(QMainWindow):
 		
 		if 'valencia' in app_lang:
 			exec_lang="LANG=ca_ES.UTF-8@valencia"
-			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Canviar-sabor-en-LliureX-19'
+			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Canviar-sabor-en-LliureX'
 		else:
 			exec_lang="LANG=es_ES.UTF-8"
-			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Cambiar++sabor+en+LliureX+19'
+			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Cambiar++sabor+en+LliureX'
 
 		if not run_pkexec:
 			self.fcmd="su -c '%s' $USER" %cmd
