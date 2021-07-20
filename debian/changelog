@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12.10) focal; urgency=medium
+
+  * Updated link to help
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 20 Jul 2021 14:46:27 +0200
+
 zero-lliurex-flavours (0.12.9) focal; urgency=medium
 
   * Simplified code to get the buttom pressed from dialogs
