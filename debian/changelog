@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12.11) focal; urgency=medium
+
+  * Fixed translations
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 26 Jul 2021 15:57:49 +0200
+
 zero-lliurex-flavours (0.12.10) focal; urgency=medium
 
   * Updated link to help
