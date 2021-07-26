@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.10.8) bionic-updates; urgency=medium
+
+  * Fixed translations
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 26 Jul 2021 16:01:55 +0200
+
 zero-lliurex-flavours (0.10.7) bionic-updates; urgency=medium
 
   * Updated link to help
