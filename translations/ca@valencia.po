@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-09 10:02+0200\n"
-"PO-Revision-Date: 2021-06-29 16:44+0200\n"
+"PO-Revision-Date: 2021-07-26 16:00+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:210
 msgid "Install"
@@ -144,7 +144,7 @@ msgstr "semblant a instal·lar una ISO de LliureX Infantil"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:250
 msgid "similar to install LliureX Multimedia ISO"
-msgstr "semblant a instal·lar una ISO de LliureX Música"
+msgstr "semblant a instal·lar una ISO de LliureX Multimèdia"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
 msgid "Checking system..."
