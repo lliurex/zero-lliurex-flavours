@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.12.12) focal-updates; urgency=medium
+
+  * Unsupported lliurex-meta-multimedia and lliurex-meta-infantil
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 03 Jun 2022 10:40:16 +0200
+
 zero-lliurex-flavours (0.12.11) focal; urgency=medium
 
   * Fixed translations
