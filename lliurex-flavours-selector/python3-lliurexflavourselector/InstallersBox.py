@@ -34,10 +34,12 @@ class InstallersBox(QWidget):
 	def drawInstallerList(self):
 		
 		self.total_flavours=0
+		self.total_flavours=self.core.flavourSelectorManager.total_flavours
+		'''
 		for item in self.core.flavourSelectorManager.flavour_list:
 			if self.core.flavourSelectorManager.flavour_list[item]["show"]:
 				self.total_flavours+=1
-
+		'''
 		self.count=0
 		for item in self.core.flavourSelectorManager.flavour_list:
 			alternative_type=""

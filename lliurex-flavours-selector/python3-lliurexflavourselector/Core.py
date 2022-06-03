@@ -5,6 +5,7 @@ from . import settings
 from . import waitingSpinner
 from . import LoadingBox
 from . import InstallersBox
+from . import EmptyBox
 from . import MainWindow
 from . import flavourSelectorManager
 
@@ -38,6 +39,7 @@ class Core:
 		self.waitingSpinner=waitingSpinner.waitingSpinner()
 		self.loadingBox=LoadingBox.LoadingBox()
 		self.installersBox=InstallersBox.InstallersBox()
+		self.emptyBox=EmptyBox.EmptyBox()
 		self.mainWindow=MainWindow.MainWindow()
 
 		self.mainWindow.show()
