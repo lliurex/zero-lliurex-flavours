@@ -218,10 +218,12 @@ class MainWindow(QMainWindow):
 		
 		self.loadingBox=self.core.loadingBox
 		self.installersBox=self.core.installersBox
+		self.emptyBox=self.core.emptyBox
 
 		self.QtStack=QStackedLayout()
 		self.QtStack.addWidget(self.loadingBox)
 		self.QtStack.addWidget(self.installersBox)
+		self.QtStack.addWidget(self.emptyBox)
 		
 		self.mainBox.addLayout(self.QtStack)
 		self.gatherInfo=gatherInfo()
@@ -277,9 +279,16 @@ class MainWindow(QMainWindow):
 			self.installersBox.drawInstallerList()
 			self.fader_widget = FaderWidget(self.QtStack.currentWidget(), self.QtStack.widget(1))
 			self.QtStack.setCurrentIndex(1)
-			self.manage_msg_box(True,False)	
-			self.applyButton.show()
+			if self.core.flavourSelectorManager.total_flavours>0:
+				self.manage_msg_box(True,False)	
+				self.applyButton.show()
+			else:
+				self.QtStack.setCurrentIndex(2)
+				self.manage_msg_box(False,False,True)
+				self.messageLabel.setText(_("No flavours available to install"))
+
 			self.helpButton.show()
+
 			
 		else:
 			self.manage_msg_box(False,True)	
@@ -551,7 +560,7 @@ class MainWindow(QMainWindow):
 
 	#def closeEvent
 
-	def manage_msg_box(self,hide,error):
+	def manage_msg_box(self,hide,error,info=None):
 
 		self.progressBar.hide()
 		if hide:
@@ -570,9 +579,15 @@ class MainWindow(QMainWindow):
 				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 				self.messageLabel.show()			
 			else:
-				self.messageImg.setStyleSheet("border-bottom: 1px solid #27ae60;border-left: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
-				self.messageLabel.setStyleSheet("border-bottom: 1px solid #27ae60;border-right: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
-				pixmap=QPixmap(self.core.rsrc_dir+"dialog-positive.png")
+				if info==None:
+					self.messageImg.setStyleSheet("border-bottom: 1px solid #27ae60;border-left: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
+					self.messageLabel.setStyleSheet("border-bottom: 1px solid #27ae60;border-right: 1px solid #27ae60;border-top: 1px solid #27ae60;background-color: #c7e3d4")
+					pixmap=QPixmap(self.core.rsrc_dir+"dialog-positive.png")
+				else:
+					self.messageImg.setStyleSheet("border-bottom: 1px solid #3daee9;border-left: 1px solid #3daee9;border-top: 1px solid #3daee9;background-color: #cbe3f0")
+					self.messageLabel.setStyleSheet("border-bottom: 1px solid #3daee9;border-right: 1px solid #3daee9;border-top: 1px solid #3daee9;background-color: #cbe3f0")
+					pixmap=QPixmap(self.core.rsrc_dir+"dialog-information.png")
+
 				self.messageImg.setPixmap(pixmap)
 				self.messageImg.show()
 				self.messageLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)

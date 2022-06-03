@@ -40,6 +40,7 @@ class flavourSelectorManager:
 		self.progressUnpacked=0
 		self.progressUnpackedPercentage=0.00
 		self.aptIsRunning=False
+		self.total_flavours=0
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
 		self.log(log_msg)
 		self.dpkgUnlocker=DpkgUnlockerManager.DpkgUnlockerManager()
@@ -105,6 +106,10 @@ class flavourSelectorManager:
 		self.checkMetaInstalled()
 		self.showHideMeta()
 		self.createAlternatives()
+
+		for item in self.flavour_list:
+			if self.flavour_list[item]["show"]:
+				self.total_flavours+=1
 		#else:
 		#	log_msg="No flavour detected"
 		#	self.log(log_msg)
