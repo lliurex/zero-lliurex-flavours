@@ -41,6 +41,7 @@ class flavourSelectorManager:
 		self.progressUnpackedPercentage=0.00
 		self.aptIsRunning=False
 		self.total_flavours=0
+		self.deprecated_flavours=["lliurex-meta-music","lliurex-meta-infantil"]
 		log_msg="---------------------------------------------------------\n"+"LLIUREX FLAVOUR SELECTOR STARTING AT: " + datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S") +"\n---------------------------------------------------------"
 		self.log(log_msg)
 		self.dpkgUnlocker=DpkgUnlockerManager.DpkgUnlockerManager()
@@ -94,8 +95,9 @@ class flavourSelectorManager:
 							available=False
 						
 					if available:
-						self.flavour_list[self.order]=tmp_info
-						self.order+=1
+						if tmp_info["pkg"] not in self.deprecated_flavours:
+							self.flavour_list[self.order]=tmp_info
+							self.order+=1
 					if tmp_info["installed"]:
 						tmp_info["show"]=False
 						self.flavours_installed.append(tmp_info["pkg"])
