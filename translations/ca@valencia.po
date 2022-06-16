@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 10:01+0200\n"
-"PO-Revision-Date: 2022-06-03 10:07+0200\n"
+"POT-Creation-Date: 2022-06-16 11:32+0200\n"
+"PO-Revision-Date: 2022-06-16 11:34+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -149,6 +149,14 @@ msgstr "semblant a instal·lar una ISO de LliureX Infantil"
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:252
 msgid "similar to install LliureX Multimedia ISO"
 msgstr "semblant a instal·lar una ISO de LliureX Multimèdia"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:254
+msgid "similar to install LliureX Desktop Touch ISO"
+msgstr "semblant a intal·lar   una ISO de LliureX Escriptori  Tàctil"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:256
+msgid "install only the basic functionalities of a LliureX Touch"
+msgstr "instal·la només la funcionalitat bàsica d'un LliureX Tàctil"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
 msgid "Checking system..."

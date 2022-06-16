@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 10:01+0200\n"
+"POT-Creation-Date: 2022-06-16 11:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,6 +143,14 @@ msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:252
 msgid "similar to install LliureX Multimedia ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:254
+msgid "similar to install LliureX Desktop Touch ISO"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:256
+msgid "install only the basic functionalities of a LliureX Touch"
 msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28

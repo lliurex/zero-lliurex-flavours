@@ -57,7 +57,7 @@ class InstallersBox(QWidget):
 					if len(self.core.flavourSelectorManager.server_alternatives)>0:
 						alternative_type="server"
 						alternative_list=self.core.flavourSelectorManager.server_alternatives
-				if "desktop" in self.core.flavourSelectorManager.flavour_list[item]["pkg"]:
+				if "desktop" in self.core.flavourSelectorManager.flavour_list[item]["pkg"] and not "desktop-touch" in self.core.flavourSelectorManager.flavour_list[item]["pkg"] :
 					if len(self.core.flavourSelectorManager.desktop_alternatives)>0:
 						alternative_type="desktop"
 						alternative_list=self.core.flavourSelectorManager.desktop_alternatives
@@ -250,7 +250,10 @@ class InstallersBox(QWidget):
 			title=_("similar to install a LliureX Infantil ISO")
 		elif 'music' in pkg:
 			title=_("similar to install LliureX Multimedia ISO")	
-		
+		elif 'desktop-touch' in pkg:
+			title=_("similar to install LliureX Desktop Touch ISO")
+		elif 'minimal-touch' in pkg:
+			title=_("install only the basic functionalities of a LliureX Touch")
 		return title
 	
 	#def getTitle				
