@@ -28,8 +28,8 @@ class flavourSelectorManager:
 		self.desktop_meta_available=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
 		self.minimal_client_installed=False
 		self.flavours_installed=[]
-		self.defaultMirror = 'llx21'
-		self.defaultVersion = 'focal'
+		self.defaultMirror = 'llx23'
+		self.defaultVersion = 'jammy'
 		self.textsearch_mirror="/mirror/"+str(self.defaultMirror)
 		self.sourcesListPath='/etc/apt/sources.list'
 		self.initialNumberPackages=[]
@@ -385,7 +385,7 @@ class flavourSelectorManager:
 	
 	def addRecursosRepository(self):
 
-		cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/focal focal preschool"]
+		cmdInfantil=["sudo","/usr/bin/add-apt-repository", "deb http://lliurex.net/jammy jammy preschool"]
 		x=subprocess.Popen((cmdInfantil),stdin=subprocess.PIPE,stdout=subprocess.PIPE)
 		log_msg="Adding repository recursos"
 		self.log(log_msg)
@@ -395,7 +395,7 @@ class flavourSelectorManager:
 
 	def addMusicRepository(self):
 		
-		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu focal main"]
+		lxRepos=["deb http://ppa.launchpad.net/kxstudio-debian/libs/ubuntu jammy main"]
 
 		cmdMusica=["sudo","/usr/bin/add-apt-repository"]
 
