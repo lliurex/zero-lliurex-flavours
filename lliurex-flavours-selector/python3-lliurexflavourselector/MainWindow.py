@@ -395,13 +395,13 @@ class MainWindow(QMainWindow):
 				self.progressBar.setValue(200)
 			else:
 				p_value=2+float(self.core.flavourSelectorManager.progressUnpackedPercentage)
-				self.progressBar.setValue(p_value*100)
+				self.progressBar.setValue(int(p_value)*100)
 		elif step=="install":
 			if self.core.flavourSelectorManager.progressInstallationPercentage==0.00:
 				self.progressBar.setValue(300)
 			else:
 				p_value=3+float(self.core.flavourSelectorManager.progressInstallationPercentage)
-				self.progressBar.setValue(p_value*100)
+				self.progressBar.setValue(int(p_value)*100)
 		elif step=="end":
 			self.progressBar.setValue(400)
 
