@@ -1,0 +1,20 @@
+Source: zero-lliurex-flavours
+Section: x11
+Priority: extra
+Maintainer: Equipo LliureX <lliurex@gva.es>
+Uploaders: Equipo LliureX <lliurex@gva.es>
+Build-Depends:debhelper (>= 10),
+			dh-python,
+			llxsrchelper,
+			zero-dev,
+			python3-poinstaller,
+			python3-setuptools,
+			python3-all,
+			pybuild-plugin-pyproject
+Standards-Version: 4.1.2
+
+Package: zero-lliurex-flavours
+Architecture: all
+Depends: ${misc:Depends},python3,qml-module-termwidget,pyside6-tools,python3-pyside6.qtqml, python3-pyside6.qtquick, python3-pyside6.qtgui, python3-pyside6.qtwidgets, python3-pyside6.qtquickwidgets, python3-pyside6.qtsvg
+Description: Flavours Selection Tool
+ Flavours Selection Tool for changing between LliureX flavours
