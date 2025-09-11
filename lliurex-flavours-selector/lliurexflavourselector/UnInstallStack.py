@@ -90,7 +90,6 @@ class UnInstallStack(QObject):
 			self.core.flavourStack.totalErrorInProcess=UnInstallStack.flavourSelectorManager.totalUninstallError
 			self.core.mainStack.manageRemoveBtn()
 			UnInstallStack.flavourSelectorManager.updateFlavourRegister()
-			self.core.settingsStack.getInfo()
 			self.uninstallProcessTimer.stop()
 			
 			if self.showError:
