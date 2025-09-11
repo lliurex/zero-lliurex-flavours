@@ -1,0 +1,577 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+import subprocess
+import configparser
+import shutil
+import copy
+import threading
+import urllib.request
+import tempfile
+
+import dpkgunlocker.dpkgunlockermanager as DpkgUnlockerManager
+
+
+BASE_DIR="/usr/share/lliurex-flavours-selector/"
+PACKAGE_NAME="zero-lliurex-flavours"
+
+class FlavourSelectorManager:
+	
+	ERROR_PARTIAL_INSTALL=-1
+	ERROR_INSTALL_INSTALL=-2
+	ERROR_INTERNET_CONNECTION=-4
+	ERROR_UNINSTALL_UNINSTALL=-5
+	ERROR_PARTIAL_UNINSTALL=-6
+	
+	SUCCESS_INSTALL_PROCESS=1
+	SUCCESS_UNINSTALL_PROCESS=7
+
+	MSG_FEEDBACK_INTERNET=3
+	MSG_FEEDBACK_INSTALL_REPOSITORIES=4
+	MSG_FEEDBACK_INSTALL_INSTALL=5
+	MSG_FEEDBACK_UNINSTALL_RUN=6
+
+	def __init__(self):
+
+		self.supportedFlavours=os.path.join(BASE_DIR,"supported-flavours")
+		self.banners=os.path.join(BASE_DIR,"banners")
+		self.flavoursData=[]
+		self.flavoursInfo={}
+		self.flavourSelected=[]
+		self.uncheckAll=False
+		self.firstConnection=False
+		self.secondConnection=False
+		self.urltocheck1="http://lliurex.net"
+		self.urltocheck2="https://github.com/lliurex"
+		self.pkgsInstalled=[]
+		self.nonManagedPkg=0
+		self.totalPackages=0
+		self.flavourRegisterDir="/etc/lliurex-flavour-selector"
+		self.flavourRegisterFile=os.path.join(self.flavourRegisterDir,"managed_flavour.txt")
+		self.runPkexec=True
+		self._isRunPkexec()
+		self._clearCache()
+		self._createEnvirontment()
+		
+	#def __init__
+
+	def _isRunPkexec(self):
+
+		if 'PKEXEC_UID' not in os.environ:
+			self.runPkexec=False
+
+	#def _isRunPkexec
+	
+	def loadFile(self,path):
+
+		try:
+			config = configparser.ConfigParser()
+			config.optionxform=str
+			config.read(path)
+			if config.has_section("FLAVOUR"):
+				info={}
+				info["pkg"]=config.get("FLAVOUR","pkg")
+				info["name"]=config.get("FLAVOUR","name")
+				info["installCmd"]=config.get("FLAVOUR","installCmd")
+				info["removeCmd"]=config.get("FLAVOUR","removeCmd")
+				if os.path.exists(os.path.join(self.banners,info["pkg"]+".png")):
+					info["banner"]=os.path.join(self.banners,info["pkg"]+".png")
+				else:
+					info["banner"]=None
+				return info
+				
+		except Exception as e:
+			return None
+
+	#def loadFile
+
+	def getSupportedFlavour(self):
+
+		self._readFlavourRegister()
+
+		for item in sorted(os.listdir(self.supportedFlavours)):
+			if os.path.isfile(os.path.join(self.supportedFlavours,item)):
+				tmpInfo=self.loadFile(os.path.join(self.supportedFlavours,item))
+				if tmpInfo!=None:
+					status=self.isInstalled(tmpInfo["pkg"])
+					baseAptCmd = "apt-cache policy %s "%tmpInfo["pkg"]
+					p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
+					output=p.communicate()[0]
+					
+					if type(output) is bytes:
+						output=output.decode()
+
+					if tmpInfo["pkg"] not in output:
+						available=False
+					else:	
+						version=output.split("\n")[4]
+						if version !='':
+							available=True
+						else:
+							available=False
+						
+					if available:
+						tmp={}
+						tmp["pkg"]=tmpInfo["pkg"]
+						tmp["name"]=tmpInfo["name"]
+						tmp["status"]=status
+						tmp["banner"]=tmpInfo["banner"]
+						tmp["showSpinner"]=False
+						tmp["isChecked"]=False
+						tmp["isVisible"]=True
+						tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
+						tmp["resultProcess"]=-1
+						if status=="installed":
+							tmp["banner"]="%s_OK.png"%tmp["banner"]
+							if tmp["isManaged"]:
+								self.totalPackages+=1
+							else:
+								self.nonManagedPkg+=1
+							self.pkgsInstalled.append(tmp["pkg"])
+						else:
+							if tmp["isManaged"]:
+								self.totalPackages+=1
+						self.flavoursData.append(tmp)
+						self.flavoursInfo[tmpInfo["pkg"]]={}
+						self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
+						self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
+						self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
+						self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
+
+		self.flavoursData=sorted(self.flavoursData,key=lambda k:k["pkg"].split("-")[1],reverse=False)
+
+	#def getSupportedFlavour	
+	
+	def isInstalled(self,pkg):
+		
+		p=subprocess.Popen(["dpkg-query -W -f='${db:Status-Status}' %s"%pkg],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		output=p.communicate()[0]
+
+		if type(output) is bytes:
+			output=output.decode()
+		
+		if output=="installed":
+			return "installed"
+			
+		return "available"
+		
+	#def isInstalled
+
+	def checkIsManaged(self,pkg,status):
+
+		if status=="installed":
+			if pkg not in self.registerContent:
+				return False
+		
+		return True 
+		
+	#def checkIsManaged
+
+	def onCheckedPackages(self,pkgId,isChecked):
+
+		if isChecked:
+			self._managePkgSelected(pkgId,True)
+		else:
+			self._managePkgSelected(pkgId,False)
+
+		if len(self.flavourSelected)==self.totalPackages:
+			self.uncheckAll=True
+		else:
+			self.uncheckAll=False
+
+		tmpParam={}
+		tmpParam["isChecked"]=isChecked
+		
+		self._updateFlavoursModel(tmpParam,pkgId)			
+	
+	#def onCheckedPackages
+
+	def selectAll(self):
+
+		if self.uncheckAll:
+			active=False
+		else:
+			active=True
+
+		pkgList=copy.deepcopy(self.flavoursData)
+		tmpParam={}
+		tmpParam["isChecked"]=active
+		for item in pkgList:
+			if item["isManaged"]:
+				if item["isChecked"]!=active:
+					self._managePkgSelected(item["pkg"],active)
+					self._updateFlavoursModel(tmpParam,item["pkg"])
+		
+		self.uncheckAll=active
+		
+	#def selectAll
+
+	def _managePkgSelected(self,pkgId,active=True,order=0):
+
+		if active:
+			if pkgId not in self.flavourSelected:
+				self.flavourSelected.append(pkgId)
+		else:
+			if pkgId in self.flavourSelected:
+				self.flavourSelected.remove(pkgId)
+		
+	#def _managePkgSelected
+
+	def checkInternetConnection(self):
+
+		self.checkingUrl1_t=threading.Thread(target=self._checkingUrl1)
+		self.checkingUrl2_t=threading.Thread(target=self._checkingUrl2)
+		self.checkingUrl1_t.daemon=True
+		self.checkingUrl2_t.daemon=True
+		self.checkingUrl1_t.start()
+		self.checkingUrl2_t.start()
+
+	#def checkInternetConnection
+
+	def _checkingUrl1(self):
+
+		self.connection=self._checkConnection(self.urltocheck1)
+		self.firstConnection=self.connection[0]
+
+	#def _checkingUrl1	
+
+	def _checkingUrl2(self):
+
+		self.connection=self._checkConnection(self.urltocheck2)
+		self.secondConnection=self.connection[0]
+
+	#def _checkingUrl2
+
+	def _checkConnection(self,url):
+		
+		result=[]
+		try:
+			res=urllib.request.urlopen(url)
+			result.append(True)
+			
+		except Exception as e:
+			result.append(False)
+			result.append(str(e))
+		
+		return result	
+
+	#def _checkConnection
+
+	def getResultCheckConnection(self):
+
+ 		self.endCheck=False
+ 		error=False
+ 		urlError=False
+ 		self.retConnection=[False,""]
+
+ 		if self.checkingUrl1_t.is_alive() and self.checkingUrl2_t.is_alive():
+ 			pass
+ 		else:
+ 			if not self.firstConnection and not self.secondConnection:
+ 				if self.checkingUrl1_t.is_alive() or self.checkingUrl2_t.is_alive():
+ 					pass
+ 				else:
+ 					self.endCheck=True
+ 			else:
+ 				self.endCheck=True
+
+ 		if self.endCheck:
+ 			if not self.firstConnection and not self.secondConnection:
+ 				error=True
+ 				msgError=FlavourSelectorManager.ERROR_INTERNET_CONNECTION
+ 				self.retConnection=[error,msgError]
+
+	#def getResultCheckConnection
+
+	def initInstallProcess(self):
+
+		self.updateReposLaunched=False
+		self.updateReposDone=False
+
+	#def initInstallProcess
+
+	def initPkgInstallProcess(self,pkgId):
+
+		self.installAppLaunched=False
+		self.installAppDone=False
+		self.checkInstallLaunched=False
+		self.checkInstallDone=False
+		
+		self._initProcessValues(pkgId)
+
+	#def initPkgInstallProcess
+
+	def getUpdateReposCommand(self):
+
+		command="apt-get update"
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"updaterepos")
+		else:
+			self.updateReposDone=True
+
+		return command
+
+	#def getUpdateReposCommand
+
+	def getInstallCommand(self,pkgId):
+
+		command=""
+		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkgId]["installCmd"]
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"install")
+		else:
+			self.installAppDone=True
+
+		return command
+
+	#def getInstallCommand
+
+	def checkInstall(self,pkgId):
+
+		self.feedBackCheck=[True,"",""]
+		self.status=self.isInstalled(pkgId)
+
+		self._updateProcessModelInfo(pkgId,'install',self.status)
+		
+		if self.status!="installed":
+			msgCode=FlavourSelectorManager.ERROR_INSTALL_INSTALL
+			typeMsg="Error"
+			self.feedBackCheck=[False,msgCode,typeMsg]
+		else:
+			msgCode=FlavourSelectorManager.SUCCESS_INSTALL_PROCESS
+			typeMsg="Ok"
+			self.feedBackCheck=[True,msgCode,typeMsg]
+		
+		self.checkInstallDone=True
+
+	#def checkInstall
+
+	def isAllInstalled(self):
+
+		pkgAvailable=0
+		if self.totalPackages==len(self.pkgsInstalled):
+			return [True,False]
+		else:
+			pkgAvailable=self.totalPackages-len(self.pkgsInstalled)
+			if pkgAvailable==self.totalPackages:
+				return [False,True]
+			else:
+				return [False,False]
+
+	#def isAllInstalled
+
+	def initUnInstallProcess(self,pkgId):
+
+		self.removePkgLaunched=False
+		self.removePkgDone=False
+		self.checkRemoveLaunched=False
+		self.checkRemoveDone=False
+		
+		self._initProcessValues(pkgId)
+
+	#def initUnInstallProcess
+
+	def _initProcessValues(self,pkgId):
+
+		for item in self.flavoursData:
+			if item["pkg"]==pkgId:
+				tmpParam={}
+				tmpParam["resultProcess"]=-1
+				if item["pkg"] in self.flavourSelected:
+					tmpParam["showSpinner"]=True
+					self._updateFlavoursModel(tmpParam,item["pkg"])
+
+	#def _initProcessValues
+
+	def getUnInstallCommand(self,pkgId):
+
+		command=""
+		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkgId]["removeCmd"]
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"uninstall")
+		else:
+			self.installAppDone=True
+
+		return command
+
+	#def getUnInstallCommand
+
+	def checkRemove(self,pkgId):
+
+		self.feedBackCheck=[True,"",""]
+		self.status=self.isInstalled(pkgId)
+
+		self._updateProcessModelInfo(pkgId,'uninstall',self.status)
+		
+		if self.status!="available":
+			msgCode=FlavourSelectorManager.ERROR_UNINSTALL_UNINSTALL
+			typeMsg="Error"
+			self.feedBackCheck=[False,msgCode,typeMsg]
+		else:
+			msgCode=FlavourSelectorManager.SUCCESS_UNINSTALL_PROCESS
+			typeMsg="Ok"
+			self.feedBackCheck=[True,msgCode,typeMsg]
+		
+		self.checkRemoveDone=True
+
+	#def checkRemove
+
+	def _updateProcessModelInfo(self,pkgId,action,result):
+
+		for item in self.flavoursInfo:
+			if item==pkgId and item in self.flavourSelected:
+				tmpParam={}
+				if action=="install":
+					if result=="installed":
+						if pkgId not in self.pkgsInstalled:
+							self.pkgsInstalled.append(pkgId)
+						tmpParam["resultProcess"]=0
+						tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkgId]["banner"]
+					else:
+						tmpParam["resultProcess"]=1
+				elif action=="uninstall":
+					if result=="available":
+						if pkgId in self.pkgsInstalled:
+							self.pkgsInstalled.remove(pkgId)
+						tmpParam["resultProcess"]=0
+						tmpParam["banner"]=self.flavoursInfo[pkgId]["banner"]
+					else:
+						tmpParam["resultProcess"]=1
+
+				tmpParam["status"]=result
+				tmpParam["showSpinner"]=False
+				
+				self._updateFlavoursModel(tmpParam,item)
+	
+	#def _updateProcessModelInfo
+
+	def _updateFlavoursModel(self,param,pkgId):
+
+		for item in self.flavoursData:
+			if item["pkg"]==pkgId:
+				for element in param:
+					if item[element]!=param[element]:
+						item[element]=param[element]
+				break
+
+	#def _updateFlavoursModel
+
+	def _clearCache(self):
+
+		clear=False
+		versionFile="/root/.lliurex-flavours-selector.conf"
+		cachePath1="/root/.cache/lliurex-flavours-selector"
+		installedVersion=self.getPackageVersion()
+
+		try:
+			if not os.path.exists(versionFile):
+				with open(versionFile,'w') as fd:
+					fd.write(installedVersion)
+					fd.close()
+
+				clear=True
+
+			else:
+				with open(versionFile,'r') as fd:
+					fileVersion=fd.readline()
+					fd.close()
+
+				if fileVersion!=installedVersion:
+					with open(versionFile,'w') as fd:
+						fd.write(installedVersion)
+						fd.close()
+					clear=True
+			
+			if clear:
+				if os.path.exists(cachePath1):
+					shutil.rmtree(cachePath1)
+		except:
+			pass
+
+	#def _clearCache
+
+	def getPackageVersion(self):
+
+		packageVersionFile="/var/lib/zero-lliurex-flavours/version"
+		pkgVersion=""
+
+		if os.path.exists(packageVersionFile):
+			with open(packageVersionFile,'r') as fd:
+				pkgVersion=fd.readline()
+				fd.close()
+
+		return pkgVersion
+
+	#def getPackageVersion
+
+	def _createProcessToken(self,command,action):
+
+		cmd=""
+		
+		if action=="updaterepos":
+			self.tokenUpdaterepos=tempfile.mkstemp('_updaterepos')	
+			removeTmp=' rm -f %s'%self.tokenUpdaterepos[1]	
+		elif action=="install":
+			self.tokenInstall=tempfile.mkstemp('_install')
+			removeTmp=' rm -f %s'%self.tokenInstall[1]
+		elif action=="uninstall":
+			self.tokenUnInstall=tempfile.mkstemp('_uninstall')
+			removeTmp=' rm -f %s'%self.tokenUnInstall[1]
+
+		cmd='%s ;stty -echo;%s\n'%(command,removeTmp)
+		if cmd.startswith(";"):
+			cmd=cmd[1:]
+
+		return cmd
+
+	#def _createProcessToken
+
+	def _createEnvirontment(self):
+
+		if not os.path.exists(self.flavourRegisterDir):
+			os.mkdir(self.flavourRegisterDir)
+			
+		if os.path.exists(self.flavourRegisterDir):	
+			if not os.path.exists(self.flavourRegisterFile):
+				with open(self.flavourRegisterFile,'w') as fd:
+					pass
+
+	#def _createEnvirontment
+
+	def _readFlavourRegister(self):
+
+		self.registerContent=[]
+		tmpContent=[]
+		
+		if os.path.exists(self.flavourRegisterFile):
+			with open(self.flavourRegisterFile,'r') as fd:
+				tmpContent=fd.readlines()
+
+		for item in tmpContent:
+			self.registerContent.append(item.strip())
+
+	#def _updateJavaRegister
+
+	def updateFlavourRegister(self):
+
+		for item in self.pkgsInstalled:
+			if self.flavoursInfo[item]["isManaged"]:
+				if item not in self.registerContent:
+					self.registerContent.append(item)
+
+		if os.path.exists(self.flavourRegisterFile):
+			with open(self.flavourRegisterFile,'w') as fd:
+				for item in self.registerContent:
+					fd.write("%s\n"%item)
+
+	#def updateFlavourRegister	
+
+#class FlavourSelectorManager

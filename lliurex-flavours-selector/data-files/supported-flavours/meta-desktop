@@ -1,3 +1,5 @@
 [FLAVOUR]
 pkg=lliurex-meta-desktop
 name=LliureX Desktop
+installCmd=apt-get install -y lliurex-meta-desktop
+removeCmd=apt-get purge -y lliurex-meta-desktop

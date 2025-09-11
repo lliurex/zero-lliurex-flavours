@@ -1,0 +1,5 @@
+[FLAVOUR]
+pkg=lliurex-meta-ies
+name=LliureX IES
+installCmd=apt-get install -y lliurex-meta-ies
+removeCmd=apt-get purge -y lliurex-meta-ies

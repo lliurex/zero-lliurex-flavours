@@ -1,0 +1,5 @@
+[FLAVOUR]
+pkg=lliurex-meta-fp
+name=LliureX FP
+installCmd=apt-get install -y lliurex-meta-fp
+removeCmd=apt-get purge -y lliurex-meta-fp

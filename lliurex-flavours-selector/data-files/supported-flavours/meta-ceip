@@ -1,0 +1,5 @@
+[FLAVOUR]
+pkg=lliurex-meta-ceip
+name=LliureX CEIP
+installCmd=apt-get install -y lliurex-meta-ceip
+removeCmd=apt-get purge -y lliurex-meta-ceip

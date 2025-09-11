@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools","setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lliurexflavourselector"
+version = "0.1"
+description = "App to install meta-packages of LliureX"
+authors = [
+	{ name = "Juan Ramon Pelegrina", email="juapesai@hotmail.com" },
+	{ name = "LliureX Team"}
+]
+license = {text="GPL-3"}
+urls = {repository="https://github.com/lliurex/zero-lliurex-flavours"}
+
+[tool.setuptools]
+include-package-data=true
+[tool.setuptools.packages.find]
+where = ["lliurex-flavours-selector"]
+[tool.setuptools.package-data]
+lliurexflavourselector=["rsrc/*.*"]
+
