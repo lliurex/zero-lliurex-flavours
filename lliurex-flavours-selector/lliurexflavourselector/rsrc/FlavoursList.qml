@@ -14,7 +14,7 @@ Rectangle{
 
     GridLayout{
         id:mainGrid
-        rows:3
+        rows:2
         flow: GridLayout.TopToBottom
         rowSpacing:10
         anchors.left:parent.left
@@ -186,6 +186,7 @@ Rectangle{
                  } 
             }
         }
+        /*
         RowLayout{
             Layout.fillWidth:true
 
@@ -218,7 +219,7 @@ Rectangle{
                 }
             }
 
-        }      
+        } */     
     }
 
 }

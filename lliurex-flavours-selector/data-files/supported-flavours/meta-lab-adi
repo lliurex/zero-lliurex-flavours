@@ -1,0 +1,7 @@
+[FLAVOUR]
+pkg=lliurex-meta-lab-adi
+name=LliureX LAB-ADI: intended for the teacher computer in laboratory
+name[ca@valencia]=LliureX LAB-ADI: intended for the teacher computer in laboratory
+name[es]=LliureX LAB-ADI: intended for the teacher computer in laboratory
+installCmd=apt-get install -y lliurex-meta-lab-adi
+removeCmd=apt-get purge -y lliurex-meta-lab-adi

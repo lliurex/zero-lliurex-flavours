@@ -52,9 +52,10 @@ class FlavourSelectorManager:
 		self.flavourRegisterFile=os.path.join(self.flavourRegisterDir,"managed_flavour.txt")
 		self.runPkexec=True
 		self._isRunPkexec()
+		self._getSessionLang()
 		self._clearCache()
 		self._createEnvirontment()
-		
+				
 	#def __init__
 
 	def _isRunPkexec(self):
@@ -64,6 +65,18 @@ class FlavourSelectorManager:
 
 	#def _isRunPkexec
 	
+	def _getSessionLang(self):
+
+		tmpLang=os.environ["LANGUAGE"].split(":")
+
+		if len(tmpLang)>0:
+			self.sessiongLang=tmpLang[0]
+		else:
+			self.sessiongLang=os.environ["LANG"]
+
+
+	#def _getSessionLang
+
 	def loadFile(self,path):
 
 		try:
@@ -73,7 +86,13 @@ class FlavourSelectorManager:
 			if config.has_section("FLAVOUR"):
 				info={}
 				info["pkg"]=config.get("FLAVOUR","pkg")
-				info["name"]=config.get("FLAVOUR","name")
+				if 'ca' in self.sessiongLang:
+					info["name"]=config.get("FLAVOUR","name[ca@valencia]")
+				elif 'es' in self.sessiongLang:
+					info["name"]=config.get("FLAVOUR","name[es]")
+				else:
+					info["name"]=config.get("FLAVOUR","name")
+
 				info["installCmd"]=config.get("FLAVOUR","installCmd")
 				info["removeCmd"]=config.get("FLAVOUR","removeCmd")
 				if os.path.exists(os.path.join(self.banners,info["pkg"]+".png")):
@@ -558,7 +577,7 @@ class FlavourSelectorManager:
 		for item in tmpContent:
 			self.registerContent.append(item.strip())
 
-	#def _updateJavaRegister
+	#def _readFlavourRegister
 
 	def updateFlavourRegister(self):
 

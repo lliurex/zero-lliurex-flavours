@@ -1,0 +1,7 @@
+[FLAVOUR]
+pkg=lliurex-meta-lab-alu
+name=LliureX LAB-ALU: intended for the student computer in laboratory
+name[ca@valencia]=LliureX LAB-ALU: intended for the student computer in laboratory
+name[es]=LliureX LAB-ALU: intended for the student computer in laboratory
+installCmd=apt-get install -y lliurex-meta-lab-alu
+removeCmd=apt-get purge -y lliurex-meta-lab-alu
