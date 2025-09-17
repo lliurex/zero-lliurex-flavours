@@ -385,13 +385,22 @@ class FlavourSelectorManager:
 
 	#def isAllInstalled
 
+	def preUninstallProcess(self):
+
+		self.disableMetaProtectionLaunched=False
+		self.disableMetaProtectionDone=False
+		self.enableMetaProtectionLaunched=False
+		self.enableMetaProtectionDone=False
+
+	#def preUninstallProcess
+
 	def initUnInstallProcess(self,pkgId):
 
 		self.removePkgLaunched=False
-		self.removePkgDone=False
+		self.removePkgDone=False	
 		self.checkRemoveLaunched=False
 		self.checkRemoveDone=False
-		
+
 		self._initProcessValues(pkgId)
 
 	#def initUnInstallProcess
@@ -407,6 +416,20 @@ class FlavourSelectorManager:
 					self._updateFlavoursModel(tmpParam,item["pkg"])
 
 	#def _initProcessValues
+
+	def getDisableProtectionCommand(self):
+
+		command="dpkg-unlocker-cli disableprotection -u"
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"disablemetaprotection")
+		else:
+			self.disableMetaProtectionDone=True
+
+		return command
+
+	#def getDisableProtectionCommand
 
 	def getUnInstallCommand(self,pkgId):
 
@@ -442,6 +465,21 @@ class FlavourSelectorManager:
 		self.checkRemoveDone=True
 
 	#def checkRemove
+
+	def getEnableProtectionCommand(self):
+
+		command="dpkg-unlocker-cli enableprotection -u"
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"enablemetaprotection")
+		else:
+			self.enableMetaProtectionDone=True
+
+		return command
+
+	#def getEnableProtectionCommand
+
 
 	def _updateProcessModelInfo(self,pkgId,action,result):
 
@@ -541,9 +579,15 @@ class FlavourSelectorManager:
 		elif action=="install":
 			self.tokenInstall=tempfile.mkstemp('_install')
 			removeTmp=' rm -f %s'%self.tokenInstall[1]
+		elif action=="disablemetaprotection":
+			self.tokenDisableMetaProtection=tempfile.mkstemp('_disablemetaprotection')
+			removeTmp=' rm -f %s'%self.tokenDisableMetaProtection[1]
 		elif action=="uninstall":
 			self.tokenUnInstall=tempfile.mkstemp('_uninstall')
 			removeTmp=' rm -f %s'%self.tokenUnInstall[1]
+		elif action=="enablemetaprotection":
+			self.tokenEnableMetaProtection=tempfile.mkstemp('_enablemetaprotection')
+			removeTmp=' rm -f %s'%self.tokenEnableMetaProtection[1]
 
 		cmd='%s ;stty -echo;%s\n'%(command,removeTmp)
 		if cmd.startswith(";"):
