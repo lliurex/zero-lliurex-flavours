@@ -335,7 +335,7 @@ class Bridge(QObject):
 	def launchInstallProcess(self):
 
 		self.showStatusMessage=[False,"","Ok"]
-		self.core.flavourStack.enableJavaList=False
+		self.core.flavourStack.enableFlavourList=False
 		self.core.flavourStack.filterStatusValue="all"
 		self.endProcess=False
 		self.enableApplyBtn=False
@@ -353,7 +353,7 @@ class Bridge(QObject):
 	def launchUnInstallProcess(self):
 
 		self.showStatusMessage=[False,"","Ok"]
-		self.core.flavourStack.enableJavaList=False
+		self.core.flavourStack.enableFlavourList=False
 		self.core.flavourStack.filterStatusValue="all"
 		self.endProcess=False
 		self.enableApplyBtn=False

@@ -131,7 +131,6 @@ class InstallStack(QObject):
 			self.core.flavourStack.enableFlavourList=True
 			self.core.mainStack.manageRemoveBtn()
 			InstallStack.flavourSelectorManager.updateFlavourRegister()
-			self.core.settingsStack.getInfo()
 			self.installProcessTimer.stop()
 
 			if self.showError:

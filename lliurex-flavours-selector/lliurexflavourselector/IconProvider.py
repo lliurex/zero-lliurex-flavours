@@ -43,7 +43,7 @@ class IconProvider(QQuickImageProvider):
 		p.begin(destImage)
 		p.drawImage(0,0,destImage)
 		if isInstalled:
-			p.drawImage(35,41,lastImage)
+			p.drawImage(39,41,lastImage)
 			p.end()
 
 		return destImage

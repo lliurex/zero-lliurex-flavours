@@ -1,5 +1,7 @@
 [FLAVOUR]
 pkg=lliurex-meta-adi
-name=LliureX ADI
+name=LliureX ADI: intended for the computer connected to the ADI
+name[ca@valencia]=LliureX ADI: intended for the computer connected to the ADI
+name[es]=LliureX ADI: intended for the computer connected to the ADI
 installCmd=apt-get install -y lliurex-meta-adi
 removeCmd=apt-get purge -y lliurex-meta-adi

@@ -1,5 +1,7 @@
 [FLAVOUR]
 pkg=lliurex-meta-desktop
-name=LliureX Desktop
+name=LliureX Desktop: corresponding to the base version of LliureX
+name[ca@valencia]=LliureX Desktop: corresponding to the base version of LliureX
+name[es]=LliureX Desktop: corresponding to the base version of LliureX
 installCmd=apt-get install -y lliurex-meta-desktop
 removeCmd=apt-get purge -y lliurex-meta-desktop
