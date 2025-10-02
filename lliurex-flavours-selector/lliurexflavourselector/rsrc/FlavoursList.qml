@@ -163,6 +163,7 @@ Rectangle{
                         
                         delegate: ListDelegatePkgItem{
                             width:pkgTable.width
+                            pkgId:model.pkgId
                             pkg:model.pkg
                             isChecked:model.isChecked
                             name:model.name
@@ -172,6 +173,9 @@ Rectangle{
                             resultProcess:model.resultProcess
                             showSpinner:model.showSpinner
                             isManaged:model.isManaged
+                            isExpanded:model.isExpanded
+                            type:model.type
+                            flavourParent:model.flavourParent
                         }
                     }
 

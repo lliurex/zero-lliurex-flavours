@@ -1,0 +1,7 @@
+[FLAVOUR]
+id=2000
+pkg=teachers
+name=Flavours intended for the teacher's computer
+name[ca@valencia]=Flavours intended for the teacher's computer
+name[es]=Flavours intended for the teacher's computer
+type=parent

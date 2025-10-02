@@ -1,0 +1,7 @@
+[FLAVOUR]
+id=1000
+pkg=base
+name=Flavours base
+name[ca@valencia]=Flavours base
+name[es]=Flavours base
+type=parent

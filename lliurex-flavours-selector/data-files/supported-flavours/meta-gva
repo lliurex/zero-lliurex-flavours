@@ -1,7 +1,10 @@
 [FLAVOUR]
+id=1002
 pkg=lliurex-meta-gva
 name=LliureX GVA: for computers used in GVA educational centers
 name[ca@valencia]=LliureX GVA: for computers used in GVA educational centers
 name[es]=LliureX GVA: for computers used in GVA educational centers
 installCmd=apt-get install -y lliurex-meta-gva
 removeCmd=apt-get purge -y lliurex-meta-gva
+type=child
+parent=base

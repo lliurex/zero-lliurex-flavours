@@ -1,7 +1,10 @@
 [FLAVOUR]
+id=4003
 pkg=lliurex-meta-fp
 name=LliureX FP: offers a set of apps for FP
 name[ca@valencia]=LliureX FP: offers a set of apps for FP
 name[es]=LliureX FP: offers a set of apps for FP
 installCmd=apt-get install -y lliurex-meta-fp
 removeCmd=apt-get purge -y lliurex-meta-fp
+type=child
+parent=educational

@@ -5,7 +5,8 @@ from PySide6 import QtCore, QtGui, QtQml
 
 class FlavoursModel(QtCore.QAbstractListModel):
 
-	PkgRole= QtCore.Qt.UserRole + 1000
+	PkgIdRole=QtCore.Qt.UserRole+1000
+	PkgRole= QtCore.Qt.UserRole + 1001
 	IsCheckedRole=QtCore.Qt.UserRole+1002
 	NameRole=QtCore.Qt.UserRole+1003
 	BannerRole=QtCore.Qt.UserRole+1004
@@ -14,7 +15,9 @@ class FlavoursModel(QtCore.QAbstractListModel):
 	ResultProcessRole=QtCore.Qt.UserRole+1007
 	ShowSpinnerRole = QtCore.Qt.UserRole + 1008
 	IsManagedRole=QtCore.Qt.UserRole+1009
-
+	IsExpandedRole=QtCore.Qt.UserRole+1010
+	TypeRole=QtCore.Qt.UserRole+1011
+	FlavourParentRole=QtCore.Qt.UserRole+1012
 
 	def __init__(self,parent=None):
 		
@@ -35,7 +38,9 @@ class FlavoursModel(QtCore.QAbstractListModel):
 		
 		if 0 <= index.row() < self.rowCount() and index.isValid():
 			item = self._entries[index.row()]
-			if role == FlavoursModel.PkgRole:
+			if role == FlavoursModel.PkgIdRole:
+				return item["pkgId"]
+			elif role == FlavoursModel.PkgRole:
 				return item["pkg"]
 			elif role == FlavoursModel.IsCheckedRole:
 				return item["isChecked"]
@@ -53,12 +58,18 @@ class FlavoursModel(QtCore.QAbstractListModel):
 				return item["showSpinner"]
 			elif role == FlavoursModel.IsManagedRole:
 				return item["isManaged"]
-		
-		#def data
+			elif role == FlavoursModel.IsExpandedRole:
+				return item["isExpanded"]
+			elif role == FlavoursModel.TypeRole:
+				return item["type"]
+			elif role == FlavoursModel.FlavourParentRole:
+				return item["flavourParent"]	
+	#def data
 
 	def roleNames(self):
 		
 		roles = dict()
+		roles[FlavoursModel.PkgIdRole]=b"pkgId"
 		roles[FlavoursModel.PkgRole] = b"pkg"
 		roles[FlavoursModel.IsCheckedRole] = b"isChecked"
 		roles[FlavoursModel.NameRole] = b"name"
@@ -68,15 +79,20 @@ class FlavoursModel(QtCore.QAbstractListModel):
 		roles[FlavoursModel.ResultProcessRole] = b"resultProcess"
 		roles[FlavoursModel.ShowSpinnerRole] = b"showSpinner"
 		roles[FlavoursModel.IsManagedRole]=b"isManaged"
+		roles[FlavoursModel.IsExpandedRole]=b"isExpanded"
+		roles[FlavoursModel.TypeRole]=b"type"
+		roles[FlavoursModel.FlavourParentRole]=b"flavourParent"
+
+
 
 		return roles
 
 	#def roleName
 
-	def appendRow(self,pkg,na,isc,st,ba,isv,rpr,ss,im):
+	def appendRow(self,ide,pkg,na,isc,st,ba,isv,rpr,ss,im,ie,ty,pr):
 		
 		self.beginInsertRows(QtCore.QModelIndex(), self.rowCount(),self.rowCount())
-		self._entries.append(dict(pkg=pkg, name=na,isChecked=isc,status=st,banner=ba,isVisible=isv,resultProcess=rpr,showSpinner=ss,isManaged=im))
+		self._entries.append(dict(pkgId=ide,pkg=pkg, name=na,isChecked=isc,status=st,banner=ba,isVisible=isv,resultProcess=rpr,showSpinner=ss,isManaged=im,isExpanded=ie,type=ty,flavourParent=pr))
 		self.endInsertRows()
 
 	#def appendRow
@@ -87,7 +103,7 @@ class FlavoursModel(QtCore.QAbstractListModel):
 			row = index.row()
 			for item in valuesToUpdate:
 				for param in item:
-					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess"]:
+					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded"]:
 						self._entries[row][param]=item[param]
 						self.dataChanged.emit(index,index)
 

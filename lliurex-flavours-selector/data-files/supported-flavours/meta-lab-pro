@@ -1,0 +1,11 @@
+[FLAVOUR]
+id=2002
+pkg=lliurex-meta-lab-adi
+name=LliureX LAB-ADI: intended for the teacher's computer in laboratory
+name[ca@valencia]=LliureX LAB-ADI: intended for the teacher's computer in laboratory
+name[es]=LliureX LAB-ADI: intended for the teacher's computer in laboratory
+installCmd=apt-get install -y lliurex-meta-lab-adi
+removeCmd=apt-get purge -y lliurex-meta-lab-adi
+type=child
+parent=teachers
+conflicts=lliurex-meta-adi,lliurex-meta-lab-alu,lliurex-meta-wifi-alu

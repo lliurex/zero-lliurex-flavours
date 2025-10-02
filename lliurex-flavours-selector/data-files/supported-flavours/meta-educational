@@ -1,0 +1,7 @@
+[FLAVOUR]
+id=4000
+pkg=educational
+name=Flavours intended for different educational level
+name[ca@valencia]=Flavours intended for different educational level
+name[es]=Flavours intended for different educational level
+type=parent

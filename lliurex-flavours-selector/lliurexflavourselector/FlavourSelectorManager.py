@@ -85,6 +85,7 @@ class FlavourSelectorManager:
 			config.read(path)
 			if config.has_section("FLAVOUR"):
 				info={}
+				info["id"]=config.get("FLAVOUR","id")
 				info["pkg"]=config.get("FLAVOUR","pkg")
 				if 'ca' in self.sessiongLang:
 					info["name"]=config.get("FLAVOUR","name[ca@valencia]")
@@ -93,12 +94,24 @@ class FlavourSelectorManager:
 				else:
 					info["name"]=config.get("FLAVOUR","name")
 
-				info["installCmd"]=config.get("FLAVOUR","installCmd")
-				info["removeCmd"]=config.get("FLAVOUR","removeCmd")
+				info["type"]=config.get("FLAVOUR","type")
+				if info["type"]=="child":
+					info["installCmd"]=config.get("FLAVOUR","installCmd")
+					info["removeCmd"]=config.get("FLAVOUR","removeCmd")
+					info["parent"]=config.get("FLAVOUR","parent")
+					try:
+						info["conflicts"]=config.get("FLAVOUR","conflicts")
+					except:
+						info["conflicts"]=None
+				else:
+					info["installCmd"]=None
+					info["removeCmd"]=None
+					info["parent"]="root"
+					info["conflicts"]=None
 				if os.path.exists(os.path.join(self.banners,info["pkg"]+".png")):
 					info["banner"]=os.path.join(self.banners,info["pkg"]+".png")
 				else:
-					info["banner"]=None
+					info["banner"]=os.path.join(self.banners,"default.png")
 				return info
 				
 		except Exception as e:
@@ -109,57 +122,87 @@ class FlavourSelectorManager:
 	def getSupportedFlavour(self):
 
 		self._readFlavourRegister()
+		self.parentsWithMeta=[]
 
 		for item in sorted(os.listdir(self.supportedFlavours)):
 			if os.path.isfile(os.path.join(self.supportedFlavours,item)):
 				tmpInfo=self.loadFile(os.path.join(self.supportedFlavours,item))
 				if tmpInfo!=None:
-					status=self.isInstalled(tmpInfo["pkg"])
-					baseAptCmd = "apt-cache policy %s "%tmpInfo["pkg"]
-					p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-					output=p.communicate()[0]
-					
-					if type(output) is bytes:
-						output=output.decode()
-
-					if tmpInfo["pkg"] not in output:
-						available=False
-					else:	
-						version=output.split("\n")[4]
-						if version !='':
-							available=True
-						else:
-							available=False
+					if tmpInfo["type"]=="child":
+						status=self.isInstalled(tmpInfo["pkg"])
+						baseAptCmd = "apt-cache policy %s "%tmpInfo["pkg"]
+						p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
+						output=p.communicate()[0]
 						
+						if type(output) is bytes:
+							output=output.decode()
+
+						if tmpInfo["pkg"] not in output:
+							available=False
+						else:	
+							version=output.split("\n")[4]
+							if version !='':
+								available=True
+							else:
+								available=False
+					else:
+						available=True
+						status=None
+					
 					if available:
 						tmp={}
+						tmp["pkgId"]=tmpInfo["id"]
 						tmp["pkg"]=tmpInfo["pkg"]
 						tmp["name"]=tmpInfo["name"]
-						tmp["status"]=status
+						tmp["type"]=tmpInfo["type"]
+						if tmp["type"]=="child":
+							tmp["status"]=status
+						else:
+							tmp["status"]="available"
 						tmp["banner"]=tmpInfo["banner"]
 						tmp["showSpinner"]=False
-						tmp["isChecked"]=False
+						tmp["isExpanded"]=True
 						tmp["isVisible"]=True
-						tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
+						#tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
+						tmp["isManaged"]=True
+						tmp["flavourParent"]=tmpInfo["parent"]
+						tmp["conflicts"]=tmpInfo["conflicts"]
 						tmp["resultProcess"]=-1
-						if status=="installed":
-							tmp["banner"]="%s_OK.png"%tmp["banner"]
-							if tmp["isManaged"]:
-								self.totalPackages+=1
+						if tmp["type"]=="child":
+							if tmp["flavourParent"] not in self.parentsWithMeta:
+								self.parentsWithMeta.append(tmp["flavourParent"])
+							if status=="installed":
+								tmp["isChecked"]=True
+								tmp["banner"]="%s_OK.png"%tmp["banner"]
+								if tmp["isManaged"]:
+									self.totalPackages+=1
+								else:
+									self.nonManagedPkg+=1
+								self.pkgsInstalled.append(tmp["pkg"])
 							else:
-								self.nonManagedPkg+=1
-							self.pkgsInstalled.append(tmp["pkg"])
+								tmp["isChecked"]=False
+								if tmp["isManaged"]:
+									self.totalPackages+=1
 						else:
-							if tmp["isManaged"]:
-								self.totalPackages+=1
+							tmp["isChecked"]=False
 						self.flavoursData.append(tmp)
-						self.flavoursInfo[tmpInfo["pkg"]]={}
-						self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
-						self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
-						self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
-						self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
+						if tmpInfo["type"]=="child":
+							self.flavoursInfo[tmpInfo["pkg"]]={}
+							self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
+							self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
+							self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
+							self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
+							if tmpInfo["conflicts"]!=None:
+								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=tmpInfo["conflicts"].split(",")
+							else:
+								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=[]
 
-		self.flavoursData=sorted(self.flavoursData,key=lambda k:k["pkg"].split("-")[1],reverse=False)
+		for item in self.flavoursData:
+			if item["type"]=="parent":
+				if item["pkg"] not in self.parentsWithMeta:
+					item["isVisible"]=False
+
+		self.flavoursData=sorted(self.flavoursData,key=lambda k:k["pkgId"],reverse=False)
 
 	#def getSupportedFlavour	
 	
@@ -177,6 +220,14 @@ class FlavourSelectorManager:
 		return "available"
 		
 	#def isInstalled
+
+	def onExpandedParent(self,info):
+
+		tmpParam={}
+		tmpParam[info[1]]=info[2]
+		self._updateFlavoursModel(tmpParam,info[0])			
+	
+	#def onExpandedParent
 
 	def checkIsManaged(self,pkg,status):
 

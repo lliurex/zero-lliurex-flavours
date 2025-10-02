@@ -27,6 +27,7 @@ class Bridge(QObject):
 		self._filterStatusValue="all"
 		self._totalErrorInProcess=0
 		self._isAllInstalled=[False,False]
+		self.flavoursEntries=[]
 
 	#def __init__
 
@@ -35,6 +36,7 @@ class Bridge(QObject):
 		self._updateFlavoursModel()
 		self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
 		self.isAllInstalled=Bridge.flavourSelectorManager.isAllInstalled()
+		self.flavoursEntries=Bridge.flavourSelectorManager.flavoursData
 
 	#def showInfo
 
@@ -103,10 +105,10 @@ class Bridge(QObject):
 	def _updateFlavoursModel(self):
 
 		ret=self._flavoursModel.clear()
-		flavoursEntries=Bridge.flavourSelectorManager.flavoursData
-		for item in flavoursEntries:
-			if item["pkg"]!="":
-				self._flavoursModel.appendRow(item["pkg"],item["name"],item["isChecked"],item["status"],item["banner"],item["isVisible"],item["resultProcess"],item["showSpinner"],item["isManaged"])
+		self.flavoursEntries=Bridge.flavourSelectorManager.flavoursData
+		for item in self.flavoursEntries:
+			if item["pkgId"]!="":
+				self._flavoursModel.appendRow(item["pkgId"],item["pkg"],item["name"],item["isChecked"],item["status"],item["banner"],item["isVisible"],item["resultProcess"],item["showSpinner"],item["isManaged"],item["isExpanded"],item["type"],item["flavourParent"])
 
 	#def _updateFlavoursModel
 
@@ -159,6 +161,23 @@ class Bridge(QObject):
 		self.filterStatusValue=value
 
 	#def manageStatusFilter
+
+	@Slot(int,result='QVariant')
+	def getModelData(self,index):
+		
+		return self.flavoursEntries[index]
+
+	#def getModelData
+
+	@Slot('QVariantList')
+	def onExpandedParent(self,info):
+		
+		Bridge.flavourSelectorManager.onExpandedParent(info)
+		params=[]
+		params.append(info[1])
+		self._updatePackagesModelInfo(params)
+	
+	#def updateModel
 
 	@Slot('QVariantList')
 	def onCheckedFlavour(self,info):

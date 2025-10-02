@@ -1,7 +1,10 @@
 [FLAVOUR]
+id=4001
 pkg=lliurex-meta-ceip
 name=LliureX CEIP: offers a set of apps for CEIP
 name[ca@valencia]=LliureX CEIP: offers a set of apps for CEIP
 name[es]=LliureX CEIP: offers a set of apps for CEIP
 installCmd=apt-get install -y lliurex-meta-ceip
 removeCmd=apt-get purge -y lliurex-meta-ceip
+type=child
+parent=educational

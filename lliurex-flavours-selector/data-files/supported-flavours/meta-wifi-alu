@@ -1,7 +1,11 @@
 [FLAVOUR]
+id=3002
 pkg=lliurex-meta-wifi-alu
 name=LliureX WIFI-ALU: intended for the student computer in classroom
 name[ca@valencia]=LliureX WIFI-ALU: intended for the student computer in classroom
 name[es]=LliureX WIFI-ALU: intended for the student computer in classroom
 installCmd=apt-get install -y lliurex-meta-wifi-alu
 removeCmd=apt-get purge -y lliurex-meta-wifi-alu
+type=child
+parent=students
+conflicts=lliurex-meta-lab-alu,lliurex-meta-adi,lliurex-meta-lab-pro
