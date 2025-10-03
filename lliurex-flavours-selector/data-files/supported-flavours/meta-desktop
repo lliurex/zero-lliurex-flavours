@@ -8,3 +8,4 @@ installCmd=apt-get install -y lliurex-meta-desktop
 removeCmd=apt-get purge -y lliurex-meta-desktop
 type=child
 parent=base
+remove=False

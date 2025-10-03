@@ -37,17 +37,17 @@ DelegateModel {
 	            if (statusFilter!="all"){
 	            	switch(statusFilter){
 	            		case "available":
-	            			if (item["status"]=="installed"){
+	            			if ((item["status"]=="installed")&&(item["type"]=="child")){
 	            				matchStatus=false
 			            	}
 			            	break;
 			            case "installed":
-			            	if (item["status"]=="available"){
+			            	if ((item["status"]=="available")&&(item["type"]=="child")){
 			            		matchStatus=false
 			            	}
 			            	break;
 			            case "error":
-			            	if (item["resultProcess"]!=1){
+			            	if ((item["resultProcess"]!=1)&&(item["type"]=="child")){
 			            		matchStatus=false
 			            	}
 			            	break
@@ -55,7 +55,7 @@ DelegateModel {
 
 			    }
 	            if (!visible) continue;
-	            if (!item["isVisible"] || !matchStatus) continue;
+	            if (!item["isVisible"] || !matchStatus && item["type"]=="child") continue;
 	            allItems.setGroups(index, 1, [ "all", "visible" ]);
 	            visibleElements.push(index);
 	            

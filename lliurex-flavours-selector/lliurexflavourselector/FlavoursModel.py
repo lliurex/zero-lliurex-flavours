@@ -18,6 +18,7 @@ class FlavoursModel(QtCore.QAbstractListModel):
 	IsExpandedRole=QtCore.Qt.UserRole+1010
 	TypeRole=QtCore.Qt.UserRole+1011
 	FlavourParentRole=QtCore.Qt.UserRole+1012
+	ShowActionRole=QtCore.Qt.UserRole+1013
 
 	def __init__(self,parent=None):
 		
@@ -63,7 +64,10 @@ class FlavoursModel(QtCore.QAbstractListModel):
 			elif role == FlavoursModel.TypeRole:
 				return item["type"]
 			elif role == FlavoursModel.FlavourParentRole:
-				return item["flavourParent"]	
+				return item["flavourParent"]
+			elif role == FlavoursModel.ShowActionRole:
+				return item["showAction"]
+
 	#def data
 
 	def roleNames(self):
@@ -82,17 +86,17 @@ class FlavoursModel(QtCore.QAbstractListModel):
 		roles[FlavoursModel.IsExpandedRole]=b"isExpanded"
 		roles[FlavoursModel.TypeRole]=b"type"
 		roles[FlavoursModel.FlavourParentRole]=b"flavourParent"
-
-
+		roles[FlavoursModel.ShowActionRole]=b"showAction"
+		
 
 		return roles
 
 	#def roleName
 
-	def appendRow(self,ide,pkg,na,isc,st,ba,isv,rpr,ss,im,ie,ty,pr):
+	def appendRow(self,ide,pkg,na,isc,st,ba,isv,rpr,ss,im,ie,ty,pr,sa):
 		
 		self.beginInsertRows(QtCore.QModelIndex(), self.rowCount(),self.rowCount())
-		self._entries.append(dict(pkgId=ide,pkg=pkg, name=na,isChecked=isc,status=st,banner=ba,isVisible=isv,resultProcess=rpr,showSpinner=ss,isManaged=im,isExpanded=ie,type=ty,flavourParent=pr))
+		self._entries.append(dict(pkgId=ide,pkg=pkg, name=na,isChecked=isc,status=st,banner=ba,isVisible=isv,resultProcess=rpr,showSpinner=ss,isManaged=im,isExpanded=ie,type=ty,flavourParent=pr,showAction=sa))
 		self.endInsertRows()
 
 	#def appendRow
@@ -103,7 +107,7 @@ class FlavoursModel(QtCore.QAbstractListModel):
 			row = index.row()
 			for item in valuesToUpdate:
 				for param in item:
-					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded"]:
+					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded","showAction"]:
 						self._entries[row][param]=item[param]
 						self.dataChanged.emit(index,index)
 

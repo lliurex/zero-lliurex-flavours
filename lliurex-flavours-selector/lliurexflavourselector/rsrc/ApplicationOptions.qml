@@ -102,6 +102,7 @@ GridLayout{
             Layout.bottomMargin:10
             Layout.fillWidth:true
             
+            /*
             PC.Button {
                 id:uninstallBtn
                 visible:{
@@ -124,6 +125,7 @@ GridLayout{
                     uninstallDialog.open()
                 }
             }
+            */
             ColumnLayout{
                 id:feedbackColumn
                 spacing:10
@@ -159,7 +161,7 @@ GridLayout{
                 focus:true
                 display:AbstractButton.TextBesideIcon
                 icon.name:"dialog-ok"
-                text:i18nd("lliurex-flavours-selector","Install")
+                text:i18nd("lliurex-flavours-selector","Apply")
                 enabled:mainStackBridge.enableApplyBtn?true:false
                 Layout.preferredHeight:40
                 Layout.leftMargin:10

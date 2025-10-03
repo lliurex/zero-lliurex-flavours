@@ -176,6 +176,7 @@ Rectangle{
                             isExpanded:model.isExpanded
                             type:model.type
                             flavourParent:model.flavourParent
+                            showAction:model.showAction
                         }
                     }
 

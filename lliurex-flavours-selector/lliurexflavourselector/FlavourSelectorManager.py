@@ -40,6 +40,9 @@ class FlavourSelectorManager:
 		self.flavoursData=[]
 		self.flavoursInfo={}
 		self.flavourSelected=[]
+		self.flavourSelectedToInstall=[]
+		self.flavourSelectedToRemove=[]
+		self.forceRemove=[]
 		self.uncheckAll=False
 		self.firstConnection=False
 		self.secondConnection=False
@@ -103,11 +106,17 @@ class FlavourSelectorManager:
 						info["conflicts"]=config.get("FLAVOUR","conflicts")
 					except:
 						info["conflicts"]=None
+					try:
+						test=config.get("FLAVOUR","remove")
+						info["isManaged"]=False
+					except:
+						info["isManaged"]=True	
 				else:
 					info["installCmd"]=None
 					info["removeCmd"]=None
 					info["parent"]="root"
 					info["conflicts"]=None
+					info["isManaged"]=False
 				if os.path.exists(os.path.join(self.banners,info["pkg"]+".png")):
 					info["banner"]=os.path.join(self.banners,info["pkg"]+".png")
 				else:
@@ -161,28 +170,33 @@ class FlavourSelectorManager:
 							tmp["status"]="available"
 						tmp["banner"]=tmpInfo["banner"]
 						tmp["showSpinner"]=False
+						tmp["showAction"]=False
 						tmp["isExpanded"]=True
 						tmp["isVisible"]=True
 						#tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
-						tmp["isManaged"]=True
 						tmp["flavourParent"]=tmpInfo["parent"]
 						tmp["conflicts"]=tmpInfo["conflicts"]
 						tmp["resultProcess"]=-1
+						tmp["isManaged"]=tmpInfo["isManaged"]
 						if tmp["type"]=="child":
 							if tmp["flavourParent"] not in self.parentsWithMeta:
 								self.parentsWithMeta.append(tmp["flavourParent"])
 							if status=="installed":
 								tmp["isChecked"]=True
 								tmp["banner"]="%s_OK.png"%tmp["banner"]
+								'''
 								if tmp["isManaged"]:
 									self.totalPackages+=1
 								else:
 									self.nonManagedPkg+=1
+								'''
 								self.pkgsInstalled.append(tmp["pkg"])
 							else:
 								tmp["isChecked"]=False
+								'''
 								if tmp["isManaged"]:
 									self.totalPackages+=1
+								'''
 						else:
 							tmp["isChecked"]=False
 						self.flavoursData.append(tmp)
@@ -190,7 +204,7 @@ class FlavourSelectorManager:
 							self.flavoursInfo[tmpInfo["pkg"]]={}
 							self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
 							self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
-							self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
+							#self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
 							self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
 							if tmpInfo["conflicts"]!=None:
 								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=tmpInfo["conflicts"].split(",")
@@ -239,25 +253,71 @@ class FlavourSelectorManager:
 		
 	#def checkIsManaged
 
-	def onCheckedPackages(self,pkgId,isChecked):
+	def onCheckedPackages(self,pkg,isChecked):
 
-		if isChecked:
-			self._managePkgSelected(pkgId,True)
+		self._managePkgSelected(pkg,isChecked)
+		self._updateCheckedFlavours(pkg,isChecked)
+		
+		if not isChecked:
+			if pkg in self.pkgsInstalled:
+				if pkg not in self.forceRemove:
+					self.forceRemove.append(pkg)
 		else:
-			self._managePkgSelected(pkgId,False)
+			if pkg in self.forceRemove:
+				self.forceRemove.remove(pkg)
 
+		self._checkIncompatible(pkg,isChecked)
+
+		'''
 		if len(self.flavourSelected)==self.totalPackages:
 			self.uncheckAll=True
 		else:
 			self.uncheckAll=False
+		'''
+		
+
+	def _checkIncompatible(self,pkg,isChecked):
+
+		conflicts=self.flavoursInfo[pkg]["conflicts"]
+		
+		if len(conflicts)>0:
+			if isChecked:
+				for item in conflicts:
+					self._managePkgSelected(item,False,True)
+					self._updateCheckedFlavours(item,False)
+			else:
+				for item in conflicts:
+					if item in self.pkgsInstalled:	
+						self._managePkgSelected(item,True)
+						if item not in self.forceRemove:
+							self._updateCheckedFlavours(item,True)			
+
+	#def _checkIncompatible
+
+	def _updateCheckedFlavours(self,pkg,isChecked):
 
 		tmpParam={}
+		showAction=False
 		tmpParam["isChecked"]=isChecked
+		for item in self.flavoursData:
+			if item["pkg"]==pkg:
+				if item["status"]=="available":
+					if isChecked:
+						showAction=True
+				else:
+					if not isChecked:
+						showAction=True
+				break
+						
+		tmpParam["showAction"]=showAction
 		
-		self._updateFlavoursModel(tmpParam,pkgId)			
+		self._updateFlavoursModel(tmpParam,pkg)			
 	
+	#def _updateCheckedFlavours
+
 	#def onCheckedPackages
 
+	'''
 	def selectAll(self):
 
 		if self.uncheckAll:
@@ -277,15 +337,28 @@ class FlavourSelectorManager:
 		self.uncheckAll=active
 		
 	#def selectAll
+	'''
+	def _managePkgSelected(self,pkg,install,toConflict=False):
 
-	def _managePkgSelected(self,pkgId,active=True,order=0):
-
-		if active:
-			if pkgId not in self.flavourSelected:
-				self.flavourSelected.append(pkgId)
+		if install:
+			if pkg not in self.pkgsInstalled:
+				if pkg not in self.flavourSelectedToInstall:
+					self.flavourSelectedToInstall.append(pkg)
+			else:
+				abort=False
+				if toConflict:
+					if pkg in self.forceRemove:
+						abort=True
+				if not abort:
+					if pkg in self.flavourSelectedToRemove:
+						self.flavourSelectedToRemove.remove(pkg)
 		else:
-			if pkgId in self.flavourSelected:
-				self.flavourSelected.remove(pkgId)
+			if pkg in self.pkgsInstalled:
+				if pkg not in self.flavourSelectedToRemove:
+					self.flavourSelectedToRemove.append(pkg)
+			else:
+				if pkg in self.flavourSelectedToInstall:
+					self.flavourSelectedToInstall.remove(pkg)
 		
 	#def _managePkgSelected
 
@@ -362,14 +435,14 @@ class FlavourSelectorManager:
 
 	#def initInstallProcess
 
-	def initPkgInstallProcess(self,pkgId):
+	def initPkgInstallProcess(self,pkg):
 
 		self.installAppLaunched=False
 		self.installAppDone=False
 		self.checkInstallLaunched=False
 		self.checkInstallDone=False
 		
-		self._initProcessValues(pkgId)
+		self._initProcessValues(pkg)
 
 	#def initPkgInstallProcess
 
@@ -387,10 +460,10 @@ class FlavourSelectorManager:
 
 	#def getUpdateReposCommand
 
-	def getInstallCommand(self,pkgId):
+	def getInstallCommand(self,pkg):
 
 		command=""
-		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkgId]["installCmd"]
+		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["installCmd"]
 		length=len(command)
 
 		if length>0:
@@ -402,12 +475,12 @@ class FlavourSelectorManager:
 
 	#def getInstallCommand
 
-	def checkInstall(self,pkgId):
+	def checkInstall(self,pkg):
 
 		self.feedBackCheck=[True,"",""]
-		self.status=self.isInstalled(pkgId)
+		self.status=self.isInstalled(pkg)
 
-		self._updateProcessModelInfo(pkgId,'install',self.status)
+		self._updateProcessModelInfo(pkg,'install',self.status)
 		
 		if self.status!="installed":
 			msgCode=FlavourSelectorManager.ERROR_INSTALL_INSTALL
@@ -445,21 +518,21 @@ class FlavourSelectorManager:
 
 	#def preUninstallProcess
 
-	def initUnInstallProcess(self,pkgId):
+	def initUnInstallProcess(self,pkg):
 
 		self.removePkgLaunched=False
 		self.removePkgDone=False	
 		self.checkRemoveLaunched=False
 		self.checkRemoveDone=False
 
-		self._initProcessValues(pkgId)
+		self._initProcessValues(pkg)
 
 	#def initUnInstallProcess
 
-	def _initProcessValues(self,pkgId):
+	def _initProcessValues(self,pkg):
 
 		for item in self.flavoursData:
-			if item["pkg"]==pkgId:
+			if item["pkg"]==pkg:
 				tmpParam={}
 				tmpParam["resultProcess"]=-1
 				if item["pkg"] in self.flavourSelected:
@@ -482,10 +555,10 @@ class FlavourSelectorManager:
 
 	#def getDisableProtectionCommand
 
-	def getUnInstallCommand(self,pkgId):
+	def getUnInstallCommand(self,pkg):
 
 		command=""
-		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkgId]["removeCmd"]
+		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["removeCmd"]
 		length=len(command)
 
 		if length>0:
@@ -497,12 +570,12 @@ class FlavourSelectorManager:
 
 	#def getUnInstallCommand
 
-	def checkRemove(self,pkgId):
+	def checkRemove(self,pkg):
 
 		self.feedBackCheck=[True,"",""]
-		self.status=self.isInstalled(pkgId)
+		self.status=self.isInstalled(pkg)
 
-		self._updateProcessModelInfo(pkgId,'uninstall',self.status)
+		self._updateProcessModelInfo(pkg,'uninstall',self.status)
 		
 		if self.status!="available":
 			msgCode=FlavourSelectorManager.ERROR_UNINSTALL_UNINSTALL
@@ -532,25 +605,25 @@ class FlavourSelectorManager:
 	#def getEnableProtectionCommand
 
 
-	def _updateProcessModelInfo(self,pkgId,action,result):
+	def _updateProcessModelInfo(self,pkg,action,result):
 
 		for item in self.flavoursInfo:
-			if item==pkgId and item in self.flavourSelected:
+			if item==pkg and item in self.flavourSelected:
 				tmpParam={}
 				if action=="install":
 					if result=="installed":
-						if pkgId not in self.pkgsInstalled:
-							self.pkgsInstalled.append(pkgId)
+						if pkg not in self.pkgsInstalled:
+							self.pkgsInstalled.append(pkg)
 						tmpParam["resultProcess"]=0
-						tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkgId]["banner"]
+						tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
 				elif action=="uninstall":
 					if result=="available":
-						if pkgId in self.pkgsInstalled:
-							self.pkgsInstalled.remove(pkgId)
+						if pkg in self.pkgsInstalled:
+							self.pkgsInstalled.remove(pkg)
 						tmpParam["resultProcess"]=0
-						tmpParam["banner"]=self.flavoursInfo[pkgId]["banner"]
+						tmpParam["banner"]=self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
 
@@ -561,10 +634,10 @@ class FlavourSelectorManager:
 	
 	#def _updateProcessModelInfo
 
-	def _updateFlavoursModel(self,param,pkgId):
+	def _updateFlavoursModel(self,param,pkg):
 
 		for item in self.flavoursData:
-			if item["pkg"]==pkgId:
+			if item["pkg"]==pkg:
 				for element in param:
 					if item[element]!=param[element]:
 						item[element]=param[element]
@@ -675,12 +748,12 @@ class FlavourSelectorManager:
 	#def _readFlavourRegister
 
 	def updateFlavourRegister(self):
-
+		'''
 		for item in self.pkgsInstalled:
 			if self.flavoursInfo[item]["isManaged"]:
 				if item not in self.registerContent:
 					self.registerContent.append(item)
-
+		'''
 		if os.path.exists(self.flavourRegisterFile):
 			with open(self.flavourRegisterFile,'w') as fd:
 				for item in self.registerContent:

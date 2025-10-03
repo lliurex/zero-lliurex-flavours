@@ -108,7 +108,7 @@ class Bridge(QObject):
 		self.flavoursEntries=Bridge.flavourSelectorManager.flavoursData
 		for item in self.flavoursEntries:
 			if item["pkgId"]!="":
-				self._flavoursModel.appendRow(item["pkgId"],item["pkg"],item["name"],item["isChecked"],item["status"],item["banner"],item["isVisible"],item["resultProcess"],item["showSpinner"],item["isManaged"],item["isExpanded"],item["type"],item["flavourParent"])
+				self._flavoursModel.appendRow(item["pkgId"],item["pkg"],item["name"],item["isChecked"],item["status"],item["banner"],item["isVisible"],item["resultProcess"],item["showSpinner"],item["isManaged"],item["isExpanded"],item["type"],item["flavourParent"],item["showAction"])
 
 	#def _updateFlavoursModel
 
@@ -182,6 +182,7 @@ class Bridge(QObject):
 	@Slot('QVariantList')
 	def onCheckedFlavour(self,info):
 
+		self.filterStatusValue="all"
 		Bridge.flavourSelectorManager.onCheckedPackages(info[0],info[1])
 		self._refreshInfo()
 
@@ -200,14 +201,13 @@ class Bridge(QObject):
 
 		params=[]
 		params.append("isChecked")
+		params.append("showAction")
 		self._updatePackagesModelInfo(params)
-		self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
-		if len(Bridge.flavourSelectorManager.flavourSelected)>0:
+		#self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
+		if len(Bridge.flavourSelectorManager.flavourSelectedToInstall) or len(Bridge.flavourSelectorManager.flavourSelectedToRemove)>0:
 			self.core.mainStack.enableApplyBtn=True
-			self.core.mainStack.manageRemoveBtn()
 		else:
 			self.core.mainStack.enableApplyBtn=False
-			self.core.mainStack.manageRemoveBtn()
 
 
 	#def _refreshInfo

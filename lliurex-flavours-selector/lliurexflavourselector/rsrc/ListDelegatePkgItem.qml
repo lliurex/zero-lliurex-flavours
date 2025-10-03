@@ -19,18 +19,47 @@ PC.ItemDelegate{
 	    property bool isExpanded
 	    property string type
 	    property string flavourParent
+	    property bool showAction
 
-	    height:isVisible?80:0
+	    height:{
+	    	if (isVisible){
+	    		if (type==="child"){
+	    			85
+	    		}else{
+	    			45
+	    		}
+	    	}else{
+	    		0	
+	    	}
+	    }
 	    enabled:true
 	      
 	    Rectangle{
-	    	height:isVisible?80:0
+	    	height:{
+	    		if (isVisible){
+	    			if (type==="child"){
+	    				80
+	    			}else{
+	    				40
+	    			}
+	    		}else{
+	    			0	
+	    		}
+	    	}
 	    	width:parent.width
 	    	color:{
 	    		if (type=="parent"){
 	    			"#add8e6"
 	    		}else{
-	    			"transparent"
+	    			if (showAction){
+	    				if (!isChecked){
+	    					"#d3d3d3"
+	    				}else{
+	    					"#98fb98"
+	    				}
+	    			}else{
+	    				"transparent"
+	    			}
 	    		}
 
 	    	}
@@ -58,11 +87,22 @@ PC.ItemDelegate{
             ]
 	    	Item{
 				id: menuItem
-				height:isVisible?80:0
+				height:{
+					if (isVisible){
+						if (type==="child"){
+							80
+						}else{
+							40
+						}
+					}else{
+						0	
+					}
+				}
+
 				width:parent.width-25
 
 				Image{
-                	id:menuOptionIcon
+                	id:expandParentIcon
                 	source:{
                     	if (isExpanded){
                         	"/usr/share/icons/breeze/actions/22/go-down.svg"
@@ -71,7 +111,7 @@ PC.ItemDelegate{
                     	}
                 	}
                 	visible:{
-                		if (type=="parent"){
+                		if (type==="parent"){
                 			true
                 		}else{
                 			false
@@ -84,13 +124,10 @@ PC.ItemDelegate{
                     	function expand(isExpanded,pkg) {
                         	for(var i = 0; i < listPkg.count; ++i) {
                             	var item=flavourStackBridge.getModelData(i)
-                            	console.log(item["pkg"])
                             	if (item["pkg"]===pkg){
                                 	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
                             	}else{
-                            		console.log(item["flavourParent"])
                             		if (item["flavourParent"]===pkg){
-                            			console.log("MATCH")
                             			flavourStackBridge.onExpandedParent([item["pkg"],"isVisible",isExpanded])
                             		}
                             	}
@@ -100,8 +137,7 @@ PC.ItemDelegate{
                     	anchors.fill:parent
                     	
                     	onClicked:{
-                    		console.log("EXPANDED: "+isExpanded)
-                        	if (type == "parent") {
+                        	if (type === "parent") {
                            		if (isExpanded == false) {
                                 	expand(true,pkg)
                                 	isExpanded=true
@@ -118,7 +154,7 @@ PC.ItemDelegate{
 				PC.CheckBox {
 					id:packageCheck
 					visible:{
-						if (type=="child"){
+						if (type==="child"){
 							true
 						}else{
 							false
@@ -128,31 +164,52 @@ PC.ItemDelegate{
 					onToggled:{
 						flavourStackBridge.onCheckedFlavour([pkg,checked])
 					}
-					anchors.left:parent.left
-					anchors.leftMargin:{
-						if (type=="parent"){
-							10
-						}else{
-							30
-						}
-					}
+					anchors.left:expandParentIcon.right
+					anchors.leftMargin:10
 					anchors.verticalCenter:parent.verticalCenter
-					enabled:flavourStackBridge.enableFlavourList
+					enabled:isManaged
+				}
+
+				Image {
+					id:actionIcon
+					source:{
+                    	if (!isChecked){
+                        	"/usr/share/icons/breeze/actions/22/edit-delete.svg"
+                    	}else{
+                        	"/usr/share/icons/breeze/actions/22/edit-download.svg"
+                    	}
+                	}
+					visible:showAction
+					anchors.left:packageCheck.right
+                	anchors.verticalCenter:parent.verticalCenter
+                	anchors.leftMargin:10
 				}
 
 				Image {
 					id:packageIcon
 					visible:{
-						if (type=="child"){
+						if (type==="child"){
 							true
 						}else{
 							false
 						}
 					}
 					source:"image://iconProvider/"+banner
-					sourceSize.width:64
-					sourceSize.height:64
-					anchors.left:packageCheck.right
+					sourceSize.width:{
+						if (type=="child"){
+							64
+						}else{
+							22
+						}
+					}
+					sourceSize.height:{
+						if (type=="child"){
+							64
+						}else{
+							22
+						}
+					}
+					anchors.left:actionIcon.right
 					anchors.verticalCenter:parent.verticalCenter
 					anchors.leftMargin:10
 					cache:false
@@ -165,7 +222,11 @@ PC.ItemDelegate{
 						if ((showSpinner) || (resultImg.visible)){
 							parent.width-resultImg.width-150
 						}else{
-							parent.width-150
+							if (type==="child"){
+								parent.width-175
+							}else{
+								parent.width-75
+							}
 						}
 					}
 					elide:Text.ElideMiddle
@@ -174,7 +235,7 @@ PC.ItemDelegate{
 					font.pointSize: 10
 					anchors.leftMargin:10
 					font.bold:{
-						if (type=="parent"){
+						if (type==="parent"){
 							true
 						}else{
 							false
