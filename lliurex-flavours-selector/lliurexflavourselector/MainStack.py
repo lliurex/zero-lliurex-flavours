@@ -42,8 +42,6 @@ class Bridge(QObject):
 		self._feedbackCode=""
 		self._isProcessRunning=False
 		self._enableApplyBtn=False
-		self._enableRemoveBtn=False
-		self._showRemoveBtn=False
 		self._endProcess=True
 		self._endCurrentCommand=False
 		self._currentCommand=""
@@ -51,9 +49,12 @@ class Bridge(QObject):
 		self._launchedProcess=""
 		self._isProgressBarVisible=False
 		self._runPkexec=Bridge.flavourSelectorManager.runPkexec
+		self._enableInstallAction=False
+		self._enableRemoveAction=False
 		self.moveToStack=""
 		self.waitMaxRetry=1
 		self.waitRetryCount=0
+		self.launchAutoRemove=False
 
 	#def __init__
 
@@ -68,7 +69,6 @@ class Bridge(QObject):
 	def _gatherInfoRet(self):
 
 		self.core.flavourStack.getInfo()
-		self.manageRemoveBtn()
 		self.currentStack=2
 
 	#def _gatherInfoRet
@@ -128,34 +128,6 @@ class Bridge(QObject):
 			self.on_enableApplyBtn.emit()
 
 	#def _setEnableApplyBtn
-
-	def _getEnableRemoveBtn(self):
-
-		return self._enableRemoveBtn
-
-	#def _getEnableRemoveBtn
-
-	def _setEnableRemoveBtn(self,enableRemoveBtn):
-
-		if self._enableRemoveBtn!=enableRemoveBtn:
-			self._enableRemoveBtn=enableRemoveBtn
-			self.on_enableRemoveBtn.emit()
-
-	#def _setEnableRemoveBtn
-
-	def _getShowRemoveBtn(self):
-
-		return self._showRemoveBtn
-
-	#def _getShowRemoveBtn
-
-	def _setShowRemoveBtn(self,showRemoveBtn):
-
-		if self._showRemoveBtn!=showRemoveBtn:
-			self._showRemoveBtn=showRemoveBtn
-			self.on_showRemoveBtn.emit()
-
-	#def _setShowRemoveBtn
 
 	def _getIsProcessRunning(self):
 
@@ -283,6 +255,34 @@ class Bridge(QObject):
 
 	#def _setIsProgressBarVisible
 
+	def _getEnableInstallAction(self):
+
+		return self._enableInstallAction
+
+	#def _getEnableInstallAction
+
+	def _setEnableInstallAction(self,enableInstallAction):
+
+		if self._enableInstallAction!=enableInstallAction:
+			self._enableInstallAction=enableInstallAction
+			self.on_enableInstallAction.emit()
+
+	#def _setEnableInstallAction
+
+	def _getEnableRemoveAction(self):
+
+		return self._enableRemoveAction
+
+	#def _getEnableRemoveAction
+
+	def _setEnableRemoveAction(self,enableRemoveAction):
+
+		if self._enableRemoveAction!=enableRemoveAction:
+			self._enableRemoveAction=enableRemoveAction
+			self.on_enableRemoveAction.emit()
+
+	#def _setEnableRemoveAction
+
 	def _getCloseGui(self):
 
 		return self._closeGui
@@ -303,33 +303,19 @@ class Bridge(QObject):
 
 	#def _getRunPkexec
 
+	@Slot(bool)
+	def onAutoRemoveChecked(self,value):
+
+		self.launchAutoRemove=value
+
+	#def onAutoRemoveChecked
+
 	@Slot()
 	def getNewCommand(self):
 		
 		self.endCurrentCommand=False
 		
 	#def getNewCommand
-
-	def manageRemoveBtn(self):
-
-		match=False
-		
-		if len(Bridge.flavourSelectorManager.pkgsInstalled)-Bridge.flavourSelectorManager.nonManagedPkg:
-			self.showRemoveBtn=True
-		else:
-			self.showRemoveBtn=False
-		
-		for item in Bridge.flavourSelectorManager.flavourSelected:
-			if item in Bridge.flavourSelectorManager.pkgsInstalled:
-				match=True
-				break
-		
-		if match:
-			self.enableRemoveBtn=True
-		else:
-			self.enableRemoveBtn=False
-
-	#def manageRemoveBtn
 
 	@Slot()
 	def launchInstallProcess(self):
@@ -339,7 +325,6 @@ class Bridge(QObject):
 		self.core.flavourStack.filterStatusValue="all"
 		self.endProcess=False
 		self.enableApplyBtn=False
-		self.enableRemoveBtn=False
 		self.isProgressBarVisible=True
 		self.isProcessRunning=True
 		self.launchedProcess="install"
@@ -357,7 +342,6 @@ class Bridge(QObject):
 		self.core.flavourStack.filterStatusValue="all"
 		self.endProcess=False
 		self.enableApplyBtn=False
-		self.enableRemoveBtn=False
 		self.launchedProcess="uninstall"
 		self.enableKonsole=True
 		self.feedbackCode=Bridge.flavourSelectorManager.MSG_FEEDBACK_UNINSTALL_RUN
@@ -421,18 +405,18 @@ class Bridge(QObject):
 	on_enableApplyBtn=Signal()
 	enableApplyBtn=Property(bool,_getEnableApplyBtn,_setEnableApplyBtn,notify=on_enableApplyBtn)
 
-	on_enableRemoveBtn=Signal()
-	enableRemoveBtn=Property(bool,_getEnableRemoveBtn,_setEnableRemoveBtn,notify=on_enableRemoveBtn)
-
-	on_showRemoveBtn=Signal()
-	showRemoveBtn=Property(bool,_getShowRemoveBtn,_setShowRemoveBtn,notify=on_showRemoveBtn)
-
 	on_isProcessRunning=Signal()
 	isProcessRunning=Property(bool,_getIsProcessRunning,_setIsProcessRunning,notify=on_isProcessRunning)
 
 	on_showStatusMessage=Signal()
 	showStatusMessage=Property('QVariantList',_getShowStatusMessage,_setShowStatusMessage,notify=on_showStatusMessage)
 	
+	on_enableInstallAction=Signal()
+	enableInstallAction=Property(bool,_getEnableInstallAction,_setEnableInstallAction,notify=on_enableInstallAction)
+
+	on_enableRemoveAction=Signal()
+	enableRemoveAction=Property(bool,_getEnableRemoveAction,_setEnableRemoveAction,notify=on_enableRemoveAction)
+
 	on_closePopUp=Signal()
 	closePopUp=Property('QVariantList',_getClosePopUp,_setClosePopUp,notify=on_closePopUp)
 	

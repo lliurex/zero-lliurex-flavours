@@ -23,36 +23,22 @@ class Bridge(QObject):
 		Bridge.flavourSelectorManager=self.core.flavourSelectorManager
 		self._flavoursModel=FlavoursModel.FlavoursModel()
 		self._enableFlavourList=True
-		self._uncheckAll=False
 		self._filterStatusValue="all"
 		self._totalErrorInProcess=0
 		self._isAllInstalled=[False,False]
 		self.flavoursEntries=[]
+		self._flavoursToInstallList=""
+		self._flavoursToRemoveList=""
 
 	#def __init__
 
 	def getInfo(self):
 
 		self._updateFlavoursModel()
-		self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
 		self.isAllInstalled=Bridge.flavourSelectorManager.isAllInstalled()
 		self.flavoursEntries=Bridge.flavourSelectorManager.flavoursData
 
 	#def showInfo
-
-	def _getUncheckAll(self):
-
-		return self._uncheckAll
-
-	#def _getUncheckAll
-
-	def _setUncheckAll(self,uncheckAll):
-
-		if self._uncheckAll!=uncheckAll:
-			self._uncheckAll=uncheckAll
-			self.on_uncheckAll.emit()
-
-	#def _setUncheckAll
 
 	def _getIsAllInstalled(self):
 
@@ -95,6 +81,34 @@ class Bridge(QObject):
 			self.on_enableFlavourList.emit()
 
 	#def _setEnableFlavourList
+
+	def _getFlavoursToInstallList(self):
+
+		return self._flavoursToInstallList
+
+	#def _getFlavoursToInstallList
+
+	def _setFlavoursToInstallList(self,flavoursToInstallList):
+
+		if self._flavoursToInstallList!=flavoursToInstallList:
+			self._flavoursToInstallList=flavoursToInstallList
+			self.on_flavoursToInstallList.emit()
+
+	#def _setFlavoursToInstallList
+
+	def _getFlavoursToRemovelList(self):
+
+		return self._flavoursToRemoveList
+
+	#def _getFlavoursToRemoveList
+
+	def _setFlavoursToRemoveList(self,flavoursToRemoveList):
+
+		if self._flavoursToRemoveList!=flavoursToRemoveList:
+			self._flavoursToRemoveList=flavoursToRemoveList
+			self.on_flavoursToRemoveList.emit()
+
+	#def _setFlavoursToRemoveList
 
 	def _getFlavoursModel(self):
 
@@ -188,15 +202,6 @@ class Bridge(QObject):
 
 	#def onCheckedFlavour
 
-	@Slot()
-	def selectAll(self):
-
-		Bridge.flavourSelectorManager.selectAll()
-		self.filterStatusValue="all"
-		self._refreshInfo()
-		
-	#def selectAll
-
 	def _refreshInfo(self):
 
 		params=[]
@@ -204,11 +209,28 @@ class Bridge(QObject):
 		params.append("showAction")
 		self._updatePackagesModelInfo(params)
 		#self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
-		if len(Bridge.flavourSelectorManager.flavourSelectedToInstall) or len(Bridge.flavourSelectorManager.flavourSelectedToRemove)>0:
+		enableBtn=False
+		self.flavoursToInstallList=""
+		self.flavoursToRemoveList=""
+		self.core.mainStack.enableInstallAction=False
+		self.core.mainStack.enableRemoveAction=False
+		if len(Bridge.flavourSelectorManager.flavourSelectedToInstall)>0:
+			for item in Bridge.flavourSelectorManager.flavourSelectedToInstall:
+				self.flavoursToInstallList+="  - %s\n"%item
+
+			enableBtn=True
+			self.core.mainStack.enableInstallAction=True
+
+		if len(Bridge.flavourSelectorManager.flavourSelectedToRemove)>0:
+			for item in Bridge.flavourSelectorManager.flavourSelectedToRemove:
+				self.flavoursToRemoveList+="  - %s\n"%item
+			enableBtn=True
+			self.core.mainStack.enableRemoveAction=True
+
+		if enableBtn:
 			self.core.mainStack.enableApplyBtn=True
 		else:
 			self.core.mainStack.enableApplyBtn=False
-
 
 	#def _refreshInfo
 
@@ -228,9 +250,6 @@ class Bridge(QObject):
 	
 	#def _updatePackagesModelInfo
 
-	on_uncheckAll=Signal()
-	uncheckAll=Property(bool,_getUncheckAll,_setUncheckAll,notify=on_uncheckAll)
-
 	on_isAllInstalled=Signal()
 	isAllInstalled=Property('QVariant',_getIsAllInstalled,_setIsAllInstalled,notify=on_isAllInstalled)
 
@@ -242,6 +261,12 @@ class Bridge(QObject):
 	
 	on_filterStatusValue=Signal()
 	filterStatusValue=Property(str,_getFilterStatusValue,_setFilterStatusValue,notify=on_filterStatusValue)
+
+	on_flavoursToInstallList=Signal()
+	flavoursToInstallList=Property(str,_getFlavoursToInstallList,_setFlavoursToInstallList,notify=on_flavoursToInstallList)
+
+	on_flavoursToRemoveList=Signal()
+	flavoursToRemoveList=Property(str,_getFlavoursToRemovelList,_setFlavoursToRemoveList,notify=on_flavoursToRemoveList)	
 
 	flavoursModel=Property(QObject,_getFlavoursModel,constant=True)
 

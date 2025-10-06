@@ -169,17 +169,19 @@ GridLayout{
                 Keys.onReturnPressed: installBtn.clicked()
                 Keys.onEnterPressed: installBtn.clicked()
                 onClicked:{
-                    applyChanges()
-                    mainStackBridge.launchInstallProcess()
+                    summary.open()
                 }
             }
         }
     }
-
+    Summary{
+        id:summary
+    }
+    /*
     CustomDialog{
         id:uninstallDialog
         dialogIcon:"/usr/share/icons/breeze/status/64/dialog-warning.svg"
-        dialogTitle:"LliureX Java Panel"+" - "+i18nd("lliurex-flavours-selector","Uninstall process")
+        dialogTitle:"LliureX Flavours Selector"+" - "+i18nd("lliurex-flavours-selector","Changes to be applied to the systema")
         dialogMsg:i18nd("lliurex-flavours-selector","Do you want uninstall the selected Flavours?")
         dialogWidth:450
         btnAcceptVisible:true
@@ -200,12 +202,8 @@ GridLayout{
 
         }        
     }
-
-    
-    CustomPopup{
-        id:settingsPopup
-    }
-   
+    */
+  
     Timer{
         id:timer
     }
