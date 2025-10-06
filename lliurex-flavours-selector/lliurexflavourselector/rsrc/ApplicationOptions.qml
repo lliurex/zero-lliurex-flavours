@@ -263,6 +263,9 @@ GridLayout{
             case 7:
                 msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully")
                 break;
+            case 8:
+                msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility")
+                break;
             default:
                 break;
         }

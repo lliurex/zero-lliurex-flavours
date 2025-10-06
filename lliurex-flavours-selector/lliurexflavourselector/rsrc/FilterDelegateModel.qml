@@ -34,28 +34,33 @@ DelegateModel {
 	            let item = allItems.get(index).model;
 	            let visible = item[role].toLowerCase().includes(search.toLowerCase());
 	            let matchStatus=true
-	            if (statusFilter!="all"){
-	            	switch(statusFilter){
-	            		case "available":
-	            			if ((item["status"]=="installed")&&(item["type"]=="child")){
-	            				matchStatus=false
-			            	}
-			            	break;
-			            case "installed":
-			            	if ((item["status"]=="available")&&(item["type"]=="child")){
-			            		matchStatus=false
-			            	}
-			            	break;
-			            case "error":
-			            	if ((item["resultProcess"]!=1)&&(item["type"]=="child")){
-			            		matchStatus=false
-			            	}
-			            	break
-			       	}
+	            if (item["type"]=="child"){
+		            if (statusFilter!="all"){
+		            	switch(statusFilter){
+		            		case "available":
+		            			if (item["status"]=="installed"){
+		            				matchStatus=false
+				            	}
+				            	break;
+				            case "installed":
+				            	if (item["status"]=="available"){
+				            		matchStatus=false
+				            	}
+				            	break;
+				            case "error":
+				            	if (item["resultProcess"]!=1){
+				            		matchStatus=false
+				            	}
+				            	break
+				       	}
 
-			    }
+				    }
+				}else{
+					let visible=true
+					matchStatus=true
+				}
 	            if (!visible) continue;
-	            if (!item["isVisible"] || !matchStatus && item["type"]=="child") continue;
+	            if (!item["isVisible"] || !matchStatus) continue;
 	            allItems.setGroups(index, 1, [ "all", "visible" ]);
 	            visibleElements.push(index);
 	            

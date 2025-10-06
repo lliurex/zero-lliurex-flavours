@@ -210,6 +210,7 @@ class Bridge(QObject):
 		self._updatePackagesModelInfo(params)
 		#self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
 		enableBtn=False
+		showWarning=False
 		self.flavoursToInstallList=""
 		self.flavoursToRemoveList=""
 		self.core.mainStack.enableInstallAction=False
@@ -224,6 +225,9 @@ class Bridge(QObject):
 		if len(Bridge.flavourSelectorManager.flavourSelectedToRemove)>0:
 			for item in Bridge.flavourSelectorManager.flavourSelectedToRemove:
 				self.flavoursToRemoveList+="  - %s\n"%item
+				if item not in Bridge.flavourSelectorManager.wantToRemove:
+					showWarning=True
+
 			enableBtn=True
 			self.core.mainStack.enableRemoveAction=True
 
@@ -231,6 +235,11 @@ class Bridge(QObject):
 			self.core.mainStack.enableApplyBtn=True
 		else:
 			self.core.mainStack.enableApplyBtn=False
+
+		if showWarning:
+			self.core.mainStack.showStatusMessage=[True,Bridge.flavourSelectorManager.MSG_WARNING_REMOVE_META,"Warning"]
+		else:
+			self.core.mainStack.showStatusMessage=[False,"","Ok"]
 
 	#def _refreshInfo
 

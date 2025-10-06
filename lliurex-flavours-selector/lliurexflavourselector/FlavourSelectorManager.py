@@ -32,6 +32,7 @@ class FlavourSelectorManager:
 	MSG_FEEDBACK_INSTALL_REPOSITORIES=4
 	MSG_FEEDBACK_INSTALL_INSTALL=5
 	MSG_FEEDBACK_UNINSTALL_RUN=6
+	MSG_WARNING_REMOVE_META=8
 
 	def __init__(self):
 
@@ -42,7 +43,7 @@ class FlavourSelectorManager:
 		self.flavourSelected=[]
 		self.flavourSelectedToInstall=[]
 		self.flavourSelectedToRemove=[]
-		self.forceRemove=[]
+		self.wantToRemove=[]
 		self.uncheckAll=False
 		self.firstConnection=False
 		self.secondConnection=False
@@ -170,7 +171,7 @@ class FlavourSelectorManager:
 							tmp["status"]="available"
 						tmp["banner"]=tmpInfo["banner"]
 						tmp["showSpinner"]=False
-						tmp["showAction"]=False
+						tmp["showAction"]=-1
 						tmp["isExpanded"]=True
 						tmp["isVisible"]=True
 						#tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
@@ -183,7 +184,8 @@ class FlavourSelectorManager:
 								self.parentsWithMeta.append(tmp["flavourParent"])
 							if status=="installed":
 								tmp["isChecked"]=True
-								tmp["banner"]="%s_OK.png"%tmp["banner"]
+								#tmp["banner"]="%s_OK.png"%tmp["banner"]
+								tmp["showAction"]=0
 								'''
 								if tmp["isManaged"]:
 									self.totalPackages+=1
@@ -255,16 +257,16 @@ class FlavourSelectorManager:
 
 	def onCheckedPackages(self,pkg,isChecked):
 
-		self._managePkgSelected(pkg,isChecked)
-		self._updateCheckedFlavours(pkg,isChecked)
-		
 		if not isChecked:
 			if pkg in self.pkgsInstalled:
-				if pkg not in self.forceRemove:
-					self.forceRemove.append(pkg)
+				if pkg not in self.wantToRemove:
+					self.wantToRemove.append(pkg)
 		else:
-			if pkg in self.forceRemove:
-				self.forceRemove.remove(pkg)
+			if pkg in self.wantToRemove:
+				self.wantToRemove.remove(pkg)
+
+		self._managePkgSelected(pkg,isChecked)
+		self._updateCheckedFlavours(pkg,isChecked)
 
 		self._checkIncompatible(pkg,isChecked)
 
@@ -289,7 +291,7 @@ class FlavourSelectorManager:
 				for item in conflicts:
 					if item in self.pkgsInstalled:	
 						self._managePkgSelected(item,True)
-						if item not in self.forceRemove:
+						if item not in self.wantToRemove:
 							self._updateCheckedFlavours(item,True)			
 
 	#def _checkIncompatible
@@ -297,16 +299,18 @@ class FlavourSelectorManager:
 	def _updateCheckedFlavours(self,pkg,isChecked):
 
 		tmpParam={}
-		showAction=False
+		showAction=-1
 		tmpParam["isChecked"]=isChecked
 		for item in self.flavoursData:
 			if item["pkg"]==pkg:
 				if item["status"]=="available":
 					if isChecked:
-						showAction=True
+						showAction=2
 				else:
 					if not isChecked:
-						showAction=True
+						showAction=1
+					else:
+						showAction=0
 				break
 						
 		tmpParam["showAction"]=showAction
@@ -347,11 +351,13 @@ class FlavourSelectorManager:
 			else:
 				abort=False
 				if toConflict:
-					if pkg in self.forceRemove:
+					if pkg in self.wantToRemove:
 						abort=True
 				if not abort:
-					if pkg in self.flavourSelectedToRemove:
-						self.flavourSelectedToRemove.remove(pkg)
+					if pkg not in self.wantToRemove:
+						if pkg in self.flavourSelectedToRemove:
+							self.flavourSelectedToRemove.remove(pkg)
+			
 		else:
 			if pkg in self.pkgsInstalled:
 				if pkg not in self.flavourSelectedToRemove:

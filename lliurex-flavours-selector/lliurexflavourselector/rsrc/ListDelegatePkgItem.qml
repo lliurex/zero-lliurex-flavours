@@ -19,7 +19,7 @@ PC.ItemDelegate{
 	    property bool isExpanded
 	    property string type
 	    property string flavourParent
-	    property bool showAction
+	    property int showAction
 
 	    height:{
 	    	if (isVisible){
@@ -51,15 +51,19 @@ PC.ItemDelegate{
 	    		if (type=="parent"){
 	    			"#add8e6"
 	    		}else{
-	    			if (showAction){
-	    				if (!isChecked){
+	    			switch(showAction){
+	    				case 0:
+	    				case -1:
+	    					"transparent"
+	    					break
+	    				case 1:
 	    					"#d3d3d3"
-	    				}else{
+	    					break
+	    				case 2:
 	    					"#98fb98"
-	    				}
-	    			}else{
-	    				"transparent"
+	    					break
 	    			}
+	    			
 	    		}
 
 	    	}
@@ -105,9 +109,9 @@ PC.ItemDelegate{
                 	id:expandParentIcon
                 	source:{
                     	if (isExpanded){
-                        	"/usr/share/icons/breeze/actions/22/go-down.svg"
+                        	"/usr/share/icons/breeze/actions/24/go-down.svg"
                     	}else{
-                        	"/usr/share/icons/breeze/actions/22/go-next.svg"
+                        	"/usr/share/icons/breeze/actions/24/go-next.svg"
                     	}
                 	}
                 	visible:{
@@ -120,13 +124,22 @@ PC.ItemDelegate{
                 	anchors.left:parent.left
                 	anchors.verticalCenter:parent.verticalCenter
                 	anchors.leftMargin:10
+                	enabled: {
+                		if (flavourStackBridge.filterStatusValue=="all"){
+                			true
+                		}else{
+                			false
+                		}
+                	}
                		MouseArea{
                     	function expand(isExpanded,pkg) {
                         	for(var i = 0; i < listPkg.count; ++i) {
                             	var item=flavourStackBridge.getModelData(i)
+                            	console.log(item["pkg"])
                             	if (item["pkg"]===pkg){
                                 	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
                             	}else{
+                            		console.log(item["flavourParent"])
                             		if (item["flavourParent"]===pkg){
                             			flavourStackBridge.onExpandedParent([item["pkg"],"isVisible",isExpanded])
                             		}
@@ -173,16 +186,33 @@ PC.ItemDelegate{
 				Image {
 					id:actionIcon
 					source:{
-                    	if (!isChecked){
-                        	"/usr/share/icons/breeze/actions/22/edit-delete.svg"
-                    	}else{
-                        	"/usr/share/icons/breeze/actions/22/edit-download.svg"
-                    	}
-                	}
-					visible:showAction
+						switch(showAction){
+							case 0:
+								"/usr/share/icons/breeze/status/24/data-success.svg"
+								break
+							case 1:
+								"/usr/share/icons/breeze/actions/24/edit-delete.svg"
+								break;
+							case 2:
+								"/usr/share/icons/breeze/actions/24/edit-download.svg"
+								break
+							default:
+								"/usr/share/icons/breeze/emblems/16/package-available.svg"
+								break;
+						}
+	               	}
+					visible:{
+						if (showAction!=-1){
+							true
+						}else{
+							false
+						}
+					}
 					anchors.left:packageCheck.right
                 	anchors.verticalCenter:parent.verticalCenter
                 	anchors.leftMargin:10
+                	sourceSize.width:32
+					sourceSize.height:32
 				}
 
 				Image {
@@ -220,7 +250,7 @@ PC.ItemDelegate{
 					text: name
 					width: {
 						if ((showSpinner) || (resultImg.visible)){
-							parent.width-resultImg.width-150
+							parent.width-(resultImg.width+actionIcon.width+175)
 						}else{
 							if (type==="child"){
 								parent.width-175
@@ -241,7 +271,13 @@ PC.ItemDelegate{
 							false
 						}
 					}
-					anchors.left:packageIcon.right
+					anchors.left:{
+						if (type=="child"){
+							packageIcon.right
+						}else{
+							expandParentIcon.right
+						}
+					}
 					anchors.verticalCenter:parent.verticalCenter
 				} 
 
@@ -255,7 +291,7 @@ PC.ItemDelegate{
 						}
 					}
 					visible:{
-						if (resultProcess!=-1){
+						if (resultProcess==1){
 							true
 						}else{
 							false
@@ -280,7 +316,7 @@ PC.ItemDelegate{
 						if ((packageCheck.checked) && (showSpinner)){
 							mainStackBridge.isProcessRunning
 						}else{
-						false
+							false
 						}
 					}
 
