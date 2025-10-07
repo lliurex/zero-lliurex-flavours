@@ -125,7 +125,7 @@ PC.ItemDelegate{
                 	anchors.verticalCenter:parent.verticalCenter
                 	anchors.leftMargin:10
                 	enabled: {
-                		if (flavourStackBridge.filterStatusValue=="all"){
+                		if ((flavourStackBridge.filterStatusValue=="all") && (pkgSearchEntry.text.trim()=="")){
                 			true
                 		}else{
                 			false
@@ -135,11 +135,9 @@ PC.ItemDelegate{
                     	function expand(isExpanded,pkg) {
                         	for(var i = 0; i < listPkg.count; ++i) {
                             	var item=flavourStackBridge.getModelData(i)
-                            	console.log(item["pkg"])
-                            	if (item["pkg"]===pkg){
+                              	if (item["pkg"]===pkg){
                                 	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
                             	}else{
-                            		console.log(item["flavourParent"])
                             		if (item["flavourParent"]===pkg){
                             			flavourStackBridge.onExpandedParent([item["pkg"],"isVisible",isExpanded])
                             		}

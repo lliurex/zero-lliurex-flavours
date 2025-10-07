@@ -23,6 +23,7 @@ Rectangle{
             Layout.alignment:Qt.AlignRight
             spacing:10
             Layout.topMargin:40
+            enabled:flavourStackBridge.enableSearch?true:false
             PC.Button{
                 id:statusFilterBtn
                 display:AbstractButton.IconOnly

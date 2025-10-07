@@ -58,6 +58,7 @@ class FlavourSelectorManager:
 		self.flavourRegisterDir="/etc/lliurex-flavour-selector"
 		self.flavourRegisterFile=os.path.join(self.flavourRegisterDir,"managed_flavour.txt")
 		self.runPkexec=True
+		self.nonExpandedParent=[]
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
@@ -189,19 +190,12 @@ class FlavourSelectorManager:
 								tmp["isChecked"]=True
 								#tmp["banner"]="%s_OK.png"%tmp["banner"]
 								tmp["showAction"]=0
-								'''
-								if tmp["isManaged"]:
-									self.totalPackages+=1
-								else:
-									self.nonManagedPkg+=1
-								'''
+								self.totalPackages+=1
 								self.pkgsInstalled.append(tmp["pkg"])
 							else:
 								tmp["isChecked"]=False
-								'''
-								if tmp["isManaged"]:
-									self.totalPackages+=1
-								'''
+								self.totalPackages+=1
+								
 						else:
 							tmp["isChecked"]=False
 						self.flavoursData.append(tmp)
@@ -244,6 +238,14 @@ class FlavourSelectorManager:
 
 		tmpParam={}
 		tmpParam[info[1]]=info[2]
+		if info[1]=="isExpanded":
+			if not info[2]:
+				if info[0] not in self.nonExpandedParent:
+					self.nonExpandedParent.append(info[0])
+			else:
+				if info[0] in self.nonExpandedParent:
+					self.nonExpandedParent.remove(info[0])
+					
 		self._updateFlavoursModel(tmpParam,info[0])			
 	
 	#def onExpandedParent

@@ -29,6 +29,7 @@ class Bridge(QObject):
 		self.flavoursEntries=[]
 		self._flavoursToInstallList=""
 		self._flavoursToRemoveList=""
+		self._enableSearch=True
 
 	#def __init__
 
@@ -110,6 +111,20 @@ class Bridge(QObject):
 
 	#def _setFlavoursToRemoveList
 
+	def _getEnableSearch(self):
+
+		return self._enableSearch
+
+	#def _getEnableSearch
+
+	def _setEnableSearch(self,enableSearch):
+
+		if self._enableSearch!=enableSearch:
+			self._enableSearch=enableSearch
+			self.on_enableSearch.emit()
+
+	#def _setEnableSearch
+
 	def _getFlavoursModel(self):
 
 		return self._flavoursModel
@@ -190,6 +205,11 @@ class Bridge(QObject):
 		Bridge.flavourSelectorManager.onExpandedParent(info)
 		params=[]
 		params.append(info[1])
+		if len(Bridge.flavourSelectorManager.nonExpandedParent)==0:
+			self.enableSearch=True
+		else:
+			self.enableSearch=False
+
 		self._updatePackagesModelInfo(params)
 	
 	#def updateModel
@@ -277,6 +297,9 @@ class Bridge(QObject):
 
 	on_flavoursToRemoveList=Signal()
 	flavoursToRemoveList=Property(str,_getFlavoursToRemovelList,_setFlavoursToRemoveList,notify=on_flavoursToRemoveList)	
+
+	on_enableSearch=Signal()
+	enableSearch=Property(bool,_getEnableSearch,_setEnableSearch,notify=on_enableSearch)
 
 	flavoursModel=Property(QObject,_getFlavoursModel,constant=True)
 
