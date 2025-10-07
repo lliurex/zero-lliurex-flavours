@@ -145,6 +145,7 @@ class Bridge(QObject):
 		params=[]
 		params.append("showSpinner")
 		params.append("resultProcess")
+		params.append("showAction")
 		if step=="end":
 			params.append("banner")
 			params.append("status")
@@ -156,7 +157,7 @@ class Bridge(QObject):
 	def _updateFlavoursModelInfo(self,params):
 
 		updatedInfo=Bridge.flavourSelectorManager.flavoursData
-		
+
 		if len(updatedInfo)>0:
 			for i in range(len(updatedInfo)):
 				valuesToUpdate=[]

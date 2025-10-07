@@ -57,10 +57,10 @@ PC.ItemDelegate{
 	    					"transparent"
 	    					break
 	    				case 1:
-	    					"#d3d3d3"
+	    					"#f0d6bf"
 	    					break
 	    				case 2:
-	    					"#98fb98"
+	    					"#c7e2d2"
 	    					break
 	    			}
 	    			
@@ -291,7 +291,7 @@ PC.ItemDelegate{
 						}
 					}
 					visible:{
-						if (resultProcess==1){
+						if (resultProcess!=-1){
 							true
 						}else{
 							false
@@ -311,9 +311,10 @@ PC.ItemDelegate{
 					height:0.4*(animation.height)
 					anchors.leftMargin:10
 					anchors.right:parent.right
+					anchors.rightMargin:1.5
 					anchors.verticalCenter:parent.verticalCenter
 					visible:{
-						if ((packageCheck.checked) && (showSpinner)){
+						if (showSpinner){
 							mainStackBridge.isProcessRunning
 						}else{
 							false

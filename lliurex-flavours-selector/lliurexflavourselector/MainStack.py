@@ -318,7 +318,7 @@ class Bridge(QObject):
 	#def getNewCommand
 
 	@Slot()
-	def launchInstallProcess(self):
+	def launchChangeProcess(self):
 
 		self.showStatusMessage=[False,"","Ok"]
 		self.core.flavourStack.enableFlavourList=False
@@ -327,29 +327,9 @@ class Bridge(QObject):
 		self.enableApplyBtn=False
 		self.isProgressBarVisible=True
 		self.isProcessRunning=True
-		self.launchedProcess="install"
-		self.enableKonsole=True
-		self.feedbackCode=Bridge.flavourSelectorManager.MSG_FEEDBACK_INTERNET
 		self.core.installStack.checkInternetConnection()
-	
-	#def launchInstallProcess
 
-	@Slot()
-	def launchUnInstallProcess(self):
-
-		self.showStatusMessage=[False,"","Ok"]
-		self.core.flavourStack.enableFlavourList=False
-		self.core.flavourStack.filterStatusValue="all"
-		self.endProcess=False
-		self.enableApplyBtn=False
-		self.launchedProcess="uninstall"
-		self.enableKonsole=True
-		self.feedbackCode=Bridge.flavourSelectorManager.MSG_FEEDBACK_UNINSTALL_RUN
-		self.isProcessRunning=True
-		self.isProgressBarVisible=True
-		self.core.unInstallStack.unInstallProcess()
-
-	#def launchUnInstallProcess
+	#def launchChangeProcess
 
 	@Slot(int)
 	def manageTransitions(self,stack):

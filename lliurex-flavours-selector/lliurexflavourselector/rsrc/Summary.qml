@@ -7,6 +7,8 @@ import org.kde.plasma.components as PC
 Popup {
 
     id:summaryPopUp
+    signal dialogApplyClicked
+    signal cancelDialogClicked
    
     width:500
     height:490
@@ -50,7 +52,7 @@ Popup {
 
             Text{
                 id:installText
-                text:i18nd("lliurex-flavours-selector","New flavours to install:")+"\n"+flavourStackBridge.flavoursToInstallList
+                text:i18nd("lliurex-flavours-selector","Flavours to install:")+"\n"+flavourStackBridge.flavoursToInstallList
                 visible:mainStackBridge.enableInstallAction
                 font.family: "Quattrocento Sans Bold"
                 font.pointSize: 11
@@ -106,7 +108,7 @@ Popup {
                 enabled:true
 
                 onClicked:{
-                    summary.close()
+                   dialogApplyClicked()
                 }
             }
             
@@ -119,11 +121,12 @@ Popup {
                 Layout.preferredHeight: 40
                 enabled:true
                 onClicked:{
-                    summary.close()
                     autoRemoveCB.checked=false
+                    cancelDialogClicked()
                 }                
             }
 
         }
     }
+
 }

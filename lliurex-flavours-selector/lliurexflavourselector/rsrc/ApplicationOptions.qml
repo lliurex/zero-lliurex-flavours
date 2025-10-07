@@ -176,34 +176,21 @@ GridLayout{
     }
     Summary{
         id:summary
-    }
-    /*
-    CustomDialog{
-        id:uninstallDialog
-        dialogIcon:"/usr/share/icons/breeze/status/64/dialog-warning.svg"
-        dialogTitle:"LliureX Flavours Selector"+" - "+i18nd("lliurex-flavours-selector","Changes to be applied to the systema")
-        dialogMsg:i18nd("lliurex-flavours-selector","Do you want uninstall the selected Flavours?")
-        dialogWidth:450
-        btnAcceptVisible:true
-        btnCancelText:i18nd("lliurex-flavours-selector","Cancel")
-        btnCancelIcon:"dialog-cancel"
-
         Connections{
-            target:uninstallDialog
+            target:summary
             function onDialogApplyClicked(){
-                uninstallDialog.close()
+                summary.close()
                 konsolePanel.runCommand('history -c\n')
                 applyChanges()
-                mainStackBridge.launchUnInstallProcess()
+                mainStackBridge.launchChangeProcess()
             }
             function onCancelDialogClicked(){
-                uninstallDialog.close()
+                summary.close()
             } 
 
-        }        
+        }     
     }
-    */
-  
+    
     Timer{
         id:timer
     }
@@ -245,6 +232,9 @@ GridLayout{
             case -6:
                 msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending with errors");
                 break;
+            case -7:
+                msg=i18nd("lliurex-flavours-selector","The process has ending with errors")
+                break;
             case 1:
                 msg=i18nd("lliurex-flavours-selector","Installation process has ending successfully");
                 break;
@@ -265,6 +255,12 @@ GridLayout{
                 break;
             case 8:
                 msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility")
+                break;
+            case 9:
+                msg=i18nd("lliurex-flavours-selector","The process has ending successfully")
+                break;
+            case 10:
+                msg=i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
                 break;
             default:
                 break;

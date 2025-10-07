@@ -24,15 +24,18 @@ class FlavourSelectorManager:
 	ERROR_INTERNET_CONNECTION=-4
 	ERROR_UNINSTALL_UNINSTALL=-5
 	ERROR_PARTIAL_UNINSTALL=-6
+	ERROR_PROCESS=-7
 	
 	SUCCESS_INSTALL_PROCESS=1
 	SUCCESS_UNINSTALL_PROCESS=7
+	SUCCESS_PROCESS=9
 
 	MSG_FEEDBACK_INTERNET=3
 	MSG_FEEDBACK_INSTALL_REPOSITORIES=4
-	MSG_FEEDBACK_INSTALL_INSTALL=5
+	MSG_FEEDBACK_INSTALL_RUN=5
 	MSG_FEEDBACK_UNINSTALL_RUN=6
 	MSG_WARNING_REMOVE_META=8
+	MSG_FEEDBACK_AUTOREMOVE=10
 
 	def __init__(self):
 
@@ -447,7 +450,8 @@ class FlavourSelectorManager:
 		self.installAppDone=False
 		self.checkInstallLaunched=False
 		self.checkInstallDone=False
-		
+		self._initAutoRemoveProcess()
+		self.flavourSelected=self.flavourSelectedToInstall
 		self._initProcessValues(pkg)
 
 	#def initPkgInstallProcess
@@ -521,6 +525,7 @@ class FlavourSelectorManager:
 		self.disableMetaProtectionDone=False
 		self.enableMetaProtectionLaunched=False
 		self.enableMetaProtectionDone=False
+		self._initAutoRemoveProcess()
 
 	#def preUninstallProcess
 
@@ -530,10 +535,17 @@ class FlavourSelectorManager:
 		self.removePkgDone=False	
 		self.checkRemoveLaunched=False
 		self.checkRemoveDone=False
-
+		self.flavourSelected=self.flavourSelectedToRemove
+		print(self.flavourSelected)
 		self._initProcessValues(pkg)
 
 	#def initUnInstallProcess
+
+	def _initAutoRemoveProcess(self):
+		self.autoRemoveLaunched=False
+		self.autoRemoveDone=False
+
+	#def _initAutoRemoveProcess
 
 	def _initProcessValues(self,pkg):
 
@@ -610,6 +622,19 @@ class FlavourSelectorManager:
 
 	#def getEnableProtectionCommand
 
+	def getAutoRemoveCommand(self):
+
+		command="apt-get autoremove -y"
+		length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"autoremove")
+		else:
+			self.enableMetaProtectionDone=True
+
+		return command
+
+	#def getAutoRemoveCommand
 
 	def _updateProcessModelInfo(self,pkg,action,result):
 
@@ -620,11 +645,14 @@ class FlavourSelectorManager:
 					if result=="installed":
 						if pkg not in self.pkgsInstalled:
 							self.pkgsInstalled.append(pkg)
-						tmpParam["resultProcess"]=0
-						tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
+						tmpParam["showAction"]=0
+						tmpParam["resultProcess"]=-1
+						#tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
+						tmpParam["showAction"]=-1
 				elif action=="uninstall":
+					tmpParam["showAction"]=-1
 					if result=="available":
 						if pkg in self.pkgsInstalled:
 							self.pkgsInstalled.remove(pkg)
@@ -718,6 +746,9 @@ class FlavourSelectorManager:
 		elif action=="enablemetaprotection":
 			self.tokenEnableMetaProtection=tempfile.mkstemp('_enablemetaprotection')
 			removeTmp=' rm -f %s'%self.tokenEnableMetaProtection[1]
+		elif action=="autoremove":
+			self.tokenAutoRemove=tempfile.mkstemp("_autoremove")
+			removeTmp=' rm -f %s'%self.tokenAutoRemove[1]
 
 		cmd='%s ;stty -echo;%s\n'%(command,removeTmp)
 		if cmd.startswith(";"):

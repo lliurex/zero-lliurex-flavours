@@ -24,13 +24,16 @@ class UnInstallStack(QObject):
 	def unInstallProcess(self):
 
 		UnInstallStack.flavourSelectorManager.totalUninstallError=0
+		self.core.mainStack.launchedProcess="uninstall"
+		self.core.mainStack.enableKonsole=True
+		self.core.mainStack.feedbackCode=UnInstallStack.flavourSelectorManager.MSG_FEEDBACK_UNINSTALL_RUN
 		self.core.flavourStack.totalErrorInProcess=UnInstallStack.flavourSelectorManager.totalUninstallError
 		self.endAction=False
 		self.pkgProcessed=False
 		self.error=False
 		self.totalError=0
 		self.showError=False
-		countLimit=len(UnInstallStack.flavourSelectorManager.flavourSelected)
+		countLimit=len(UnInstallStack.flavourSelectorManager.flavourSelectedToRemove)
 		if countLimit==0:
 			self.countLimit=1
 		else:
@@ -57,7 +60,7 @@ class UnInstallStack(QObject):
 				if not self.endAction:
 					self.pkgToSelect+=1
 					if self.pkgToSelect<self.countLimit:
-						self.pkgToProcess=UnInstallStack.flavourSelectorManager.flavourSelected[self.pkgToSelect]
+						self.pkgToProcess=UnInstallStack.flavourSelectorManager.flavourSelectedToRemove[self.pkgToSelect]
 						UnInstallStack.flavourSelectorManager.initUnInstallProcess(self.pkgToProcess)
 						self.core.flavourStack.updateResultFlavoursModel('start')
 						if not UnInstallStack.flavourSelectorManager.removePkgLaunched:
@@ -90,29 +93,48 @@ class UnInstallStack(QObject):
 				self.core.mainStack.endCurrentCommand=True
 	
 			if UnInstallStack.flavourSelectorManager.enableMetaProtectionDone:
-				if self.totalError>0:
-					self.showError=True
+				if self.core.mainStack.launchAutoRemove and not self.core.mainStack.enableInstallAction:
+					if not UnInstallStack.flavourSelectorManager.autoRemoveLaunched:
+						self.core.mainStack.feedbackCode=UnInstallStack.flavourSelectorManager.MSG_FEEDBACK_AUTOREMOVE
+						UnInstallStack.flavourSelectorManager.autoRemoveLaunched=True
+						self.core.mainStack.currentCommand=UnInstallStack.flavourSelectorManager.getAutoRemoveCommand()
+						self.core.mainStack.endCurrentCommand=True
 
-				self.core.mainStack.isProgressBarVisible=False
-				self.core.mainStack.isProcessRunning=False
-				self.core.mainStack.endProcess=True
-				self.core.mainStack.feedbackCode=""
-				self.core.mainStack.enableApplyBtn=True
-				self.core.flavourStack.enableFlavourList=True
-				self.core.flavourStack.isAllInstalled=UnInstallStack.flavourSelectorManager.isAllInstalled()
-				self.core.flavourStack.totalErrorInProcess=UnInstallStack.flavourSelectorManager.totalUninstallError
-				self.core.mainStack.manageRemoveBtn()
-				UnInstallStack.flavourSelectorManager.updateFlavourRegister()
-				self.uninstallProcessTimer.stop()
-				
-				if self.showError:
-					if self.countLimit==1:
-						self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
-					else:
-						self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
 				else:
-					self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
-				
+					UnInstallStack.flavourSelectorManager.autoRemoveLaunched=True
+					UnInstallStack.flavourSelectorManager.autoRemoveDone=True
+
+				if UnInstallStack.flavourSelectorManager.autoRemoveDone:		
+					if self.totalError>0:
+						self.showError=True
+
+					UnInstallStack.flavourSelectorManager.flavourSelectedToRemove=[]
+
+					if self.core.mainStack.enableInstallAction:
+						self.uninstallProcessTimer.stop()
+						self.core.installStack.installProcess()
+					else:
+						self.core.mainStack.enableRemoveAction=False
+						self.core.mainStack.isProgressBarVisible=False
+						self.core.mainStack.isProcessRunning=False
+						self.core.mainStack.endProcess=True
+						self.core.mainStack.feedbackCode=""
+						self.core.mainStack.enableApplyBtn=True
+						self.core.flavourStack.enableFlavourList=True
+						self.core.flavourStack.isAllInstalled=UnInstallStack.flavourSelectorManager.isAllInstalled()
+						self.core.flavourStack.totalErrorInProcess=UnInstallStack.flavourSelectorManager.totalUninstallError
+						self.uninstallProcessTimer.stop()
+						self.core.flavourStack.totalErrorInProcess=UnInstallStack.flavourSelectorManager.totalUninstallError
+						
+						if self.showError:
+							if self.countLimit==1:
+								self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
+							else:
+								self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
+						
+						else:
+							self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
+						
 
 		if UnInstallStack.flavourSelectorManager.disableMetaProtectionLaunched:
 			if not UnInstallStack.flavourSelectorManager.disableMetaProtectionDone:
@@ -128,7 +150,11 @@ class UnInstallStack(QObject):
 			if not UnInstallStack.flavourSelectorManager.enableMetaProtectionDone:
 				if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenEnableMetaProtection[1]):
 					UnInstallStack.flavourSelectorManager.enableMetaProtectionDone=True
-
+			else:
+				if UnInstallStack.flavourSelectorManager.autoRemoveLaunched:
+					if not UnInstallStack.flavourSelectorManager.autoRemoveDone:
+						if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenAutoRemove[1]):
+							UnInstallStack.flavourSelectorManager.autoRemoveDone=True
 		
 	#def _uninstallProcessTimerRet
 
