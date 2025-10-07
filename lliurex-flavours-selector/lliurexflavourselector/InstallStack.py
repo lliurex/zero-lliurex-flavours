@@ -182,9 +182,13 @@ class InstallStack(QObject):
 				self.core.flavourStack.enableFlavourList=True
 				self.installProcessTimer.stop()
 				InstallStack.flavourSelectorManager.flavourSelectedToInstall=[]
-				self.core.flavourStack.totalErrorInProcess=self.totalError+self.core.unInstallStack.totalError
+				if self.core.mainStack.enableRemoveAction:
+					self.core.flavourStack.totalErrorInProcess=self.totalError+self.core.unInstallStack.totalError
+				else:
+					self.core.mainStack.totalErrorInProcess=self.totalError
 				self.core.mainStack.enableInstallAction=False
-				self.core.mainStack.enableRemoveAction=False		
+				self.core.mainStack.enableRemoveAction=False
+				self.core.mainStack.launchAutoRemove=False		
 		
 		if InstallStack.flavourSelectorManager.updateReposLaunched:
 			if not InstallStack.flavourSelectorManager.updateReposDone:

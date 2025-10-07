@@ -7,8 +7,8 @@ import org.kde.plasma.components as PC
 Popup {
 
     id:summaryPopUp
-    signal dialogApplyClicked
-    signal cancelDialogClicked
+    signal btnApplyClicked
+    signal btnCancelClicked
    
     width:500
     height:490
@@ -23,7 +23,7 @@ Popup {
         border.width:1
         radius:5.0
     }
-
+   
     contentItem:Rectangle{
         id:container
         width:500
@@ -34,7 +34,8 @@ Popup {
             source:"/usr/share/icons/breeze/status/64/dialog-warning.svg"
 
         }
-        Text{ 
+        Text{
+            id:titleSummary 
             text:i18nd("lliurex-flavours-selector","Changes to be applied to the system")
             font.pointSize: 16
             anchors.left:dialogIcon.right
@@ -106,9 +107,10 @@ Popup {
                 text:i18nd("lliurex-flavours-selector","Accept")
                 Layout.preferredHeight:40
                 enabled:true
-
+		focusPolicy: Qt.NoFocus
                 onClicked:{
-                   dialogApplyClicked()
+                   autoRemoveCB.checked=false
+                   btnApplyClicked()
                 }
             }
             
@@ -120,9 +122,10 @@ Popup {
                 text:i18nd("lliurex-flavours-selector","Cancel")
                 Layout.preferredHeight: 40
                 enabled:true
+		focusPolicy: Qt.NoFocus
                 onClicked:{
                     autoRemoveCB.checked=false
-                    cancelDialogClicked()
+                    btnCancelClicked()
                 }                
             }
 

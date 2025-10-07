@@ -102,31 +102,7 @@ GridLayout{
             Layout.bottomMargin:10
             Layout.fillWidth:true
             
-            /*
-            PC.Button {
-                id:uninstallBtn
-                visible:{
-                    if (mainStackBridge.showRemoveBtn){
-                        true
-                    }else{
-                       false
-                    }
-                }
-                focus:true
-                display:AbstractButton.TextBesideIcon
-                icon.name:"remove"
-                text:i18nd("lliurex-flavours-selector","Uninstall")
-                enabled:mainStackBridge.enableRemoveBtn?true:false
-                Layout.preferredHeight:40
-                Layout.rightMargin:10
-                Keys.onReturnPressed: uninstallBtn.clicked()
-                Keys.onEnterPressed: uninstallBtn.clicked()
-                onClicked:{
-                    uninstallDialog.open()
-                }
-            }
-            */
-            ColumnLayout{
+           ColumnLayout{
                 id:feedbackColumn
                 spacing:10
                 Layout.alignment:Qt.AlignHCenter
@@ -178,13 +154,13 @@ GridLayout{
         id:summary
         Connections{
             target:summary
-            function onDialogApplyClicked(){
+            function onBtnApplyClicked(){
                 summary.close()
                 konsolePanel.runCommand('history -c\n')
                 applyChanges()
                 mainStackBridge.launchChangeProcess()
             }
-            function onCancelDialogClicked(){
+            function onBtnCancelClicked(){
                 summary.close()
             } 
 
