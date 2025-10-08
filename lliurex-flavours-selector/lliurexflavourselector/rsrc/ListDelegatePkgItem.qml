@@ -298,7 +298,6 @@ PC.ItemDelegate{
 					sourceSize.width:32
 					sourceSize.height:32
 					anchors.leftMargin:10
-					anchors.rightMargin:1.5
 					anchors.right:parent.right
 					anchors.verticalCenter:parent.verticalCenter
 				}
@@ -309,7 +308,7 @@ PC.ItemDelegate{
 					height:0.4*(animation.height)
 					anchors.leftMargin:10
 					anchors.right:parent.right
-					anchors.rightMargin:1.5
+					anchors.rightMargin:1
 					anchors.verticalCenter:parent.verticalCenter
 					visible:{
 						if (showSpinner){

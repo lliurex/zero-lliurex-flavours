@@ -25,6 +25,7 @@ class FlavourSelectorManager:
 	ERROR_UNINSTALL_UNINSTALL=-5
 	ERROR_PARTIAL_UNINSTALL=-6
 	ERROR_PROCESS=-7
+	ERROR_PROCESS_CONFLICTS=-8
 	
 	SUCCESS_INSTALL_PROCESS=1
 	SUCCESS_UNINSTALL_PROCESS=7
@@ -36,6 +37,7 @@ class FlavourSelectorManager:
 	MSG_FEEDBACK_UNINSTALL_RUN=6
 	MSG_WARNING_REMOVE_META=8
 	MSG_FEEDBACK_AUTOREMOVE=10
+	MSG_FEEDBACK_PROTECTION=11
 
 	def __init__(self):
 
@@ -443,6 +445,7 @@ class FlavourSelectorManager:
 
 		self.updateReposLaunched=False
 		self.updateReposDone=False
+		self.errorInConflicts=False
 
 	#def initInstallProcess
 
@@ -475,7 +478,18 @@ class FlavourSelectorManager:
 	def getInstallCommand(self,pkg):
 
 		command=""
-		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["installCmd"]
+		conflictDetected=False
+		conflicts=self.flavoursInfo[pkg]["conflicts"]
+		
+		for item in conflicts:
+			if item in self.pkgsInstalled:
+				self.errorInConflicts=True
+				conflictDetected=True
+				break
+				
+		if not conflictDetected:
+			command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["installCmd"]
+		
 		length=len(command)
 
 		if length>0:
@@ -538,7 +552,6 @@ class FlavourSelectorManager:
 		self.checkRemoveLaunched=False
 		self.checkRemoveDone=False
 		self.flavourSelected=self.flavourSelectedToRemove
-		print(self.flavourSelected)
 		self._initProcessValues(pkg)
 
 	#def initUnInstallProcess
@@ -653,15 +666,18 @@ class FlavourSelectorManager:
 					else:
 						tmpParam["resultProcess"]=1
 						tmpParam["showAction"]=-1
+						tmpParam["isChecked"]=False
 				elif action=="uninstall":
-					tmpParam["showAction"]=-1
 					if result=="available":
 						if pkg in self.pkgsInstalled:
 							self.pkgsInstalled.remove(pkg)
 						tmpParam["resultProcess"]=0
+						tmpParam["showAction"]=-1
 						tmpParam["banner"]=self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
+						tmpParam["showAction"]=0
+						tmpParam["isChecked"]=True
 
 				tmpParam["status"]=result
 				tmpParam["showSpinner"]=False

@@ -161,6 +161,7 @@ class Bridge(QObject):
 		params.append("showSpinner")
 		params.append("resultProcess")
 		params.append("showAction")
+		params.append("isChecked")
 		if step=="end":
 			params.append("banner")
 			params.append("status")

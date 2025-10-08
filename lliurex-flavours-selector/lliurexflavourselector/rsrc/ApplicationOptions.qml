@@ -211,6 +211,9 @@ GridLayout{
             case -7:
                 msg=i18nd("lliurex-flavours-selector","The process has ending with errors")
                 break;
+            case -8:
+                msg=i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities")
+                break;
             case 1:
                 msg=i18nd("lliurex-flavours-selector","Installation process has ending successfully");
                 break;
@@ -237,6 +240,9 @@ GridLayout{
                 break;
             case 10:
                 msg=i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
+                break;
+            case 11:
+                msg=i18nd("lliurex-flavours-selector","Activating metapackages protection")
                 break;
             default:
                 break;
