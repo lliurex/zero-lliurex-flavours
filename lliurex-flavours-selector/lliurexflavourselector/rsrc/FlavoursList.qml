@@ -145,7 +145,7 @@ Rectangle{
                 ListView{
                     id: listPkg
                     anchors.fill:parent
-                    height: parent.height
+                    height: parent.height+20
                     enabled:flavourStackBridge.enableFlavourList
                     currentIndex:-1
                     clip: true
