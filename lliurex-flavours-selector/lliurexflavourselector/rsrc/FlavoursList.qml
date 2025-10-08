@@ -23,7 +23,7 @@ Rectangle{
             Layout.alignment:Qt.AlignRight
             spacing:10
             Layout.topMargin:40
-            enabled:flavourStackBridge.enableSearch?true:false
+            enabled:true
             PC.Button{
                 id:statusFilterBtn
                 display:AbstractButton.IconOnly
@@ -144,7 +144,6 @@ Rectangle{
        
                 ListView{
                     id: listPkg
-                    property int totalItems
                     anchors.fill:parent
                     height: parent.height
                     enabled:flavourStackBridge.enableFlavourList

@@ -240,6 +240,7 @@ class FlavourSelectorManager:
 
 		tmpParam={}
 		tmpParam[info[1]]=info[2]
+		'''
 		if info[1]=="isExpanded":
 			if not info[2]:
 				if info[0] not in self.nonExpandedParent:
@@ -247,7 +248,7 @@ class FlavourSelectorManager:
 			else:
 				if info[0] in self.nonExpandedParent:
 					self.nonExpandedParent.remove(info[0])
-					
+		'''			
 		self._updateFlavoursModel(tmpParam,info[0])			
 	
 	#def onExpandedParent

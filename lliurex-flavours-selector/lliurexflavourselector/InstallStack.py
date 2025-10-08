@@ -171,7 +171,7 @@ class InstallStack(QObject):
 							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.SUCCESS_PROCESS,"Ok"]
 					else:
 						if self.core.unInstallStack.countLimit==1:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
+								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
 						else:
 							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
 

@@ -41,13 +41,7 @@ DelegateModel {
 						let matchStatus=true
 						if ((itemChild["type"]=="child") && (itemChild["flavourParent"]==item["pkg"])){
 							let visible = itemChild[role].toLowerCase().includes(search.toLowerCase());
-							if (visible){
-								visibleParent=true
-							}else{
-								if (visibleParent){
-									visible=true
-								}
-							}
+							
 							if (statusFilter!="all"){
 		            			switch(statusFilter){
 		            				case "available":
@@ -75,6 +69,17 @@ DelegateModel {
 
 				    		}else{
 				    			matchStatusParent=true
+				    		}
+
+				    		if (matchStatus){
+				    			if (visible){
+									visibleParentChild=true
+								}else{
+									if (visibleParent){
+										visible=true
+									}
+								}
+
 				    		}
 
 				    		if (!visible) continue;

@@ -22,28 +22,44 @@ PC.ItemDelegate{
 	    property int showAction
 
 	    height:{
-	    	if (isVisible){
-	    		if (type==="child"){
-	    			85
-	    		}else{
+	    	if (type=="parent"){
+	    		if (isVisible){
 	    			45
+	    		}else{
+	    			0
 	    		}
 	    	}else{
-	    		0	
+	    		if (isExpanded){
+	    			if (isVisible){
+	    				85
+	    			}else{
+	    				0
+	    			}
+	    		}else{
+	    			0
+	    		}
 	    	}
 	    }
 	    enabled:true
 	      
 	    Rectangle{
 	    	height:{
-	    		if (isVisible){
-	    			if (type==="child"){
-	    				80
-	    			}else{
+	    		if (type=="parent"){
+	    			if (isVisible){
 	    				40
+	    			}else{
+	    				0
 	    			}
 	    		}else{
-	    			0	
+	    			if (isExpanded){
+	    				if (isVisible){
+	    					80
+	    				}else{
+	    					0
+	    				}
+	    			}else{
+	    				0
+	    			}
 	    		}
 	    	}
 	    	width:parent.width
@@ -67,7 +83,17 @@ PC.ItemDelegate{
 	    		}
 
 	    	}
-	    	visible:isVisible
+	    	visible:{
+	    		if (type=="parent"){
+	    			isVisible
+	    		}else{
+	    			if (isExpanded){
+	    				isVisible
+	    			}else{
+	    				false
+	    			}
+	    		}
+	    	}
 	    	border.color:"transparent"
 
 			states: State {
@@ -92,15 +118,23 @@ PC.ItemDelegate{
 	    	Item{
 				id: menuItem
 				height:{
-					if (isVisible){
-						if (type==="child"){
-							80
-						}else{
-							40
-						}
-					}else{
-						0	
-					}
+		    		if (type=="parent"){
+		    			if (isVisible){
+		    				40
+		    			}else{
+		    				0
+		    			}
+		    		}else{
+		    			if (isExpanded){
+		    				if (isVisible){
+		    					80
+		    				}else{
+		    					0
+		    				}
+		    			}else{
+		    				0
+		    			}
+		    		}
 				}
 
 				width:parent.width-25
@@ -124,22 +158,17 @@ PC.ItemDelegate{
                 	anchors.left:parent.left
                 	anchors.verticalCenter:parent.verticalCenter
                 	anchors.leftMargin:10
-                	enabled: {
-                		if ((flavourStackBridge.filterStatusValue=="all") && (pkgSearchEntry.text.trim()=="")){
-                			true
-                		}else{
-                			false
-                		}
-                	}
+                	enabled:true
                		MouseArea{
                     	function expand(isExpanded,pkg) {
-                        	for(var i = 0; i < listPkg.count; ++i) {
+                        	for(var i = 0; i < flavourStackBridge.totalElements; ++i) {
                             	var item=flavourStackBridge.getModelData(i)
                               	if (item["pkg"]===pkg){
                                 	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
                             	}else{
                             		if (item["flavourParent"]===pkg){
-                            			flavourStackBridge.onExpandedParent([item["pkg"],"isVisible",isExpanded])
+                            			console.log(item["pkg"]+" - "+isExpanded)
+                            			flavourStackBridge.onExpandedParent([item["pkg"],"isExpanded",isExpanded])
                             		}
                             	}
                             	

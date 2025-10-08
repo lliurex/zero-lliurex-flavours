@@ -29,7 +29,7 @@ class Bridge(QObject):
 		self.flavoursEntries=[]
 		self._flavoursToInstallList=""
 		self._flavoursToRemoveList=""
-		self._enableSearch=True
+		self._totalElements=0
 
 	#def __init__
 
@@ -38,8 +38,9 @@ class Bridge(QObject):
 		self._updateFlavoursModel()
 		self.isAllInstalled=Bridge.flavourSelectorManager.isAllInstalled()
 		self.flavoursEntries=Bridge.flavourSelectorManager.flavoursData
-
-	#def showInfo
+		self.totalElements=len(self.flavoursEntries)
+	
+	#def getInfo
 
 	def _getIsAllInstalled(self):
 
@@ -111,19 +112,19 @@ class Bridge(QObject):
 
 	#def _setFlavoursToRemoveList
 
-	def _getEnableSearch(self):
+	def _getTotalElements(self):
 
-		return self._enableSearch
+		return self._totalElements
 
-	#def _getEnableSearch
+	#def _getTotalElements
 
-	def _setEnableSearch(self,enableSearch):
+	def _setTotalElements(self,totalElements):
 
-		if self._enableSearch!=enableSearch:
-			self._enableSearch=enableSearch
-			self.on_enableSearch.emit()
+		if self._totalElements!=totalElements:
+			self._totalElements=totalElements
+			self.on_totalElements.emit()
 
-	#def _setEnableSearch
+	#def _setTotalElements
 
 	def _getFlavoursModel(self):
 
@@ -299,8 +300,8 @@ class Bridge(QObject):
 	on_flavoursToRemoveList=Signal()
 	flavoursToRemoveList=Property(str,_getFlavoursToRemovelList,_setFlavoursToRemoveList,notify=on_flavoursToRemoveList)	
 
-	on_enableSearch=Signal()
-	enableSearch=Property(bool,_getEnableSearch,_setEnableSearch,notify=on_enableSearch)
+	on_totalElements=Signal()
+	totalElements=Property(int,_getTotalElements,_setTotalElements,notify=on_totalElements)
 
 	flavoursModel=Property(QObject,_getFlavoursModel,constant=True)
 
