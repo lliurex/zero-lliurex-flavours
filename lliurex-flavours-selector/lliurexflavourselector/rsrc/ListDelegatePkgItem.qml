@@ -167,7 +167,6 @@ PC.ItemDelegate{
                                 	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
                             	}else{
                             		if (item["flavourParent"]===pkg){
-                            			console.log(item["pkg"]+" - "+isExpanded)
                             			flavourStackBridge.onExpandedParent([item["pkg"],"isExpanded",isExpanded])
                             		}
                             	}
