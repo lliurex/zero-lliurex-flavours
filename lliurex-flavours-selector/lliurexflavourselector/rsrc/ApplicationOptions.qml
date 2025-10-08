@@ -13,8 +13,8 @@ GridLayout{
 
     Rectangle{
         width:130
-        Layout.minimumHeight:460
-        Layout.preferredHeight:460
+        Layout.minimumHeight:480
+        Layout.preferredHeight:480
         Layout.fillHeight:true
         border.color: "#d3d3d3"
 

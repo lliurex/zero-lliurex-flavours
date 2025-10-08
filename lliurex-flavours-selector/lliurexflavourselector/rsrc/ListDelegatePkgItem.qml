@@ -24,14 +24,14 @@ PC.ItemDelegate{
 	    height:{
 	    	if (type=="parent"){
 	    		if (isVisible){
-	    			45
+	    			30
 	    		}else{
 	    			0
 	    		}
 	    	}else{
 	    		if (isExpanded){
 	    			if (isVisible){
-	    				85
+	    				50
 	    			}else{
 	    				0
 	    			}
@@ -46,14 +46,14 @@ PC.ItemDelegate{
 	    	height:{
 	    		if (type=="parent"){
 	    			if (isVisible){
-	    				40
+	    				28
 	    			}else{
 	    				0
 	    			}
 	    		}else{
 	    			if (isExpanded){
 	    				if (isVisible){
-	    					80
+	    					48
 	    				}else{
 	    					0
 	    				}
@@ -62,7 +62,7 @@ PC.ItemDelegate{
 	    			}
 	    		}
 	    	}
-	    	width:parent.width
+	    	width:parent.width-20
 	    	color:{
 	    		if (type=="parent"){
 	    			"#add8e6"
@@ -120,14 +120,14 @@ PC.ItemDelegate{
 				height:{
 		    		if (type=="parent"){
 		    			if (isVisible){
-		    				40
+		    				28
 		    			}else{
 		    				0
 		    			}
 		    		}else{
 		    			if (isExpanded){
 		    				if (isVisible){
-		    					80
+		    					48
 		    				}else{
 		    					0
 		    				}
@@ -251,17 +251,17 @@ PC.ItemDelegate{
 							false
 						}
 					}
-					source:"image://iconProvider/"+banner
+					source:banner
 					sourceSize.width:{
 						if (type=="child"){
-							64
+							54
 						}else{
 							22
 						}
 					}
 					sourceSize.height:{
 						if (type=="child"){
-							64
+							36
 						}else{
 							22
 						}

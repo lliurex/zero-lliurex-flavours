@@ -178,7 +178,7 @@ class FlavourSelectorManager:
 						tmp["banner"]=tmpInfo["banner"]
 						tmp["showSpinner"]=False
 						tmp["showAction"]=-1
-						tmp["isExpanded"]=True
+						tmp["isExpanded"]=False
 						tmp["isVisible"]=True
 						#tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
 						tmp["flavourParent"]=tmpInfo["parent"]
