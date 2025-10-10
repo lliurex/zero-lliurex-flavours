@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-10 12:30+0200\n"
-"PO-Revision-Date: 2025-10-10 13:03+0200\n"
+"PO-Revision-Date: 2025-10-10 13:40+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -90,7 +90,8 @@ msgstr "El procés a finalitzat correctament"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:242
 msgid "Removing packages that are no longer neeed. Wait a moment..."
-msgstr "Desinstal·lant paquets que ja no són necessaris. Espere un moment..."
+msgstr ""
+"S'està desinstal·lant paquets que ja no són necessaris. Espereu un moment..."
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:245
 msgid "Activating metapackages protection. Wait a moment..."
