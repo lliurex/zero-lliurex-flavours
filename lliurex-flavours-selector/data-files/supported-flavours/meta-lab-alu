@@ -1,9 +1,9 @@
 [FLAVOUR]
 id=3001
 pkg=lliurex-meta-lab-alu
-name=LliureX LAB-ALU: intended for the student computer in laboratory
-name[ca@valencia]=LliureX LAB-ALU: intended for the student computer in laboratory
-name[es]=LliureX LAB-ALU: intended for the student computer in laboratory
+name=LliureX LAB-ALU: intended for the student computer in the computer classroom
+name[ca@valencia]=LliureX LAB-ALU: per a l'ordinador de l'alumnat a l'aula d'informàtica
+name[es]=LliureX LAB-ALU: dirigido para el ordenador del alumnado en el aula de informática
 installCmd=apt-get install -y lliurex-meta-lab-alu
 removeCmd=apt-get purge -y lliurex-meta-lab-alu
 type=child

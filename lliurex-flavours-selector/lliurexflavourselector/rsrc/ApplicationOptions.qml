@@ -242,7 +242,7 @@ GridLayout{
                 msg=i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
                 break;
             case 11:
-                msg=i18nd("lliurex-flavours-selector","Activating metapackages protection")
+                msg=i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
                 break;
             default:
                 break;

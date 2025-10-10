@@ -1,6 +1,7 @@
 #!/bin/bash
-
-xgettext --join-existing ./lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py -o ./translations/lliurex-flavours-selector.pot
-xgettext --join-existing ./lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py -o ./translations/lliurex-flavours-selector.pot
-xgettext --join-existing ./lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py -o ./translations/lliurex-flavours-selector.pot
-xgettext --join-existing ./lliurex-flavours-selector/python3-lliurexflavourselector/EmptyBox.py -o ./translations/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursPanel.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Loading.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot
+xgettext --join-existing -kde -ki18nd:2 ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml -o ../lliurex-po/lliurex-flavours-selector/lliurex-flavours-selector.pot

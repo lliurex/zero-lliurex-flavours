@@ -2,6 +2,6 @@
 id=4000
 pkg=educational
 name=Intended for different educational level
-name[ca@valencia]=Intended for different educational level
-name[es]=Intended for different educational level
+name[ca@valencia]=Adreçat a diferents nivells educatius
+name[es]=Dirigido a diferentes niveles educativos
 type=parent

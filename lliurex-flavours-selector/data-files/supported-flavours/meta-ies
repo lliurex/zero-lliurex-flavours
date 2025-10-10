@@ -2,8 +2,8 @@
 id=4002
 pkg=lliurex-meta-ies
 name=LliureX IES: offers a set of apps for IES
-name[ca@valencia]=LliureX IES: offers a set of apps for IES
-name[es]=LliureX IES: offers a set of apps for IES
+name[ca@valencia]=LliureX IES: oferix un conjunt d'aplicacions per als IES
+name[es]=LliureX IES: ofrece un conjunto de aplicaciones para los IES
 installCmd=apt-get install -y lliurex-meta-ies
 removeCmd=apt-get purge -y lliurex-meta-ies
 type=child
