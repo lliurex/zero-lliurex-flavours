@@ -43,6 +43,7 @@ PC.ItemDelegate{
 	    enabled:true
 	      
 	    Rectangle{
+	    	id:containerParent
 	    	height:{
 	    		if (type=="parent"){
 	    			if (isVisible){
@@ -137,59 +138,83 @@ PC.ItemDelegate{
 		    		}
 				}
 
-				width:parent.width-25
+				width:containerParent.width-25
+				Rectangle{
+					id:expandedContainer
+					width:26
+					height:26
+					visible:{
+	                	if (type==="parent"){
+	                		true
+	                	}else{
+	                		false
+	                	}
+	                }
+					anchors.verticalCenter:menuItem.verticalCenter
+					anchors.left:menuItem.left
+					anchors.leftMargin:10
+					border.color:"transparent"
+					radius:5.0
+					color:"transparent"
+					Image{
+	                	id:expandParentIcon
+	                	source:{
+	                    	if (isExpanded){
+	                        	"/usr/share/icons/breeze/actions/24/go-down.svg"
+	                    	}else{
+	                        	"/usr/share/icons/breeze/actions/24/go-next.svg"
+	                    	}
+	                	}
+	                	visible:{
+	                		if (type==="parent"){
+	                			true
+	                		}else{
+	                			false
+	                		}
+	                	}
+	                	anchors.centerIn:expandedContainer
+	                	enabled:true
+	               		MouseArea{
+	                    	function expand(isExpanded,pkg) {
+	                        	for(var i = 0; i < flavourStackBridge.totalElements; ++i) {
+	                            	var item=flavourStackBridge.getModelData(i)
+	                              	if (item["pkg"]===pkg){
+	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
+	                            	}else{
+	                            		if (item["flavourParent"]===pkg){
+	                            			flavourStackBridge.onExpandedParent([item["pkg"],"isExpanded",isExpanded])
+	                            		}
+	                            	}
+	                            	
+	                       		}
+	                    	}	 
+	                    	anchors.fill:parent
+	                    	hoverEnabled:true
+	                    	
+	                    	onEntered:{
+	                    		expandedContainer.border.color="#308cc6"
+	                    		expandedContainer.color="#d5eaf2"
+	                    	}
+	                    	onExited:{
+	                    		expandedContainer.border.color="transparent"
+	                    		expandedContainer.color="#add8e6"
+	                    	}
+	                    	onClicked:{
+	                        	if (type === "parent") {
+	                           		if (isExpanded == false) {
+	                                	expand(true,pkg)
+	                                	isExpanded=true
+	                            	}else{
+	                                	expand(false,pkg)
+	                                	isExpanded=false
+	                            	}
+	                            	
 
-				Image{
-                	id:expandParentIcon
-                	source:{
-                    	if (isExpanded){
-                        	"/usr/share/icons/breeze/actions/24/go-down.svg"
-                    	}else{
-                        	"/usr/share/icons/breeze/actions/24/go-next.svg"
-                    	}
-                	}
-                	visible:{
-                		if (type==="parent"){
-                			true
-                		}else{
-                			false
-                		}
-                	}
-                	anchors.left:parent.left
-                	anchors.verticalCenter:parent.verticalCenter
-                	anchors.leftMargin:10
-                	enabled:true
-               		MouseArea{
-                    	function expand(isExpanded,pkg) {
-                        	for(var i = 0; i < flavourStackBridge.totalElements; ++i) {
-                            	var item=flavourStackBridge.getModelData(i)
-                              	if (item["pkg"]===pkg){
-                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
-                            	}else{
-                            		if (item["flavourParent"]===pkg){
-                            			flavourStackBridge.onExpandedParent([item["pkg"],"isExpanded",isExpanded])
-                            		}
-                            	}
-                            	
-                       		}
-                    	}	 
-                    	anchors.fill:parent
-                    	
-                    	onClicked:{
-                        	if (type === "parent") {
-                           		if (isExpanded == false) {
-                                	expand(true,pkg)
-                                	isExpanded=true
-                            	}else{
-                                	expand(false,pkg)
-                                	isExpanded=false
-                            	}
-                            	
-
-                        	}
-                    	}
-                	}
-                }
+	                        	}
+	                    	}
+	                	}
+	                }
+	            }
 				PC.CheckBox {
 					id:packageCheck
 					visible:{
@@ -203,9 +228,9 @@ PC.ItemDelegate{
 					onToggled:{
 						flavourStackBridge.onCheckedFlavour([pkg,checked])
 					}
-					anchors.left:expandParentIcon.right
+					anchors.left:expandedContainer.right
 					anchors.leftMargin:10
-					anchors.verticalCenter:parent.verticalCenter
+					anchors.verticalCenter:menuItem.verticalCenter
 					enabled:isManaged
 				}
 
@@ -235,7 +260,7 @@ PC.ItemDelegate{
 						}
 					}
 					anchors.left:packageCheck.right
-                	anchors.verticalCenter:parent.verticalCenter
+                	anchors.verticalCenter:menuItem.verticalCenter
                 	anchors.leftMargin:10
                 	sourceSize.width:32
 					sourceSize.height:32
@@ -266,7 +291,7 @@ PC.ItemDelegate{
 						}
 					}
 					anchors.left:actionIcon.right
-					anchors.verticalCenter:parent.verticalCenter
+					anchors.verticalCenter:menuItem.verticalCenter
 					anchors.leftMargin:10
 					cache:false
 				} 
@@ -276,7 +301,7 @@ PC.ItemDelegate{
 					text: name
 					width: {
 						if ((showSpinner) || (resultImg.visible)){
-							parent.width-(resultImg.width+actionIcon.width+175)
+							menuItem.width-(resultImg.width+actionIcon.width+175)
 						}else{
 							if (type==="child"){
 								parent.width-175
@@ -301,10 +326,10 @@ PC.ItemDelegate{
 						if (type=="child"){
 							packageIcon.right
 						}else{
-							expandParentIcon.right
+							expandedContainer.right
 						}
 					}
-					anchors.verticalCenter:parent.verticalCenter
+					anchors.verticalCenter:menuItem.verticalCenter
 				} 
 
 				Image {
@@ -326,8 +351,8 @@ PC.ItemDelegate{
 					sourceSize.width:32
 					sourceSize.height:32
 					anchors.leftMargin:10
-					anchors.right:parent.right
-					anchors.verticalCenter:parent.verticalCenter
+					anchors.right:menuItem.right
+					anchors.verticalCenter:menuItem.verticalCenter
 				}
 				Rectangle{
 					id:animationFrame
@@ -335,9 +360,9 @@ PC.ItemDelegate{
 					width:0.4*(animation.width)
 					height:0.4*(animation.height)
 					anchors.leftMargin:10
-					anchors.right:parent.right
+					anchors.right:menuItem.right
 					anchors.rightMargin:1
-					anchors.verticalCenter:parent.verticalCenter
+					anchors.verticalCenter:menuItem.verticalCenter
 					visible:{
 						if (showSpinner){
 							mainStackBridge.isProcessRunning
