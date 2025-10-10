@@ -11,7 +11,7 @@ Popup {
     signal btnCancelClicked
    
     width:500
-    height:490
+    height:400
     anchors.centerIn: Overlay.overlay
     modal:true
     focus:true
@@ -82,6 +82,7 @@ Popup {
                 font.pointSize: 11
                 focusPolicy: Qt.NoFocus
                 Layout.alignment:Qt.AlignLeft
+                Layout.topMargin:20
                 Layout.bottomMargin:15
                 Layout.leftMargin:10
                 onToggled:{
