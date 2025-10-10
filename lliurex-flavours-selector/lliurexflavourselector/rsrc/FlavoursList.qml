@@ -20,10 +20,40 @@ Rectangle{
         anchors.left:parent.left
         anchors.fill:parent
         RowLayout{
-            Layout.alignment:Qt.AlignRight
+            id: btnRow
+            Layout.fillWidth:true
+            Layout.alignment:Qt.AlignLeft
             spacing:10
             Layout.topMargin:40
             enabled:true
+            PC.Button{
+                id:expandBtn
+                display:AbstractButton.IconOnly
+                icon.name:"list-add"
+                visible:true
+                enabled:flavourStackBridge.enableFlavourList
+                Layout.rightMargin:5
+                ToolTip.delay: 1000
+                ToolTip.timeout: 3000
+                ToolTip.visible: hovered
+                ToolTip.text:i18nd("lliurex-flavours-selector","Click to expand the list of flavours")
+                onClicked:flavourStackBridge.manageExpansionList("expand")
+
+            }
+            
+            PC.Button{
+                id:retryBtn
+                display:AbstractButton.IconOnly
+                icon.name:"filename-dash-amarok"
+                visible:true
+                enabled:flavourStackBridge.enableFlavourList
+                Layout.rightMargin:mainGrid.width-(expandBtn.width+statusFilterBtn.width+pkgSearchEntry.width+60)
+                ToolTip.delay: 1000
+                ToolTip.timeout: 3000
+                ToolTip.visible: hovered
+                ToolTip.text:i18nd("lliurex-flavours-selector","Click to collapse the list of flavours")
+                onClicked:flavourStackBridge.manageExpansionList("collpase")
+            }
             PC.Button{
                 id:statusFilterBtn
                 display:AbstractButton.IconOnly
@@ -48,6 +78,7 @@ Rectangle{
                 ToolTip.timeout: 3000
                 ToolTip.visible: hovered
                 ToolTip.text:i18nd("lliurex-flavours-selector","Click to filter flavour by status")
+                Layout.alignment:Qt.AlignRight
                 onClicked:optionsMenu.open();
                
                 PC.Menu{
@@ -191,40 +222,7 @@ Rectangle{
                  } 
             }
         }
-        /*
-        RowLayout{
-            Layout.fillWidth:true
-
-            PC.Button {
-                id:selectBtn
-                visible:true
-                focus:true
-                display:AbstractButton.TextBesideIcon
-                icon.name:{
-                    if (flavourStackBridge.uncheckAll){
-                        "list-remove"
-                    }else{
-                        "list-add"
-                    }
-                }
-                text:{
-                    if (flavourStackBridge.uncheckAll){
-                        i18nd("lliurex-flavours-selector","Uncheck all")
-                    }else{
-                        i18nd("lliurex-flavours-selector","Check all")
-                    }
-                }
-                enabled:flavourStackBridge.enableFlavourList
-                Layout.preferredHeight:40
-                Layout.rightMargin:10
-                Keys.onReturnPressed: selectBtn.clicked()
-                Keys.onEnterPressed: selectBtn.clicked()
-                onClicked:{
-                    flavourStackBridge.selectAll()
-                }
-            }
-
-        } */     
+            
     }
 
 }

@@ -27,7 +27,7 @@ Popup {
     contentItem:Rectangle{
         id:container
         width:500
-        height:490
+        height:400
         color:"transparent"
         Image{
             id:dialogIcon
@@ -82,7 +82,6 @@ Popup {
                 font.pointSize: 11
                 focusPolicy: Qt.NoFocus
                 Layout.alignment:Qt.AlignLeft
-                Layout.topMargin:20
                 Layout.bottomMargin:15
                 Layout.leftMargin:10
                 onToggled:{
@@ -108,7 +107,7 @@ Popup {
                 text:i18nd("lliurex-flavours-selector","Accept")
                 Layout.preferredHeight:40
                 enabled:true
-		focusPolicy: Qt.NoFocus
+		        focusPolicy: Qt.NoFocus
                 onClicked:{
                    autoRemoveCB.checked=false
                    btnApplyClicked()

@@ -124,7 +124,7 @@ GridLayout{
                     id:feedBackBar
                     indeterminate:true
                     visible:mainStackBridge.isProgressBarVisible
-                    implicitWidth:100
+                    implicitWidth:200
                     implicitHeight:mainStackBridge.runPkexec?7:25
                     Layout.alignment:Qt.AlignHCenter
                 }

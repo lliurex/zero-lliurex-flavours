@@ -201,17 +201,33 @@ class Bridge(QObject):
 
 	#def getModelData
 
+	@Slot(str)
+	def manageExpansionList(self,action):
+
+		abort=False
+		if action=="expand":
+			if not Bridge.flavourSelectorManager.allUnExpanded:
+				if len(Bridge.flavourSelectorManager.nonExpandedParent)==0:
+					abort=True
+		else:
+			if Bridge.flavourSelectorManager.allUnExpanded:
+				abort=True
+
+		if not abort:
+			Bridge.flavourSelectorManager.manageExpansionList(action)
+			params=[]
+			params.append("isExpanded")
+			self._updatePackagesModelInfo(params)
+
+	#def manageExpansionList
+
 	@Slot('QVariantList')
 	def onExpandedParent(self,info):
 		
 		Bridge.flavourSelectorManager.onExpandedParent(info)
 		params=[]
 		params.append(info[1])
-		if len(Bridge.flavourSelectorManager.nonExpandedParent)==0:
-			self.enableSearch=True
-		else:
-			self.enableSearch=False
-
+		
 		self._updatePackagesModelInfo(params)
 	
 	#def updateModel

@@ -49,7 +49,6 @@ class FlavourSelectorManager:
 		self.flavourSelectedToInstall=[]
 		self.flavourSelectedToRemove=[]
 		self.wantToRemove=[]
-		self.uncheckAll=False
 		self.firstConnection=False
 		self.secondConnection=False
 		self.urltocheck1="http://lliurex.net"
@@ -61,6 +60,7 @@ class FlavourSelectorManager:
 		self.flavourRegisterFile=os.path.join(self.flavourRegisterDir,"managed_flavour.txt")
 		self.runPkexec=True
 		self.nonExpandedParent=[]
+		self.allUnExpanded=True
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
@@ -200,6 +200,8 @@ class FlavourSelectorManager:
 								
 						else:
 							tmp["isChecked"]=False
+						if tmp["pkg"] not in self.nonExpandedParent:
+							self.nonExpandedParent.append(tmp["pkg"])
 						self.flavoursData.append(tmp)
 						if tmpInfo["type"]=="child":
 							self.flavoursInfo[tmpInfo["pkg"]]={}
@@ -216,6 +218,8 @@ class FlavourSelectorManager:
 			if item["type"]=="parent":
 				if item["pkg"] not in self.parentsWithMeta:
 					item["isVisible"]=False
+					if item["pkg"] in self.nonExpandedParent:
+						self.nonExpandedParent.remove(item["pkg"])
 
 		self.flavoursData=sorted(self.flavoursData,key=lambda k:k["pkgId"],reverse=False)
 
@@ -236,11 +240,25 @@ class FlavourSelectorManager:
 		
 	#def isInstalled
 
+	def manageExpansionList(self,action):
+
+		if action=="expand":
+			expand=True
+		else:
+			expand=False
+
+		for item in self.flavoursData:
+			tmp=[]
+			tmp=[item["pkg"],"isExpanded",expand]
+			self.onExpandedParent(tmp)
+
+	#def manageExpansioList
+
 	def onExpandedParent(self,info):
 
 		tmpParam={}
 		tmpParam[info[1]]=info[2]
-		'''
+		
 		if info[1]=="isExpanded":
 			if not info[2]:
 				if info[0] not in self.nonExpandedParent:
@@ -248,7 +266,12 @@ class FlavourSelectorManager:
 			else:
 				if info[0] in self.nonExpandedParent:
 					self.nonExpandedParent.remove(info[0])
-		'''			
+					
+		if len(self.nonExpandedParent)==len(self.flavoursData):
+			self.allUnExpanded=True
+		else:
+			self.allUnExpanded=False
+
 		self._updateFlavoursModel(tmpParam,info[0])			
 	
 	#def onExpandedParent
@@ -285,7 +308,6 @@ class FlavourSelectorManager:
 			self.uncheckAll=False
 		'''
 		
-
 	def _checkIncompatible(self,pkg,isChecked):
 
 		conflicts=self.flavoursInfo[pkg]["conflicts"]

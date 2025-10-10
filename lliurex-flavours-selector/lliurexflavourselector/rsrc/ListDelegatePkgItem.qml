@@ -141,8 +141,8 @@ PC.ItemDelegate{
 				width:containerParent.width-25
 				Rectangle{
 					id:expandedContainer
-					width:26
-					height:26
+					width:24
+					height:24
 					visible:{
 	                	if (type==="parent"){
 	                		true
@@ -203,13 +203,11 @@ PC.ItemDelegate{
 	                        	if (type === "parent") {
 	                           		if (isExpanded == false) {
 	                                	expand(true,pkg)
-	                                	isExpanded=true
+	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",true])
 	                            	}else{
 	                                	expand(false,pkg)
-	                                	isExpanded=false
+	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",false])
 	                            	}
-	                            	
-
 	                        	}
 	                    	}
 	                	}
