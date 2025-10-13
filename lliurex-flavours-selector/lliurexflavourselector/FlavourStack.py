@@ -235,7 +235,6 @@ class Bridge(QObject):
 	@Slot('QVariantList')
 	def onCheckedFlavour(self,info):
 
-		#self.filterStatusValue="all"
 		Bridge.flavourSelectorManager.onCheckedPackages(info[0],info[1])
 		self._refreshInfo()
 
@@ -247,7 +246,6 @@ class Bridge(QObject):
 		params.append("isChecked")
 		params.append("showAction")
 		self._updatePackagesModelInfo(params)
-		#self.uncheckAll=Bridge.flavourSelectorManager.uncheckAll
 		enableBtn=False
 		showWarning=False
 		self.flavoursToInstallList=""

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 12:30+0200\n"
-"PO-Revision-Date: 2025-10-10 12:44+0200\n"
+"POT-Creation-Date: 2025-10-13 10:21+0200\n"
+"PO-Revision-Date: 2025-10-13 10:21+0200\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -52,8 +52,12 @@ msgid "The process has ending with errors"
 msgstr "El proceso ha finalizado con errores"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:215
-msgid "The process has ending with errors due to unresolved incompatibilities"
-msgstr "El proceso ha finalizado con errores debido a incompatibilidades no resueltas"
+msgid ""
+"The process has ending with errors due to unresolved incompatibilities "
+"between flavours"
+msgstr ""
+"El proceso ha finalizado con errores debido a incompatibilidades no "
+"resueltas entre sabores"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
 msgid "Installation process has ending successfully"
@@ -80,8 +84,12 @@ msgid "Uninstallation process has ending successfully"
 msgstr "El proceso de desinstalación ha finalizado correctamente"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:236
-msgid "A current installed flavour will be remove due to incompatibility"
-msgstr "Un sabor ya instalado será eliminado debido a incompatibilidad"
+msgid ""
+"A current installed flavour will be remove due to incompatibility with other "
+"selected flavours"
+msgstr ""
+"Un sabor ya instalado será eliminado debido a incompatibilidad con otros "
+"sabores seleccionados"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
 msgid "The process has ending successfully"
@@ -142,6 +150,14 @@ msgstr "Detalles del proceso de desinstalación"
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:14
 msgid "Installation process details"
 msgstr "Detalles del proceso de instalación"
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:188
+msgid "Click to hide flavours"
+msgstr "Haga clic para ocultar los sabores"
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:190
+msgid "Click to show flavours"
+msgstr "Haga clic para mostrar los sabores"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Loading.qml:39
 msgid "Loading information. Wait a moment..."

@@ -144,7 +144,7 @@ PC.ItemDelegate{
 					width:24
 					height:24
 					visible:{
-	                	if (type==="parent"){
+	                	if (type=="parent"){
 	                		true
 	                	}else{
 	                		false
@@ -166,7 +166,7 @@ PC.ItemDelegate{
 	                    	}
 	                	}
 	                	visible:{
-	                		if (type==="parent"){
+	                		if (type=="parent"){
 	                			true
 	                		}else{
 	                			false
@@ -174,6 +174,22 @@ PC.ItemDelegate{
 	                	}
 	                	anchors.centerIn:expandedContainer
 	                	enabled:true
+	                	ToolTip.delay: 1000
+                		ToolTip.timeout: 3000
+                		ToolTip.visible: {
+                			if (type==="parent"){
+                				hovered
+                			}else{
+                				false
+                			}
+                		}
+                		ToolTip.text:{
+                			if (isExpanded){
+                				i18nd("lliurex-flavours-selector","Click to hide flavours")
+                			}else{
+                				i18nd("lliurex-flavours-selector","Click to show flavours")
+                			}
+                		}
 	               		MouseArea{
 	                    	function expand(isExpanded,pkg) {
 	                        	for(var i = 0; i < flavourStackBridge.totalElements; ++i) {
@@ -200,7 +216,7 @@ PC.ItemDelegate{
 	                    		expandedContainer.color="#add8e6"
 	                    	}
 	                    	onClicked:{
-	                        	if (type === "parent") {
+	                        	if (type == "parent") {
 	                           		if (isExpanded == false) {
 	                                	expand(true,pkg)
 	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",true])
@@ -216,7 +232,7 @@ PC.ItemDelegate{
 				PC.CheckBox {
 					id:packageCheck
 					visible:{
-						if (type==="child"){
+						if (type=="child"){
 							true
 						}else{
 							false
@@ -259,7 +275,7 @@ PC.ItemDelegate{
 					}
 					anchors.left:packageCheck.right
                 	anchors.verticalCenter:menuItem.verticalCenter
-                	anchors.leftMargin:10
+                	anchors.leftMargin:5
                 	sourceSize.width:32
 					sourceSize.height:32
 				}
@@ -267,7 +283,7 @@ PC.ItemDelegate{
 				Image {
 					id:packageIcon
 					visible:{
-						if (type==="child"){
+						if (type=="child"){
 							true
 						}else{
 							false
@@ -288,7 +304,17 @@ PC.ItemDelegate{
 							22
 						}
 					}
-					anchors.left:actionIcon.right
+					anchors.left:{
+						if (type=="child"){
+							if (showAction!=-1){
+								actionIcon.right
+							}else{
+								packageCheck.right
+							}
+						}else{
+							expandedContainer.right
+						}
+					}
 					anchors.verticalCenter:menuItem.verticalCenter
 					anchors.leftMargin:10
 					cache:false
@@ -301,7 +327,7 @@ PC.ItemDelegate{
 						if ((showSpinner) || (resultImg.visible)){
 							menuItem.width-(resultImg.width+actionIcon.width+175)
 						}else{
-							if (type==="child"){
+							if (type=="child"){
 								parent.width-175
 							}else{
 								parent.width-75
@@ -314,7 +340,7 @@ PC.ItemDelegate{
 					font.pointSize: 10
 					anchors.leftMargin:10
 					font.bold:{
-						if (type==="parent"){
+						if (type=="parent"){
 							true
 						}else{
 							false

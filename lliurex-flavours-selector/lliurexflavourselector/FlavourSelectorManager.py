@@ -10,9 +10,7 @@ import copy
 import threading
 import urllib.request
 import tempfile
-
-import dpkgunlocker.dpkgunlockermanager as DpkgUnlockerManager
-
+import datetime
 
 BASE_DIR="/usr/share/lliurex-flavours-selector/"
 PACKAGE_NAME="zero-lliurex-flavours"
@@ -56,15 +54,12 @@ class FlavourSelectorManager:
 		self.pkgsInstalled=[]
 		self.nonManagedPkg=0
 		self.totalPackages=0
-		self.flavourRegisterDir="/etc/lliurex-flavour-selector"
-		self.flavourRegisterFile=os.path.join(self.flavourRegisterDir,"managed_flavour.txt")
 		self.runPkexec=True
 		self.nonExpandedParent=[]
 		self.allUnExpanded=True
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
-		self._createEnvirontment()
 				
 	#def __init__
 
@@ -137,7 +132,6 @@ class FlavourSelectorManager:
 
 	def getSupportedFlavour(self):
 
-		self._readFlavourRegister()
 		self.parentsWithMeta=[]
 
 		for item in sorted(os.listdir(self.supportedFlavours)):
@@ -180,7 +174,6 @@ class FlavourSelectorManager:
 						tmp["showAction"]=-1
 						tmp["isExpanded"]=False
 						tmp["isVisible"]=True
-						#tmp["isManaged"]=self.checkIsManaged(tmp["pkg"],status)
 						tmp["flavourParent"]=tmpInfo["parent"]
 						tmp["conflicts"]=tmpInfo["conflicts"]
 						tmp["resultProcess"]=-1
@@ -190,7 +183,6 @@ class FlavourSelectorManager:
 								self.parentsWithMeta.append(tmp["flavourParent"])
 							if status=="installed":
 								tmp["isChecked"]=True
-								#tmp["banner"]="%s_OK.png"%tmp["banner"]
 								tmp["showAction"]=0
 								self.totalPackages+=1
 								self.pkgsInstalled.append(tmp["pkg"])
@@ -207,7 +199,6 @@ class FlavourSelectorManager:
 							self.flavoursInfo[tmpInfo["pkg"]]={}
 							self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
 							self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
-							#self.flavoursInfo[tmpInfo["pkg"]]["isManaged"]=tmp["isManaged"]
 							self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
 							if tmpInfo["conflicts"]!=None:
 								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=tmpInfo["conflicts"].split(",")
@@ -276,16 +267,6 @@ class FlavourSelectorManager:
 	
 	#def onExpandedParent
 
-	def checkIsManaged(self,pkg,status):
-
-		if status=="installed":
-			if pkg not in self.registerContent:
-				return False
-		
-		return True 
-		
-	#def checkIsManaged
-
 	def onCheckedPackages(self,pkg,isChecked):
 
 		if not isChecked:
@@ -300,13 +281,6 @@ class FlavourSelectorManager:
 		self._updateCheckedFlavours(pkg,isChecked)
 
 		self._checkIncompatible(pkg,isChecked)
-
-		'''
-		if len(self.flavourSelected)==self.totalPackages:
-			self.uncheckAll=True
-		else:
-			self.uncheckAll=False
-		'''
 		
 	def _checkIncompatible(self,pkg,isChecked):
 
@@ -349,29 +323,6 @@ class FlavourSelectorManager:
 	
 	#def _updateCheckedFlavours
 
-	#def onCheckedPackages
-
-	'''
-	def selectAll(self):
-
-		if self.uncheckAll:
-			active=False
-		else:
-			active=True
-
-		pkgList=copy.deepcopy(self.flavoursData)
-		tmpParam={}
-		tmpParam["isChecked"]=active
-		for item in pkgList:
-			if item["isManaged"]:
-				if item["isChecked"]!=active:
-					self._managePkgSelected(item["pkg"],active)
-					self._updateFlavoursModel(tmpParam,item["pkg"])
-		
-		self.uncheckAll=active
-		
-	#def selectAll
-	'''
 	def _managePkgSelected(self,pkg,install,toConflict=False):
 
 		if install:
@@ -397,6 +348,21 @@ class FlavourSelectorManager:
 					self.flavourSelectedToInstall.remove(pkg)
 		
 	#def _managePkgSelected
+
+	def initLog(self,autoRemove):
+
+		msgLog="------------------------------------------------------\n"+"LLIUREX-FLAVOURS-SELECTOR STARTING AT "+datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S")+"\n------------------------------------------------------"
+		self.log(msgLog)
+		msgLog="- Installed flavours: %s"%str(self.pkgsInstalled)
+		self.log(msgLog)
+		msgLog="- Flavours selected to install: %s"%str(self.flavourSelectedToInstall)
+		self.log(msgLog)
+		msgLog="- Flavours selected to remove: %s"%str(self.flavourSelectedToRemove)
+		self.log(msgLog)
+		msgLog="- Launch autoremove: %s"%str(autoRemove)
+		self.log(msgLog)
+
+	#def initLog
 
 	def checkInternetConnection(self):
 
@@ -434,6 +400,9 @@ class FlavourSelectorManager:
 			result.append(False)
 			result.append(str(e))
 		
+		msgLog="- Check Internet connection: %s - %s"%(url,str(result))
+		self.log(msgLog)
+
 		return result	
 
 	#def _checkConnection
@@ -541,6 +510,8 @@ class FlavourSelectorManager:
 			self.feedBackCheck=[True,msgCode,typeMsg]
 		
 		self.checkInstallDone=True
+		msgLog="- Installation of %s. Result: %s"%(pkg,typeMsg)
+		self.log(msgLog)
 
 	#def checkInstall
 
@@ -580,6 +551,7 @@ class FlavourSelectorManager:
 	#def initUnInstallProcess
 
 	def _initAutoRemoveProcess(self):
+
 		self.autoRemoveLaunched=False
 		self.autoRemoveDone=False
 
@@ -642,6 +614,9 @@ class FlavourSelectorManager:
 			typeMsg="Ok"
 			self.feedBackCheck=[True,msgCode,typeMsg]
 		
+		msgLog="- Uninstallation of %s. Result: %s"%(pkg,typeMsg)
+		self.log(msgLog)
+
 		self.checkRemoveDone=True
 
 	#def checkRemove
@@ -799,44 +774,12 @@ class FlavourSelectorManager:
 
 	#def _createProcessToken
 
-	def _createEnvirontment(self):
+	def log(self,msgLog):
 
-		if not os.path.exists(self.flavourRegisterDir):
-			os.mkdir(self.flavourRegisterDir)
-			
-		if os.path.exists(self.flavourRegisterDir):	
-			if not os.path.exists(self.flavourRegisterFile):
-				with open(self.flavourRegisterFile,'w') as fd:
-					pass
+		logFile="/var/log/lliurex-flavours-selector.log"
+		with open(logFile,"a+") as fd:
+			fd.write("%s\n"%msgLog)
 
-	#def _createEnvirontment
-
-	def _readFlavourRegister(self):
-
-		self.registerContent=[]
-		tmpContent=[]
-		
-		if os.path.exists(self.flavourRegisterFile):
-			with open(self.flavourRegisterFile,'r') as fd:
-				tmpContent=fd.readlines()
-
-		for item in tmpContent:
-			self.registerContent.append(item.strip())
-
-	#def _readFlavourRegister
-
-	def updateFlavourRegister(self):
-		'''
-		for item in self.pkgsInstalled:
-			if self.flavoursInfo[item]["isManaged"]:
-				if item not in self.registerContent:
-					self.registerContent.append(item)
-		'''
-		if os.path.exists(self.flavourRegisterFile):
-			with open(self.flavourRegisterFile,'w') as fd:
-				for item in self.registerContent:
-					fd.write("%s\n"%item)
-
-	#def updateFlavourRegister	
+	#def log	
 
 #class FlavourSelectorManager

@@ -29,7 +29,7 @@ Rectangle{
             PC.Button{
                 id:expandBtn
                 display:AbstractButton.IconOnly
-                icon.name:"list-add"
+                icon.name:"view-list-tree"
                 visible:true
                 enabled:flavourStackBridge.enableFlavourList
                 Layout.rightMargin:5
@@ -44,7 +44,7 @@ Rectangle{
             PC.Button{
                 id:retryBtn
                 display:AbstractButton.IconOnly
-                icon.name:"filename-dash-amarok"
+                icon.name:"view-list-details"
                 visible:true
                 enabled:flavourStackBridge.enableFlavourList
                 Layout.rightMargin:mainGrid.width-(expandBtn.width+statusFilterBtn.width+pkgSearchEntry.width+60)

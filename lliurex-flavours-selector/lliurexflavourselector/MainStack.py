@@ -322,11 +322,11 @@ class Bridge(QObject):
 
 		self.showStatusMessage=[False,"","Ok"]
 		self.core.flavourStack.enableFlavourList=False
-		self.core.flavourStack.filterStatusValue="all"
 		self.endProcess=False
 		self.enableApplyBtn=False
 		self.isProgressBarVisible=True
 		self.isProcessRunning=True
+		Bridge.flavourSelectorManager.initLog(self.launchAutoRemove)
 		self.core.installStack.checkInternetConnection()
 
 	#def launchChangeProcess
@@ -342,7 +342,7 @@ class Bridge(QObject):
 	@Slot()
 	def openHelp(self):
 
-		self.helpCmd='xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=LliureX+Flavours+Selector'
+		self.helpCmd='xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Configurar-sabores-en-LliureX-en-el-nuevo-modelo'
 
 		if self._runPkexec:
 			user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name

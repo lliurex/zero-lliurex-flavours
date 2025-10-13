@@ -60,7 +60,6 @@ class InstallStack(QObject):
 		self.core.flavourStack.totalErrorInProcess=0
 		self.core.mainStack.launchedProcess="install"
 		self.core.mainStack.enableKonsole=True
-		#self.core.mainStack.feedbackCode=InstallStack.flavourSelectorManager.MSG_FEEDBACK_INSTALL_RUN
 		self._initInstallProcess()
 		self.installProcessTimer=QTimer(None)
 		self.installProcessTimer.timeout.connect(self._installProcessTimerRet)

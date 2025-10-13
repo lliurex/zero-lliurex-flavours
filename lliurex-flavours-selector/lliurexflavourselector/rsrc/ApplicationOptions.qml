@@ -212,7 +212,7 @@ GridLayout{
                 msg=i18nd("lliurex-flavours-selector","The process has ending with errors")
                 break;
             case -8:
-                msg=i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities")
+                msg=i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities between flavours")
                 break;
             case 1:
                 msg=i18nd("lliurex-flavours-selector","Installation process has ending successfully");
@@ -233,7 +233,7 @@ GridLayout{
                 msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully")
                 break;
             case 8:
-                msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility")
+                msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility with other selected flavours")
                 break;
             case 9:
                 msg=i18nd("lliurex-flavours-selector","The process has ending successfully")

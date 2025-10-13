@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 12:30+0200\n"
+"POT-Creation-Date: 2025-10-13 10:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,9 @@ msgid "The process has ending with errors"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:215
-msgid "The process has ending with errors due to unresolved incompatibilities"
+msgid ""
+"The process has ending with errors due to unresolved incompatibilities "
+"between flavours"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
@@ -78,7 +80,9 @@ msgid "Uninstallation process has ending successfully"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:236
-msgid "A current installed flavour will be remove due to incompatibility"
+msgid ""
+"A current installed flavour will be remove due to incompatibility with other "
+"selected flavours"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
@@ -139,6 +143,14 @@ msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:14
 msgid "Installation process details"
+msgstr ""
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:188
+msgid "Click to hide flavours"
+msgstr ""
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:190
+msgid "Click to show flavours"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Loading.qml:39

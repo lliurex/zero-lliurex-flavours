@@ -20,7 +20,7 @@ Rectangle{
         rowSpacing:10
         anchors.left:parent.left
         width:parent.width-10
-        height:parent.height-25
+        height:parent.height-50
         enabled:true
 
         FlavoursList{

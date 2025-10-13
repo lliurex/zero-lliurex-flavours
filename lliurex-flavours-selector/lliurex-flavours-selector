@@ -25,7 +25,6 @@ except:
 	sys.exit(1)
 
 from lliurexflavourselector.Core import Core
-import lliurexflavourselector.IconProvider as IconProvider
 
 c=Core.get_core()
 
@@ -36,7 +35,6 @@ engine.clearComponentCache()
 context=engine.rootContext()
 mainStackBridge=c.mainStack
 flavourStackBridge=c.flavourStack
-engine.addImageProvider("iconProvider",IconProvider.IconProvider())
 context.setContextProperty('mainStackBridge',mainStackBridge)
 context.setContextProperty('flavourStackBridge',flavourStackBridge)
 
