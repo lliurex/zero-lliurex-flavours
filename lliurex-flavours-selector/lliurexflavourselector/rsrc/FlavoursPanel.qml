@@ -19,8 +19,8 @@ Rectangle{
         flow: GridLayout.TopToBottom
         rowSpacing:10
         anchors.left:parent.left
-        width:parent.width-10
-        height:parent.height-50
+        width:parent.width-15
+        height:parent.height-45
         enabled:true
 
         FlavoursList{

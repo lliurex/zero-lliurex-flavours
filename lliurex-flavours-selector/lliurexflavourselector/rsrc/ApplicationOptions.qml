@@ -99,7 +99,7 @@ GridLayout{
             id:feedbackRow
             spacing:10
             Layout.topMargin:10
-            Layout.bottomMargin:10
+            Layout.bottomMargin:15
             Layout.fillWidth:true
             
            ColumnLayout{
