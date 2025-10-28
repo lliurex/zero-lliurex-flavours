@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.25.1) noble; urgency=medium
+
+  * Fixed translations
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 28 Oct 2025 16:34:07 +0100
+
 zero-lliurex-flavours (0.25.0) noble; urgency=medium
 
   * Initial release for LliureX 25
