@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-13 10:21+0200\n"
-"PO-Revision-Date: 2025-10-13 10:23+0200\n"
+"PO-Revision-Date: 2025-10-28 16:33+0100\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
 msgid "Installation process has ending successfully"
-msgstr "El procés d'instal·lació a finalitzat correctament"
+msgstr "El procés d'instal·lació ha finalitzat correctament"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:221
 msgid "Checking internet connection. Wait a moment..."
