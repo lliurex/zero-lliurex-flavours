@@ -1,0 +1,3 @@
+lliurex-flavours-selector/lliurex-flavours-selector /usr/sbin
+lliurex-flavours-selector/data-files/banners/* /usr/share/lliurex-flavours-selector/banners/
+lliurex-flavours-selector/data-files/supported-flavours/* /usr/share/lliurex-flavours-selector/supported-flavours/
