@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-13 10:21+0200\n"
-"PO-Revision-Date: 2025-10-28 16:33+0100\n"
+"PO-Revision-Date: 2025-10-28 17:01+0100\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
 msgid "The process has ending successfully"
-msgstr "El procés a finalitzat correctament"
+msgstr "El procés ha finalitzat correctament"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:242
 msgid "Removing packages that are no longer neeed. Wait a moment..."
