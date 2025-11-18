@@ -198,7 +198,7 @@ class MainWindow(QMainWindow):
 
 		self.mainBox=self.findChild(QVBoxLayout,'mainBox')
 		self.bannerBox=self.findChild(QLabel,'bannerLabel')
-		self.bannerBox.setStyleSheet("background-color: #07237f") 
+		self.bannerBox.setStyleSheet("background-color: #000000")
 		self.messageBox=self.findChild(QVBoxLayout,'messageBox')
 		self.messageImg=self.findChild(QLabel,'messageImg')
 		self.messageLabel=self.findChild(QLabel,'messageLabel')
@@ -434,7 +434,7 @@ class MainWindow(QMainWindow):
 		
 		if error:
 			self.manage_msg_box(False,True)	
-			self.messageLabel.setText(_("An error ocurred. See log in /var/log/lliurex-flavours-selector"))					     
+			self.messageLabel.setText(_("An error ocurred. See log in /var/log/lliurex-flavours-selector-legacy"))					     
 		else:
 			self.manage_msg_box(False,False)	
 			self.messageLabel.setText(_("Installation succesful. A reboot is required"))					     
@@ -536,10 +536,10 @@ class MainWindow(QMainWindow):
 		
 		if 'valencia' in app_lang:
 			exec_lang="LANG=ca_ES.UTF-8@valencia"
-			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Canviar-sabor-en-LliureX'
+			cmd=exec_lang+" xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Canviar-sabor-en-LliureX-\(Legacy\)"
 		else:
 			exec_lang="LANG=es_ES.UTF-8"
-			cmd=exec_lang+' xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Cambiar++sabor+en+LliureX'
+			cmd=exec_lang+" xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Cambiar-sabor-en-LliureX-\(Legacy\)"
 
 		if not run_pkexec:
 			self.fcmd="su -c '%s' $USER" %cmd

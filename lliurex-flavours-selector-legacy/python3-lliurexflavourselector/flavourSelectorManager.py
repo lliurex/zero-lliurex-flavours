@@ -522,7 +522,7 @@ class flavourSelectorManager:
 	
 
 	def log(self,log_msg):
-		log_file="/var/log/lliurex-flavour-selector.log"
+		log_file="/var/log/lliurex-flavour-selector-legacy.log"
 		f=open(log_file,"a+")
 		f.write(log_msg + '\n')
 		f.close()

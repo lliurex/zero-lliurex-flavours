@@ -2,11 +2,87 @@
 
 import sys
 import os
-from PyQt5.QtWidgets import QApplication
-from lliurexflavourselector import Core
+import subprocess
+from PySide2.QtWidgets import QApplication
+from PySide2.QtCore import QUrl
+from PySide2.QtGui import QIcon
+from PySide2.QtQml import QQmlApplicationEngine
+
+import gettext
+gettext.textdomain("lliurex-flavours-selector")
+_ = gettext.gettext
+
+def canRun():
+
+	unNormalizedNetworkFlavours=["server","server-lite","client","client-lite","minimal-client"]
+	flavoursInstalled=[]
+	result=[True,""]
+
+	cmd="lliurex-version"
+	p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
+	pout=p.communicate()[0]
+	ret=pout.decode().split(',')
+
+	for item in ret:
+		if item!="edu":
+			flavoursInstalled.append(item.strip())
+
+	for item in unNormalizedNetworkFlavours:
+
+		if item in flavoursInstalled:
+			result=[False,item]
+			break
+
+	return result
+
+#def canRun
+
+try:
+	print("  [LliureX-Flavours-Selector]: Checking root")
+	f=open("/var/run/LliurexFlavoursSelector.token","w")
+	f.close()
+	os.remove("/var/run/LliurexFlavoursSelector.token")
+
+except:
+	print("  [Lliurex-Flavours-Selector]: No administration privileges")
+	msg=_("You need administration privileges to run this application.")
+	cmd='kdialog --title "Lliurex-Flavours-Selector" --icon "zero-lliurex-flavours.svg" --sorry "%s"'%(msg)
+	os.system(cmd)
+	sys.exit(1)
 
 
-app = QApplication(sys.argv)
-c=Core.Core.get_core()
-window =c.mainWindow
-sys.exit(app.exec_()) 
+canLaunch=canRun()
+
+if canLaunch[0]:
+	from lliurexflavourselector.Core import Core
+
+	c=Core.get_core()
+
+	app = QApplication(sys.argv)
+	engine=QQmlApplicationEngine()
+	engine.clearComponentCache()
+	context=engine.rootContext()
+	mainStackBridge=c.mainStack
+	flavourStackBridge=c.flavourStack
+	context.setContextProperty('mainStackBridge',mainStackBridge)
+	context.setContextProperty('flavourStackBridge',flavourStackBridge)
+
+	url = QUrl("/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/lliurex-flavours-selector.qml")
+
+	engine.load(url)
+
+	if not engine.rootObjects():
+		sys.exit(-1)
+
+	engine.quit.connect(app.quit)
+	app.setWindowIcon(QIcon("/usr/share/icons/hicolor/scalable/apps/zero-lliurex-flavours.svg"));
+	ret=app.exec_()
+	del engine
+	del app
+	sys.exit(ret)
+
+else:
+	msg=_("The device is configured as %s for use in a classroom with a non standard network.\nThis configuration is not compatible with the Flavour Selector.\nUninstall lliurex-meta-%s and try again."%(canLaunch[1],canLaunch[1]))
+	cmd='kdialog --title "Lliurex Flavours Selector" --icon "zero-lliurex-flavours" --sorry "%s"'%(msg)
+	os.system(cmd)
+	sys.exit(1)

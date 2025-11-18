@@ -1,0 +1,7 @@
+[FLAVOUR]
+id=2000
+pkg=teachers
+name=Intended for the teacher's computer
+name[ca@valencia]=Adreçat per als ordinadors del professorat
+name[es]=Dirigido a los ordenadores del profesorado
+type=parent

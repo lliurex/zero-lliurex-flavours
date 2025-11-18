@@ -1,0 +1,7 @@
+[FLAVOUR]
+id=3000
+pkg=students
+name=Intended for the students's computer
+name[ca@valencia]=Adreçat per als ordinadors de l'alumnat
+name[es]=Dirigido a los ordenadores del alumnado
+type=parent

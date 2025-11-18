@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+<id>zero-lliurex-flavours-legacy_zmd</id>
+<metadata_license>CC0-1.0</metadata_license>
+<name>zero-lliurex-flavours-legacy</name>
+<name xml:lang="es">Selección de sabores de LliureX (Legacy)</name>
+<name xml:lang="qcv">Selecció de sabors de LliureX (Legacy)</name>
+<name xml:lang="ca_ES@valencia">Selecció de sabors de LliureX (Legacy)</name>
+<name xml:lang="ca@valencia">Selecció de sabors de LliureX (Legacy) </name>
+<name xml:lang="ca_ES.UTF-8@valencia">Selecció de sabors de LliureX (Legacy)</name>
+<summary>LliureX flavours selector legacy</summary>
+<summary xml:lang="es">Selección de sabores de LliureX (Legacy)</summary>
+<summary xml:lang="qcv">Selecció de sabors de LliureX (Legacy)</summary>
+<summary xml:lang="ca_ES.UTF-8@valencia">Selecció de sabors de LliureX (Legacy)</summary>
+<summary xml:lang="ca_ES@valencia">Selecció de sabors de LliureX (Legacy)</summary>
+<summary xml:lang="ca@valencia">Selecció de sabors de LliureX (Legacy)</summary>
+<description>
+<p>LliureX flavours selector legacy</p>
+<p xml:lang="es">Selección de sabores de LliureX (Legacy)</p>
+<p xml:lang="qcv">Selecció de sabors de LliureX (Legacy)</p>
+<p xml:lang="ca_ES.UTF-8@valencia">Selecció de sabors de LliureX (Legacy)</p>
+<p xml:lang="ca_ES@valencia">Selecció de sabors de LliureX (Legacy)</p>
+<p xml:lang="ca@valencia">Selecció de sabors de LliureX (Legacy)</p>
+</description>
+<categories>
+<category>Lliurex</category>
+<category>Zomando</category>
+<category>Utility</category>
+</categories>
+<icon type="cached">flavours</icon>
+
+<keywords>
+<keyword>zero</keyword>
+<keyword>lliurex</keyword>
+<keyword>flavours</keyword>
+<keyword>zero-lliurex-flavours</keyword>
+<keyword>Zomando</keyword>
+</keywords>
+<keywords xml:lang="es">
+<keyword>Selección</keyword>
+<keyword>sabores</keyword>
+<keyword>LliureX</keyword>
+<keyword>Zomando</keyword>
+</keywords>
+<keywords xml:lang="qcv">
+<keyword>Selecció</keyword>
+<keyword>sabors</keyword>
+<keyword>Zomando</keyword>
+</keywords>
+<keywords xml:lang="ca_ES@valencia">
+<keyword>Zomando</keyword>
+</keywords>
+<keywords xml:lang="ca@valencia">
+<keyword>Zomando</keyword>
+</keywords>
+<keywords xml:lang="ca_ES.UTF-8@valencia">
+<keyword>Zomando</keyword>
+
+</keywords>
+</component>
