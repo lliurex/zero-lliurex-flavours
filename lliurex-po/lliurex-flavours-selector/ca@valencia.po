@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 10:21+0200\n"
-"PO-Revision-Date: 2025-10-28 17:01+0100\n"
+"POT-Creation-Date: 2025-11-18 13:19+0100\n"
+"PO-Revision-Date: 2025-11-18 13:20+0100\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:29
 msgid "Home"
@@ -60,8 +60,12 @@ msgstr ""
 "entre sabors"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
-msgid "Installation process has ending successfully"
-msgstr "El procés d'instal·lació ha finalitzat correctament"
+msgid ""
+"Installation process has ending successfully. It's necessary to restart the "
+"system"
+msgstr ""
+"El procés d'instal·lació ha finalitzat correctament. És necessari reiniciar "
+"l'equip"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:221
 msgid "Checking internet connection. Wait a moment..."
@@ -80,8 +84,12 @@ msgid "Uninstalling selected Flavours. Wait a moment..."
 msgstr "S'està desinstal·lant els sabors seleccionats. Espereu un moment..."
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:233
-msgid "Uninstallation process has ending successfully"
-msgstr "El procés de desinstal·lació ha finalitzat correctament"
+msgid ""
+"Uninstallation process has ending successfully. It's necessary to restart "
+"the system"
+msgstr ""
+"El procés de desinstal·lació ha finalitzat correctament. És necessari "
+"reiniciar l'equip"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:236
 msgid ""
@@ -92,8 +100,9 @@ msgstr ""
 "sabors seleccionats"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
-msgid "The process has ending successfully"
-msgstr "El procés ha finalitzat correctament"
+msgid ""
+"The process has ending successfully. It's necessary to restart the system"
+msgstr "El procés ha finalitzat correctament. És necessari reiniciar l'equip"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:242
 msgid "Removing packages that are no longer neeed. Wait a moment..."
