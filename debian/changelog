@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.25.3) noble; urgency=medium
+
+  * Changed end process messages
+  * Changed description of zomando
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 18 Nov 2025 13:24:23 +0100
+
 zero-lliurex-flavours (0.25.2) noble; urgency=medium
 
   * Fixed translations again
