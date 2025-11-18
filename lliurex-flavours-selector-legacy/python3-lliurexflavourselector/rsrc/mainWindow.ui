@@ -26,10 +26,10 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>LliureX Flavours Selector</string>
+   <string>LliureX Flavours Selector Legacy</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="zero-lliurex-flavours"/>
+   <iconset theme="zero-lliurex-flavours-legacy"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">

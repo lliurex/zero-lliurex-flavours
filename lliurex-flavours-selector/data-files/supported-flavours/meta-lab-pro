@@ -1,0 +1,11 @@
+[FLAVOUR]
+id=2002
+pkg=lliurex-meta-lab-pro
+name=LliureX LAB-PRO: intended for the teacher's computer in the computer classroom
+name[ca@valencia]=LliureX LAB-PRO: adreçat per a l'ordinador del professorat a l'aula d'informàtica
+name[es]=LliureX LAB-PRO: dirigido para el ordenador del profesorado en el aula de informática
+installCmd=apt-get install -y lliurex-meta-lab-pro
+removeCmd=apt-get purge -y lliurex-meta-lab-pro
+type=child
+parent=teachers
+conflicts=lliurex-meta-adi,lliurex-meta-lab-alu,lliurex-meta-wifi-alu

@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import subprocess
+from PyQt5.QtWidgets import QApplication
+from lliurexflavourselectorlegacy import Core
+import gettext
+gettext.textdomain("lliurex-flavours-selector-legacy")
+_ = gettext.gettext
+
+def canRun():
+
+	normalizedNetworkFlavours=["adi","lab-pro","lab-alu","wifi-alu"]
+	flavoursInstalled=[]
+	result=[True,""]
+
+	cmd="lliurex-version"
+	p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
+	pout=p.communicate()[0]
+	ret=pout.decode().split(',')
+
+
+	for item in ret:
+		if item!="edu":
+			flavoursInstalled.append(item.strip())
+
+	for item in normalizedNetworkFlavours:
+		if item in flavoursInstalled:
+			result=[False,item]
+			break
+
+	return result
+
+#def canRun
+
+try:
+	print("  [LliureX-Flavours-Selector-Legacy]: Checking root")
+	f=open("/var/run/LliurexFlavoursSelectorLegacy.token","w")
+	f.close()
+	os.remove("/var/run/LliurexFlavoursSelectorLegacy.token")
+
+except:
+	print("  [Lliurex-Flavours-Selector-Legacy]: No administration privileges")
+	msg=_("You need administration privileges to run this application.")
+	cmd='kdialog --title "Lliurex-Flavours-Selector-Legacy" --icon "zero-lliurex-flavours-legacy.svg" --sorry "%s"'%(msg)
+	os.system(cmd)
+	sys.exit(1)
+
+
+canLaunch=canRun()
+
+if canLaunch[0]:
+	app = QApplication(sys.argv)
+	c=Core.Core.get_core()
+	window =c.mainWindow
+	sys.exit(app.exec_())
+else:
+	msg=_("The device is configured as %s for use in a classroom with a standard network.\nThis configuration is not compatible with Flavour Selector Legacy.\nUninstall lliurex-meta-%s and try again."%(canLaunch[1],canLaunch[1]))
+	cmd='kdialog --title "Lliurex Flavours Selector Legacy" --icon "zero-lliurex-flavours-legacy" --sorry "%s"'%(msg)
+	os.system(cmd)
+	sys.exit(1)

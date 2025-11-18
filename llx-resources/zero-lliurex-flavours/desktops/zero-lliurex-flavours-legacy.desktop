@@ -1,0 +1,19 @@
+[Desktop Entry]
+Categories=LliureX-Administration;
+Comment[es_ES]=Selector de Sabores (Legacy)
+Comment=Flavours Selector (Legacy)
+Comment[ca]=Selector de sabors (Legacy)
+Comment[ca_ES.UTF-8@valencia]=Selector de sabors (Legacy)
+Comment[ca_ES@valencia]=Selector de sabors (Legacy)
+Encoding=UTF-8
+Exec=pkexec lliurex-flavours-selector-legacy
+GenericName[es_ES]=zero-lliurex-flavours-legacy
+GenericName=zero-lliurex-flavours-legacy
+Icon=zero-lliurex-flavours-legacy
+MimeType=
+Name[es_ES]=Selector de Sabores (Legacy)
+Name=Flavours Selector (Legacy)
+Name[ca]=Selector de sabors (Legacy)
+Name[ca_ES.UTF-8@valencia]=Selector de sabors (Legacy)
+Name[ca_ES@valencia]=Selector de sabors (Legacy)
+NoDisplay=true

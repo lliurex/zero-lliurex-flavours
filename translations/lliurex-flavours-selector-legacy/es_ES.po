@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 10:01+0200\n"
-"PO-Revision-Date: 2022-06-03 10:02+0200\n"
+"POT-Creation-Date: 2025-11-18 11:48+0100\n"
+"PO-Revision-Date: 2025-11-18 11:49+0100\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -17,71 +17,88 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:211
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:45
+msgid "You need administration privileges to run this application."
+msgstr "Necesita permisos de administración para ejecutar esta aplicación."
+
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
+#, python-format
+msgid ""
+"The device is configured as %s for use in a classroom with a standard "
+"network.\n"
+"This configuration is not compatible with Flavour Selector Legacy.\n"
+"Uninstall lliurex-meta-%s and try again."
+msgstr ""
+"El equipo está configurado como %s para su uso en un aula con red "
+"normalizada.\n"
+"Está configuración no es compatible con el Selector de Sabores Legacy.\n"
+"Desinstale lliurex-meta-%s y pruebe otra vez."
+
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:211
 msgid "Install"
 msgstr "Instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:216
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:216
 msgid "Help"
 msgstr "Ayuda"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:271
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:271
 msgid "None"
 msgstr "Ninguno"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:273
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:273
 msgid "Current flavours installed: "
 msgstr "Sabores instalados actualmente: "
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:288
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:288
 msgid "No flavours available to install"
 msgstr "No hay sabores disponibles para instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:296
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:296
 msgid "No Flavours version availables detected"
 msgstr "No se ha detectado ninguna versión de sabor disponible"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:319
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:319
 msgid "The selected flavor is not compatible with those already installed"
 msgstr "El sabor seleccionado no es compatible con los sabores ya instalados"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:323
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:323
 msgid "You must select a Flavour to install"
 msgstr "Debe seleccionar un sabor para instalar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:353
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:353
 msgid "1 of 5: Obtaining information about the flavor to install..."
 msgstr "1 de 5: Obteniendo información sobre el sabor a instalar..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:362
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:362
 msgid "2 of 5: Downloading packages..."
 msgstr "2 de 5: Descargando los paquetes..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:382
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:382
 #, python-format
 msgid "3 of 5: Unpacking packages: %s of %s packages"
 msgstr "3 de 5: Desempaquetando los paquetes: %s de %s paquetes"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:384
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:384
 #, python-format
 msgid "4 of 5: Configuring packages: %s of %s packages"
 msgstr "4 de 5: Configurando los paquetes: %s de %s paquetes"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:386
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:386
 msgid "5 of 5: Finishing the installation..."
 msgstr "5 de 5: Finalizando la instalación..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:437
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:437
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
 msgstr "Ha ocurrido un error. Revise el log /var/log/lliurex-flavour-selector"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:440
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:440
 msgid "Installation succesful. A reboot is required"
 msgstr "Instalación correcta. Debe reiniciar el equipo"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:451
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:451
 msgid ""
 "Do you want to add the classroom server \n"
 "mirror repository to the sources list?"
@@ -89,70 +106,70 @@ msgstr ""
 "¿Desea añadir  al sources list el repositorio\n"
 "del mirror del servidor del aula?"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:458
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:458
 msgid "Yes"
 msgstr "Si"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:461
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:461
 msgid "No"
 msgstr "No"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:489
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:489
 msgid "The selected flavours will be installed. Do you wish to continue?"
 msgstr "El sabor seleccionado será instalado. ¿Desea continuar?"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:496
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:496
 msgid "Ok"
 msgstr "Aceptar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/MainWindow.py:499
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:499
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:139
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:139
 msgid "Click to select an option"
 msgstr "Haga clic para seleccionar una opción"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:236
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:236
 msgid "similar to install a LliureX Server Lite ISO"
 msgstr "similar a instalar una ISO de LliureX  Server Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:238
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:238
 msgid "similar to install a LliureX Server ISO"
 msgstr "similar a instalar una ISO de LliureX Server"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:240
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:240
 msgid "similar to install  a LliureX Client Lite ISO"
 msgstr "similar a instalar una ISO de LliureX  Client Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:242
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:242
 msgid "install only the basic functionalities of a LliureX Client"
 msgstr "sólo instala la funcionalidad básica de un cliente de LliureX"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:244
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:244
 msgid "similar to install  a LliureX Client ISO"
 msgstr "similar a instalar una ISO de LliureX Clilent"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:246
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:246
 msgid "similar to install  a LliureX Desktop Lite ISO"
 msgstr "similar a instalar una ISO de LliureX Desktop Lite"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:248
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:248
 msgid "similar to install  a LliureX Desktop ISO"
 msgstr "similar a instalar una ISO de LliureX Desktop"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:250
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:250
 msgid "similar to install a LliureX Infantil ISO"
 msgstr "similar a instalar una ISO de LliureX Infantil"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/InstallersBox.py:252
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/InstallersBox.py:252
 msgid "similar to install LliureX Multimedia ISO"
 msgstr "similar a instalar una ISO de LliureX Multimedia"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/LoadingBox.py:28
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/LoadingBox.py:28
 msgid "Checking system..."
 msgstr "Comprobando el sistema..."
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/EmptyBox.py:28
+#: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/EmptyBox.py:28
 msgid "The flavours list is empty"
 msgstr "La lista de sabores está vacía"

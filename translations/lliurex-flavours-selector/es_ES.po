@@ -1,0 +1,215 @@
+# Spanish translations for PACKAGE package
+# Traducciones al español para el paquete PACKAGE.
+# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# lliurex <lliurex@gva.es>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-18 11:01+0100\n"
+"PO-Revision-Date: 2025-11-18 11:05+0100\n"
+"Last-Translator: lliurex <lliurex@gva.es>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:48
+msgid "You need administration privileges to run this application."
+msgstr "Necesita permisos de administración para ejecutar esta aplicación."
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:85
+#, python-format
+msgid ""
+"The device is configured as %s for use in a classroom with a non standard "
+"network.\n"
+"This configuration is not compatible with the Flavour Selector.\n"
+"Uninstall lliurex-meta-%s and try again."
+msgstr ""
+"El equipo está configurado como %s para su uso en un aula con red no "
+"normalizada.\n"
+"Está configuración no es compatible con el Selector de Sabores.\n"
+"Desinstale lliurex-meta-%s y pruebe otra vez."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:29
+msgid "Home"
+msgstr "Inicio"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:41
+msgid "View details"
+msgstr "Ver detalles"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:53
+msgid "Help"
+msgstr "Ayuda"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:140
+msgid "Apply"
+msgstr "Aplicar"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:202
+msgid "Installation process has ending with errors"
+msgstr "El proceso de instalación ha finalizado con errores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:205
+msgid "Internet connection not detected"
+msgstr "No se ha detectado conexión a Internet"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:209
+msgid "Uninstallation process has ending with errors"
+msgstr "El proceso de desinstalación ha finalizado con errores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:212
+msgid "The process has ending with errors"
+msgstr "El proceso ha finalizado con errores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:215
+msgid ""
+"The process has ending with errors due to unresolved incompatibilities "
+"between flavours"
+msgstr ""
+"El proceso ha finalizado con errores debido a incompatibilidades no "
+"resueltas entre sabores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:218
+msgid ""
+"Installation process has ending successfully. It's necessary to restart the "
+"system"
+msgstr ""
+"El proceso de instalación ha finalizado correctamente. Es necesario "
+"reiniciar el equipo"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:221
+msgid "Checking internet connection. Wait a moment..."
+msgstr "Comprobando conexión a Internet. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:224
+msgid "Preparing installation. Wait a moment..."
+msgstr "Preparando la instalación. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:227
+msgid "Installing selected Flavours. Wait a moment..."
+msgstr "Instalando los sabores seleccionados. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:230
+msgid "Uninstalling selected Flavours. Wait a moment..."
+msgstr "Desinstalando los sabores seleccionados. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:233
+msgid ""
+"Uninstallation process has ending successfully. It's necessary to restart "
+"the system"
+msgstr ""
+"El proceso de desinstalación ha finalizado correctamente. Es necesario "
+"reiniciar el equipo"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:236
+msgid ""
+"A current installed flavour will be remove due to incompatibility with other "
+"selected flavours"
+msgstr ""
+"Un sabor ya instalado será eliminado debido a incompatibilidad con otros "
+"sabores seleccionados"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:239
+msgid ""
+"The process has ending successfully. It's necessary to restart the system"
+msgstr ""
+"El proceso ha finalizado correctamente. Es necesario reiniciar el equipo"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:242
+msgid "Removing packages that are no longer neeed. Wait a moment..."
+msgstr "Desinstalando paquetes que ya no son necesarios. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:245
+msgid "Activating metapackages protection. Wait a moment..."
+msgstr "Activando la protección del metapaquete. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:39
+msgid "Click to expand the list of flavours"
+msgstr "Haga clic para expandir la lista de sabores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:54
+msgid "Click to collapse the list of flavours"
+msgstr "Haga clic para contraer la lista de sabores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:80
+msgid "Click to filter flavour by status"
+msgstr "Haga clic para filtrar los sabores por estado"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:91
+msgid "Show installed Flavours"
+msgstr "Mostrar sabores instalados"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:104
+msgid "Show uninstalled Flavours"
+msgstr "Mostrar sabores no instalados"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:116
+msgid "Show Flavours with error"
+msgstr "Mostrar sabores con errores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:132
+msgid "Remove filter"
+msgstr "Eliminar filtro"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:154
+msgid "Search..."
+msgstr "Buscar..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:219
+msgid "Flavours not available"
+msgstr "No se ha detectado ninguna versión de sabor disponible"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursPanel.qml:11
+msgid "List of Flavours availables"
+msgstr "Lista de sabores disponibles"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:12
+msgid "Uninstallation process details"
+msgstr "Detalles del proceso de desinstalación"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:14
+msgid "Installation process details"
+msgstr "Detalles del proceso de instalación"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:187
+msgid "Click to hide flavours"
+msgstr "Haga clic para ocultar los sabores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:189
+msgid "Click to show flavours"
+msgstr "Haga clic para mostrar los sabores"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Loading.qml:38
+msgid "Loading information. Wait a moment..."
+msgstr "Cargando información. Espere un momento..."
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:38
+msgid "Changes to be applied to the system"
+msgstr "Cambios a aplicar en el sistema"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:55
+msgid "Flavours to install:"
+msgstr "Sabores a instalar:"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:67
+msgid "Flavours to remove:"
+msgstr "Sabores a desinstalar:"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:79
+msgid "Remove other installed packages that are no longer neeed"
+msgstr "Desinstalar otros paquetes instalados que ya no son necesarios"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:106
+msgid "Accept"
+msgstr "Aceptar"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:121
+msgid "Cancel"
+msgstr "Cancelar"

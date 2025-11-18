@@ -1,3 +1,11 @@
 [FLAVOUR]
+id=1001
 pkg=lliurex-meta-desktop
-name=LliureX Desktop
+name=LliureX Desktop: corresponding to the base version of LliureX
+name[ca@valencia]=LliureX Desktop: corresponent a la versió base de LliureX
+name[es]=LliureX Desktop: correspondiente a la versión base de LliureX
+installCmd=apt-get install -y lliurex-meta-desktop
+removeCmd=apt-get purge -y lliurex-meta-desktop
+type=child
+parent=base
+conflicts=lliurex-meta-desktop-lite
