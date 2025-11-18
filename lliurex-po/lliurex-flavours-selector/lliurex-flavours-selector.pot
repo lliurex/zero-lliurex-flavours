@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 10:21+0200\n"
+"POT-Creation-Date: 2025-11-18 13:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,9 @@ msgid ""
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
-msgid "Installation process has ending successfully"
+msgid ""
+"Installation process has ending successfully. It's necessary to restart the "
+"system"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:221
@@ -76,7 +78,9 @@ msgid "Uninstalling selected Flavours. Wait a moment..."
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:233
-msgid "Uninstallation process has ending successfully"
+msgid ""
+"Uninstallation process has ending successfully. It's necessary to restart "
+"the system"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:236
@@ -86,7 +90,8 @@ msgid ""
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
-msgid "The process has ending successfully"
+msgid ""
+"The process has ending successfully. It's necessary to restart the system"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:242
