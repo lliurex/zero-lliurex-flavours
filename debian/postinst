@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+#VARS
+PACKAGE_NAME="zero-lliurex-flavours"
+
+case "$1" in
+   configure)
+	  newVersion=$(dpkg-query --showformat='${Version}' --show zero-lliurex-flavours)
+      tokenDir=/var/lib/zero-lliurex-flavours/version
+      echo "$newVersion" > "$tokenDir" || true
+   				
+   ;;
+
+   abort-upgrade|abort-remove|abort-deconfigure)
+   ;;
+
+   *)
+       exit 1
+   ;;
+esac
+
+#DEBHELPER#

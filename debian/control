@@ -14,6 +14,6 @@ Standards-Version: 4.1.2
 
 Package: zero-lliurex-flavours
 Architecture: all
-Depends: ${misc:Depends},python3, lliurex-preseed-common, lliurex-preseed-libnss-ldapd, lliurex-preseed-nslcd
+Depends: ${misc:Depends},python3, lliurex-preseed-common, lliurex-preseed-libnss-ldapd, lliurex-preseed-nslcd, python3-pyside2.qtqml, python3-pyside2.qtquick, python3-pyside2.qtgui, python3-pyside2.qtwidgets, python3-pyside2.qtquickwidgets
 Description: Flavours Selection Tool
  Flavours Selection Tool for changing between LliureX flavours

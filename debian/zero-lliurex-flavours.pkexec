@@ -1,5 +1,28 @@
 [
     {
+        "prefix": "net.lliurex.lliurex-flavours-selector-legacy",
+        "cmd": "/usr/sbin/lliurex-flavours-selector-legacy",
+        "nameaction": "gui",
+        "icon": "lliurex-flavours-selector-legacy",
+        "default_auth": {
+            "any": "no",
+            "inactive": "no",
+            "active": "no"
+        },
+        "auths": [
+            {
+                "type": "group",
+                "members": [
+                    "sudo",
+                    "admins"
+                ],
+                "any": "yes",
+                "inactive": "yes",
+                "active": "yes"
+            }
+        ]
+    },
+    {
         "prefix": "net.lliurex.lliurex-flavours-selector",
         "cmd": "/usr/sbin/lliurex-flavours-selector",
         "nameaction": "gui",
@@ -21,5 +44,5 @@
                 "active": "yes"
             }
         ]
-    }   
+    }
 ]
