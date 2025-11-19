@@ -82,7 +82,7 @@ if canLaunch[0]:
 	sys.exit(ret)
 
 else:
-	msg=_("The device is configured as %s for use in a classroom with a non standard network.\nThis configuration is not compatible with the Flavour Selector.\nUninstall lliurex-meta-%s and try again."%(canLaunch[1],canLaunch[1]))
+	msg=_("The device is configured as %s for use in a classroom with a non standard network.\nThis configuration is not compatible with the Flavour Selector.\nUninstall LLIUREX-META-%s and try again."%(canLaunch[1].upper(),canLaunch[1].upper()))
 	cmd='kdialog --title "Lliurex Flavours Selector" --icon "zero-lliurex-flavours" --sorry "%s"'%(msg)
 	os.system(cmd)
 	sys.exit(1)
