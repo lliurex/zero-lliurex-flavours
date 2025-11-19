@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 11:48+0100\n"
+"POT-Creation-Date: 2025-11-19 08:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid ""
 "The device is configured as %s for use in a classroom with a standard "
 "network.\n"
 "This configuration is not compatible with Flavour Selector Legacy.\n"
-"Uninstall lliurex-meta-%s and try again."
+"Uninstall LLIUREX-META-%s and try again."
 msgstr ""
 
 #: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:211
@@ -85,7 +85,7 @@ msgid "5 of 5: Finishing the installation..."
 msgstr ""
 
 #: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:437
-msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector"
+msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector-legacy"
 msgstr ""
 
 #: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:440
