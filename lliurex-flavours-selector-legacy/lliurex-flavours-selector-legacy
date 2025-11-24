@@ -11,9 +11,10 @@ _ = gettext.gettext
 
 def canRun():
 
-	normalizedNetworkFlavours=["adi","lab-pro","lab-alu","wifi-alu"]
+	#normalizedNetworkFlavours=["adi","lab-pro","lab-alu","wifi-alu"]
 	flavoursInstalled=[]
-	result=[True,""]
+	canRun=True
+	result=[canRun,""]
 
 	cmd="lliurex-version"
 	p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE)
@@ -25,10 +26,23 @@ def canRun():
 		if item!="edu":
 			flavoursInstalled.append(item.strip())
 
-	for item in normalizedNetworkFlavours:
-		if item in flavoursInstalled:
-			result=[False,item]
+	for item in flavoursInstalled:
+		if "adi" in item.strip():
+			item="adi"
+			canRun=False
 			break
+		elif "alu" in item.strip():
+			item="lab-alu"
+			canRun=False
+		elif "pro" in item.strip():
+			item="lab-pro"
+			canRun=False
+		elif 'wifi' in item.strip():
+			item="wifi-alu"
+			canRun=False
+			break
+
+	result=[canRun,item]
 
 	return result
 
