@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 08:56+0100\n"
-"PO-Revision-Date: 2025-11-19 08:58+0100\n"
+"POT-Creation-Date: 2025-11-24 08:57+0100\n"
+"PO-Revision-Date: 2025-11-24 08:57+0100\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:45
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
 msgid "You need administration privileges to run this application."
 msgstr "Necesita permisos de administración para ejecutar esta aplicación."
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:73
 #, python-format
 msgid ""
 "The device is configured as %s for use in a classroom with a standard "
