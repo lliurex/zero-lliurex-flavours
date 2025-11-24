@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 08:56+0100\n"
-"PO-Revision-Date: 2025-11-19 08:59+0100\n"
+"POT-Creation-Date: 2025-11-24 08:57+0100\n"
+"PO-Revision-Date: 2025-11-24 08:59+0100\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:45
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
 msgid "You need administration privileges to run this application."
 msgstr "Necessiteu permisos d'administració per a executar esta aplicació."
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:73
 #, python-format
 msgid ""
 "The device is configured as %s for use in a classroom with a standard "
@@ -93,8 +93,8 @@ msgstr "5 de 5: S'està finalitzant la instal·lació..."
 #: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:437
 msgid "An error ocurred. See log in /var/log/lliurex-flavours-selector-legacy"
 msgstr ""
-"S'ha produït un error. Reviseu el registre /var/log/lliurex-flavour-"
-"selector-legacy"
+"S'ha produït un error. Reviseu el registre /var/log/lliurex-flavour-selector-"
+"legacy"
 
 #: lliurex-flavours-selector-legacy/python3-lliurexflavourselector/MainWindow.py:440
 msgid "Installation succesful. A reboot is required"

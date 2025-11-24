@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 08:56+0100\n"
+"POT-Creation-Date: 2025-11-24 08:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:45
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
 msgid "You need administration privileges to run this application."
 msgstr ""
 
-#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:59
+#: lliurex-flavours-selector-legacy/lliurex-flavours-selector-legacy:73
 #, python-format
 msgid ""
 "The device is configured as %s for use in a classroom with a standard "
