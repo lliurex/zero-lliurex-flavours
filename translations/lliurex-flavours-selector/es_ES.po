@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 08:56+0100\n"
-"PO-Revision-Date: 2025-11-19 08:57+0100\n"
+"POT-Creation-Date: 2025-11-28 09:46+0100\n"
+"PO-Revision-Date: 2025-11-28 09:47+0100\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -23,18 +23,23 @@ msgstr ""
 msgid "You need administration privileges to run this application."
 msgstr "Necesita permisos de administración para ejecutar esta aplicación."
 
-#: lliurex-flavours-selector/lliurex-flavours-selector:85
-#, python-format
+#: lliurex-flavours-selector/lliurex-flavours-selector:86
+msgid "The device is configured as"
+msgstr "El equipo está configurado como"
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:87
 msgid ""
-"The device is configured as %s for use in a classroom with a non standard "
-"network.\n"
+"for use in a classroom with a non standard network.\n"
 "This configuration is not compatible with the Flavour Selector.\n"
-"Uninstall LLIUREX-META-%s and try again."
+"Uninstall LLIUREX-META-"
 msgstr ""
-"El equipo está configurado como %s para su uso en un aula con red no "
-"normalizada.\n"
+"para su uso en un aula con red no normalizada.\n"
 "Está configuración no es compatible con el Selector de Sabores.\n"
-"Desinstale LLIUREX-META-%s y pruebe otra vez."
+"Desinstale LLIUREX-META-"
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:88
+msgid "and try again."
+msgstr "y pruebe otra vez."
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:29
 msgid "Home"
