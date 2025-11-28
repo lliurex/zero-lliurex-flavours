@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 08:56+0100\n"
+"POT-Creation-Date: 2025-11-28 09:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,13 +21,19 @@ msgstr ""
 msgid "You need administration privileges to run this application."
 msgstr ""
 
-#: lliurex-flavours-selector/lliurex-flavours-selector:85
-#, python-format
+#: lliurex-flavours-selector/lliurex-flavours-selector:86
+msgid "The device is configured as"
+msgstr ""
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:87
 msgid ""
-"The device is configured as %s for use in a classroom with a non standard "
-"network.\n"
+"for use in a classroom with a non standard network.\n"
 "This configuration is not compatible with the Flavour Selector.\n"
-"Uninstall LLIUREX-META-%s and try again."
+"Uninstall LLIUREX-META-"
+msgstr ""
+
+#: lliurex-flavours-selector/lliurex-flavours-selector:88
+msgid "and try again."
 msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:29

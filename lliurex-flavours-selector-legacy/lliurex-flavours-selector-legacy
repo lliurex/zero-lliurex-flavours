@@ -71,7 +71,10 @@ if canLaunch[0]:
 	sys.exit(app.exec_())
 else:
 	print("  [Lliurex-Flavours-Selector-Legacy]: Detected incompatibility with standard network")
-	msg=_("The device is configured as %s for use in a classroom with a standard network.\nThis configuration is not compatible with Flavour Selector Legacy.\nUninstall LLIUREX-META-%s and try again."%(canLaunch[1].upper(),canLaunch[1].upper()))
+	msg1=_("The device is configured as")
+	msg2=_("for use in a classroom with a standard network.\nThis configuration is not compatible with Flavour Selector Legacy.\nUninstall LLIUREX-META-")
+	msg3=_("and try again.")
+	msg="%s %s %s%s %s"%(msg1,canLaunch[1].upper(),msg2,canLaunch[1].upper(),msg3)
 	cmd='kdialog --title "Lliurex Flavours Selector Legacy" --icon "zero-lliurex-flavours-legacy" --sorry "%s"'%(msg)
 	os.system(cmd)
 	sys.exit(1)
