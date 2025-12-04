@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.25.4) noble; urgency=medium
+
+  * Fixed bug when there is an error during installation
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Thu, 04 Dec 2025 13:04:20 +0100
+
 zero-lliurex-flavours (0.25.3) noble; urgency=medium
 
   * Changed end process messages
