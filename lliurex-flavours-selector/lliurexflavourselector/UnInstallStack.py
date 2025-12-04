@@ -17,6 +17,7 @@ class UnInstallStack(QObject):
 
 		QObject.__init__(self)
 		self.core=Core.Core.get_core()
+		self.countLimit=1
 		UnInstallStack.flavourSelectorManager=self.core.flavourSelectorManager
 
 	#def __init__
