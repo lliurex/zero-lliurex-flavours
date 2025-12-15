@@ -107,7 +107,7 @@ class FlavoursModel(QtCore.QAbstractListModel):
 			row = index.row()
 			for item in valuesToUpdate:
 				for param in item:
-					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded","showAction"]:
+					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded","showAction","isManaged"]:
 						self._entries[row][param]=item[param]
 						self.dataChanged.emit(index,index)
 

@@ -125,6 +125,9 @@ class UnInstallStack(QObject):
 						self.core.flavourStack.enableFlavourList=True
 						self.core.flavourStack.isAllInstalled=UnInstallStack.flavourSelectorManager.isAllInstalled()
 						self.core.flavourStack.totalErrorInProcess=self.totalError
+						UnInstallStack.flavourSelectorManager.updateTags()
+						UnInstallStack.flavourSelectorManager.tagsToRemove=[]
+
 						self.uninstallProcessTimer.stop()
 						self.core.mainStack.launchAutoRemove=False
 						
