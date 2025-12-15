@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.25.5) noble; urgency=medium
+
+  * Added or remove tags when some meta are installed or removed
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 15 Dec 2025 14:34:23 +0100
+
 zero-lliurex-flavours (0.25.4) noble; urgency=medium
 
   * Fixed bug when there is an error during installation
