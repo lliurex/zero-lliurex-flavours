@@ -9,3 +9,4 @@ removeCmd=apt-get purge -y lliurex-meta-lab-alu
 type=child
 parent=students
 conflicts=lliurex-meta-wifi-alu,lliurex-meta-adi,lliurex-meta-lab-pro
+tags=lab-alu

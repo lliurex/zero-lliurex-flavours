@@ -57,6 +57,10 @@ class FlavourSelectorManager:
 		self.runPkexec=True
 		self.nonExpandedParent=[]
 		self.allUnExpanded=True
+		self.flavoursBase=["lliurex-meta-desktop","lliurex-meta-gva"]
+		self.tagsPath="/etc/lliurex-auto-upgrade/tags"
+		self.tagsToAdd=[]
+		self.tagsToRemove=[]
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
@@ -112,7 +116,12 @@ class FlavourSelectorManager:
 						test=config.get("FLAVOUR","remove")
 						info["isManaged"]=False
 					except:
-						info["isManaged"]=True	
+						info["isManaged"]=True
+
+					try:
+						info["tags"]=config.get("FLAVOUR","tags")
+					except:
+						info["tags"]=None	
 				else:
 					info["installCmd"]=None
 					info["removeCmd"]=None
@@ -177,7 +186,16 @@ class FlavourSelectorManager:
 						tmp["flavourParent"]=tmpInfo["parent"]
 						tmp["conflicts"]=tmpInfo["conflicts"]
 						tmp["resultProcess"]=-1
-						tmp["isManaged"]=tmpInfo["isManaged"]
+						if tmp["type"]=="child":
+							if tmp["pkg"] in self.flavoursBase:
+								if status=="installed":
+									tmp["isManaged"]=False
+								else:
+									tmp["isManaged"]=True
+							else:
+								tmp["isManaged"]=tmpInfo["isManaged"]
+						else:
+							tmp["isManaged"]=tmpInfo["isManaged"]
 						if tmp["type"]=="child":
 							if tmp["flavourParent"] not in self.parentsWithMeta:
 								self.parentsWithMeta.append(tmp["flavourParent"])
@@ -204,6 +222,11 @@ class FlavourSelectorManager:
 								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=tmpInfo["conflicts"].split(",")
 							else:
 								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=[]
+
+							if tmpInfo["tags"]!=None:
+								self.flavoursInfo[tmpInfo["pkg"]]["tags"]=tmpInfo["tags"].split(",")
+							else:
+								self.flavoursInfo[tmpInfo["pkg"]]["tags"]=[]
 
 		for item in self.flavoursData:
 			if item["type"]=="parent":
@@ -508,6 +531,7 @@ class FlavourSelectorManager:
 			msgCode=FlavourSelectorManager.SUCCESS_INSTALL_PROCESS
 			typeMsg="Ok"
 			self.feedBackCheck=[True,msgCode,typeMsg]
+			self._manageTags(pkg,"add")
 		
 		self.checkInstallDone=True
 		msgLog="- Installation of %s. Result: %s"%(pkg,typeMsg)
@@ -613,6 +637,7 @@ class FlavourSelectorManager:
 			msgCode=FlavourSelectorManager.SUCCESS_UNINSTALL_PROCESS
 			typeMsg="Ok"
 			self.feedBackCheck=[True,msgCode,typeMsg]
+			self._manageTags(pkg,"remove")
 		
 		msgLog="- Uninstallation of %s. Result: %s"%(pkg,typeMsg)
 		self.log(msgLog)
@@ -660,6 +685,8 @@ class FlavourSelectorManager:
 							self.pkgsInstalled.append(pkg)
 						tmpParam["showAction"]=0
 						tmpParam["resultProcess"]=-1
+						if pkg in self.flavoursBase:
+							tmpParam["isManaged"]=False
 						#tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
@@ -780,6 +807,37 @@ class FlavourSelectorManager:
 		with open(logFile,"a+") as fd:
 			fd.write("%s\n"%msgLog)
 
-	#def log	
+	#def log
+
+	def _manageTags(self,pkg,action):
+
+		if os.path.exists(self.tagsPath):
+			if action=="add":
+				for item in self.flavoursInfo[pkg]["tags"]:
+					if item not in self.tagsToAdd:
+						self.tagsToAdd.append(item)
+			elif action=="remove":
+				for item in self.flavoursInfo[pkg]["tags"]:
+					if item not in self.tagsToRemove:
+						self.tagsToRemove.append(item)
+
+	#def _manageTags
+
+	def updateTags(self):
+
+		if 'lliurex-meta-gva' in self.pkgsInstalled:
+			if os.path.exists(self.tagsPath):
+				for item in self.tagsToAdd:
+					tmpTag=os.path.join(self.tagsPath,item)
+					if not os.path.exists(tmpTag):
+						cmd="touch %s"%tmpTag
+						os.system(cmd)
+
+				for item in self.tagsToRemove:
+					tmpTag=os.path.join(self.tagsPath,item)
+					if os.path.exists(tmpTag):
+						os.remove(tmpTag)
+
+	#ef updateTags	
 
 #class FlavourSelectorManager
