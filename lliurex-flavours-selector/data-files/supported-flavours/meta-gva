@@ -8,3 +8,5 @@ installCmd=apt-get install -y lliurex-meta-gva
 removeCmd=apt-get purge -y lliurex-meta-gva
 type=child
 parent=base
+remove=False
+tags=gva
