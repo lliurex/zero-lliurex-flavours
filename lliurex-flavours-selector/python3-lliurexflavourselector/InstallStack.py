@@ -178,11 +178,14 @@ class InstallStack(QObject):
 				self.core.mainStack.endProcess=True
 				self.core.mainStack.feedbackCode=""
 				self.core.mainStack.isProcessRunning=False
+				InstallStack.flavourSelectorManager.updateTags()
 				self.core.flavourStack.isAllInstalled=InstallStack.flavourSelectorManager.isAllInstalled()
 				self.core.flavourStack.enableFlavourList=True
 				self.core.mainStack.enableApplyBtn=False
 				self.installProcessTimer.stop()
 				InstallStack.flavourSelectorManager.flavourSelectedToInstall=[]
+				InstallStack.flavourSelectorManager.tagsToAdd=[]
+				InstallStack.flavourSelectorManager.tagsToRemove=[]
 				if self.core.mainStack.enableRemoveAction:
 					self.core.flavourStack.totalErrorInProcess=self.totalError+self.core.unInstallStack.totalError
 				else:
