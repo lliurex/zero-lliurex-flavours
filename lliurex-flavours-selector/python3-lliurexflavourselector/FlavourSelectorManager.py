@@ -58,9 +58,11 @@ class FlavourSelectorManager:
 		self.nonExpandedParent=[]
 		self.allUnExpanded=True
 		self.flavoursBase=["lliurex-meta-desktop","lliurex-meta-desktop-lite"]
+		self.removeLockedFlavour=["lliurex-meta-gva"]
 		self.tagsPath="/etc/lliurex-auto-upgrade/tags"
 		self.tagsToAdd=[]
 		self.tagsToRemove=[]
+		self.flavourReferenceForTags="lliurex-meta-gva"
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
@@ -187,16 +189,14 @@ class FlavourSelectorManager:
 						tmp["conflicts"]=tmpInfo["conflicts"]
 						tmp["resultProcess"]=-1
 						if tmp["type"]=="child":
-							if tmp["pkg"] in self.flavoursBase:
+							if tmp["pkg"] in self.flavoursBase or tmp["pkg"] in self.removeLockedFlavour:
 								if status=="installed":
 									tmp["isManaged"]=False
 								else:
-									tmp["isManaged"]=tmpInfo["isManaged"]
-							else:
-								if status=="installed":
-									tmp["isManaged"]=tmpInfo["isManaged"]
-								else:
 									tmp["isManaged"]=True
+							else:
+								tmp["isManaged"]=tmpInfo["isManaged"]
+				
 						else:
 							tmp["isManaged"]=tmpInfo["isManaged"]
 						if tmp["type"]=="child":
@@ -688,6 +688,8 @@ class FlavourSelectorManager:
 							self.pkgsInstalled.append(pkg)
 						tmpParam["showAction"]=0
 						tmpParam["resultProcess"]=-1
+						if pkg in self.removeLockedFlavour:
+							tmpParam["isManaged"]=False
 						#tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
@@ -826,7 +828,7 @@ class FlavourSelectorManager:
 
 	def updateTags(self):
 
-		if 'lliurex-meta-gva' in self.pkgsInstalled:
+		if self.flavourReferenceForTags in self.pkgsInstalled:
 			if os.path.exists(self.tagsPath):
 				for item in self.tagsToAdd:
 					tmpTag=os.path.join(self.tagsPath,item)
