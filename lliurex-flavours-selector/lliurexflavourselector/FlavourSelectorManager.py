@@ -61,6 +61,7 @@ class FlavourSelectorManager:
 		self.tagsPath="/etc/lliurex-auto-upgrade/tags"
 		self.tagsToAdd=[]
 		self.tagsToRemove=[]
+		self.flavourReferenceForTags="lliurex-meta-gva"
 		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
@@ -825,7 +826,7 @@ class FlavourSelectorManager:
 
 	def updateTags(self):
 
-		if 'lliurex-meta-gva' in self.pkgsInstalled:
+		if self.flavourReferenceForTags in self.pkgsInstalled:
 			if os.path.exists(self.tagsPath):
 				for item in self.tagsToAdd:
 					tmpTag=os.path.join(self.tagsPath,item)
