@@ -163,6 +163,7 @@ class Bridge(QObject):
 		params.append("resultProcess")
 		params.append("showAction")
 		params.append("isChecked")
+		params.append("isManaged")
 		if step=="end":
 			params.append("banner")
 			params.append("status")
