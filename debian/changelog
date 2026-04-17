@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.22.15) jammy; urgency=medium
+
+  * Fixed detection of session lang
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Fri, 17 Apr 2026 10:30:21 +0200
+
 zero-lliurex-flavours (0.22.14) jammy; urgency=medium
 
   * New lliurex-flavours-selector-legacy to support old model
