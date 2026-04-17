@@ -78,12 +78,15 @@ class FlavourSelectorManager:
 	
 	def _getSessionLang(self):
 
-		tmpLang=os.environ["LANGUAGE"].split(":")
+		tmpLang=os.environ["LANGUAGE"]
+
+		if tmpLang!="":
+			tmpLang=tmpLang.split(":")
 
 		if len(tmpLang)>0:
-			self.sessiongLang=tmpLang[0]
+			self.sessionLang=tmpLang[0]
 		else:
-			self.sessiongLang=os.environ["LANG"]
+			self.sessionLang=os.environ["LANG"]
 
 
 	#def _getSessionLang
@@ -98,9 +101,9 @@ class FlavourSelectorManager:
 				info={}
 				info["id"]=config.get("FLAVOUR","id")
 				info["pkg"]=config.get("FLAVOUR","pkg")
-				if 'ca' in self.sessiongLang:
+				if 'ca' in self.sessionLang:
 					info["name"]=config.get("FLAVOUR","name[ca@valencia]")
-				elif 'es' in self.sessiongLang:
+				elif 'es' in self.sessionLang:
 					info["name"]=config.get("FLAVOUR","name[es]")
 				else:
 					info["name"]=config.get("FLAVOUR","name")
