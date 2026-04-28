@@ -10,8 +10,8 @@ Popup {
     signal btnApplyClicked
     signal btnCancelClicked
    
-    width:500
-    height:400
+    width:650
+    height:450
     anchors.centerIn: Overlay.overlay
     modal:true
     focus:true
@@ -26,8 +26,8 @@ Popup {
    
     contentItem:Rectangle{
         id:container
-        width:500
-        height:400
+        width:650
+        height:450
         color:"transparent"
         Image{
             id:dialogIcon
@@ -44,7 +44,7 @@ Popup {
         }
         GridLayout{
             id:summaryLayout
-            rows:3
+            rows:5
             flow: GridLayout.TopToBottom
             rowSpacing:0
             anchors.left:parent.left
@@ -75,6 +75,52 @@ Popup {
                 wrapMode: Text.WordWrap
             }
 
+            Text{
+                id:additionalActions
+                text:i18nd("lliurex-flavours-selector","Other actions:")
+                font.family: "Quattrocento Sans Bold"
+                font.pointSize: 11
+                Layout.leftMargin:10
+            }
+            
+            RowLayout{
+                id:cartRow
+                Layout.alignment:Qt.AlignLeft
+                Layout.leftMargin:15
+                Layout.bottomMargin:10
+                visible:mainStackBridge.enableCartAction
+                spacing:10
+
+                PC.CheckBox {
+                    id:configureCartCB
+                    text:i18nd("lliurex-flavours-selector","Assign laptop to a cart (by default it will be assigned to cart 1):")
+                    font.pointSize: 11
+                    focusPolicy: Qt.NoFocus
+                    Layout.alignment:Qt.AlignLeft
+                    onToggled:{
+                        mainStackBridge.onConfigureCartChecked(checked)
+                    }
+                }
+
+                ComboBox {
+                    id:cartsValues
+                    currentIndex:0
+                    model:14
+                    delegate:ItemDelegate{
+                        width:40
+                        text:index+1
+                    }
+                    enabled:configureCartCB.checked?true:false
+                    displayText:currentIndex+1
+                    Layout.alignment:Qt.AlignLeft
+                    Layout.preferredWidth:60
+                    onActivated:{
+                        mainStackBridge.updateCart(cartsValues.currentIndex)
+                    }
+                }
+
+            }
+
             PC.CheckBox {
                 id:autoRemoveCB
                 text:i18nd("lliurex-flavours-selector","Remove other installed packages that are no longer neeed")
@@ -83,11 +129,12 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 Layout.alignment:Qt.AlignLeft
                 Layout.bottomMargin:15
-                Layout.leftMargin:10
+                Layout.leftMargin:15
                 onToggled:{
                     mainStackBridge.onAutoRemoveChecked(checked)
                 }
             }
+           
              
         }
         RowLayout{
@@ -122,7 +169,7 @@ Popup {
                 text:i18nd("lliurex-flavours-selector","Cancel")
                 Layout.preferredHeight: 40
                 enabled:true
-		focusPolicy: Qt.NoFocus
+                focusPolicy: Qt.NoFocus
                 onClicked:{
                     autoRemoveCB.checked=false
                     btnCancelClicked()

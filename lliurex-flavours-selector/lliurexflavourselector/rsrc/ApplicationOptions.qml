@@ -244,6 +244,9 @@ GridLayout{
             case 11:
                 msg=i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
                 break;
+            case 12:
+                msg=i18nd("lliurex-flavours-selector","Assigning the laptop to selected cart. Wait a moment...")
+                break;
             default:
                 break;
         }

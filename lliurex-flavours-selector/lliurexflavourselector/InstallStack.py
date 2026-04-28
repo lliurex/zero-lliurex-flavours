@@ -139,60 +139,73 @@ class InstallStack(QObject):
 				InstallStack.flavourSelectorManager.autoRemoveDone=True
 
 			if InstallStack.flavourSelectorManager.autoRemoveDone:
-				if self.totalError>0:
-					self.showError=True
+				if self.core.mainStack.launchCartConfiguration:
+					if not InstallStack.flavourSelectorManager.configureCartLaunched:
+						self.core.mainStack.feedbackCode=InstallStack.flavourSelectorManager.MSG_FEEDBACK_CONFIGURATION_CART
+						InstallStack.flavourSelectorManager.configureCartLaunched=True
+						self.core.mainStack.currentCommand=InstallStack.flavourSelectorManager.getConfigurationCartCommand()
+						self.core.mainStack.endCurrentCommand=True
+				else:
+					InstallStack.flavourSelectorManager.configureCartLaunched=True
+					InstallStack.flavourSelectorManager.configureCartDone=True
+				
+				if InstallStack.flavourSelectorManager.configureCartDone:
+					if self.totalError>0:
+						self.showError=True
 
-				if self.showError:
-					if InstallStack.flavourSelectorManager.errorInConflicts:
-						self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS_CONFLICTS,"Error"]	
+					if self.showError:
+						if InstallStack.flavourSelectorManager.errorInConflicts:
+							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS_CONFLICTS,"Error"]	
+						else:
+							installError=True
+							if self.core.mainStack.enableRemoveAction:
+								if self.core.unInstallStack.showError:
+									installError=False
+									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS,"Error"]	
+
+							if installError:
+								if self.countLimit==1 and self.core.unInstallStack.countLimit==1:
+									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
+								else:
+									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_INSTALL,"Error"]
 					else:
-						installError=True
+						unInstallError=False
 						if self.core.mainStack.enableRemoveAction:
 							if self.core.unInstallStack.showError:
-								installError=False
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS,"Error"]	
+								unInstallError=True
 
-						if installError:
-							if self.countLimit==1 and self.core.unInstallStack.countLimit==1:
+						if not unInstallError:
+							if not self.core.mainStack.enableRemoveAction:
 								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
 							else:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_INSTALL,"Error"]
-				else:
-					unInstallError=False
+								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.SUCCESS_PROCESS,"Ok"]
+						else:
+							if self.core.unInstallStack.countLimit==1:
+									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
+							else:
+								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
+
+					self.core.mainStack.isProgressBarVisible=False
+					self.core.mainStack.endProcess=True
+					self.core.mainStack.feedbackCode=""
+					self.core.mainStack.isProcessRunning=False
+					InstallStack.flavourSelectorManager.updateTags()
+					self.core.flavourStack.isAllInstalled=InstallStack.flavourSelectorManager.isAllInstalled()
+					self.core.flavourStack.enableFlavourList=True
+					self.core.mainStack.enableApplyBtn=False
+					self.installProcessTimer.stop()
+					InstallStack.flavourSelectorManager.flavourSelectedToInstall=[]
+					InstallStack.flavourSelectorManager.tagsToAdd=[]
+					InstallStack.flavourSelectorManager.tagsToRemove=[]
 					if self.core.mainStack.enableRemoveAction:
-						if self.core.unInstallStack.showError:
-							unInstallError=True
-
-					if not unInstallError:
-						if not self.core.mainStack.enableRemoveAction:
-							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
-						else:
-							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.SUCCESS_PROCESS,"Ok"]
+						self.core.flavourStack.totalErrorInProcess=self.totalError+self.core.unInstallStack.totalError
 					else:
-						if self.core.unInstallStack.countLimit==1:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
-						else:
-							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
-
-				self.core.mainStack.isProgressBarVisible=False
-				self.core.mainStack.endProcess=True
-				self.core.mainStack.feedbackCode=""
-				self.core.mainStack.isProcessRunning=False
-				InstallStack.flavourSelectorManager.updateTags()
-				self.core.flavourStack.isAllInstalled=InstallStack.flavourSelectorManager.isAllInstalled()
-				self.core.flavourStack.enableFlavourList=True
-				self.core.mainStack.enableApplyBtn=False
-				self.installProcessTimer.stop()
-				InstallStack.flavourSelectorManager.flavourSelectedToInstall=[]
-				InstallStack.flavourSelectorManager.tagsToAdd=[]
-				InstallStack.flavourSelectorManager.tagsToRemove=[]
-				if self.core.mainStack.enableRemoveAction:
-					self.core.flavourStack.totalErrorInProcess=self.totalError+self.core.unInstallStack.totalError
-				else:
-					self.core.mainStack.totalErrorInProcess=self.totalError
-				self.core.mainStack.enableInstallAction=False
-				self.core.mainStack.enableRemoveAction=False
-				self.core.mainStack.launchAutoRemove=False		
+						self.core.mainStack.totalErrorInProcess=self.totalError
+					self.core.mainStack.enableInstallAction=False
+					self.core.mainStack.enableRemoveAction=False
+					self.core.mainStack.launchAutoRemove=False
+					self.core.mainStack.launchCartConfiguration=False
+					self.core.mainStack.selectedCart=1		
 		
 		if InstallStack.flavourSelectorManager.updateReposLaunched:
 			if not InstallStack.flavourSelectorManager.updateReposDone:
@@ -209,7 +222,11 @@ class InstallStack(QObject):
 						if not InstallStack.flavourSelectorManager.autoRemoveDone:
 							if not os.path.exists(InstallStack.flavourSelectorManager.tokenAutoRemove[1]):
 								InstallStack.flavourSelectorManager.autoRemoveDone=True
-	
+						else:
+							if InstallStack.flavourSelectorManager.configureCartLaunched:
+								if not InstallStack.flavourSelectorManager.configureCartDone:
+									if not os.path.exists(InstallStack.flavourSelectorManager.tokenConfigureCart[1]):
+										InstallStack.flavourSelectorManager.configureCartDone=True
 	#def _installProcessTimerRet
 
 #class InstallStack

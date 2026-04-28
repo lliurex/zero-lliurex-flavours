@@ -51,10 +51,13 @@ class Bridge(QObject):
 		self._runPkexec=Bridge.flavourSelectorManager.runPkexec
 		self._enableInstallAction=False
 		self._enableRemoveAction=False
+		self._enableCartAction=False
 		self.moveToStack=""
 		self.waitMaxRetry=1
 		self.waitRetryCount=0
 		self.launchAutoRemove=False
+		self.launchCartConfiguration=False
+		self.selectedCart=1
 
 	#def __init__
 
@@ -283,6 +286,20 @@ class Bridge(QObject):
 
 	#def _setEnableRemoveAction
 
+	def _getEnableCartAction(self):
+
+		return self._enableCartAction
+
+	#def _getEnableCartAction
+
+	def _setEnableCartAction(self,enableCartAction):
+
+		if self._enableCartAction!=enableCartAction:
+			self._enableCartAction=enableCartAction
+			self.on_enableCartAction.emit()
+
+	#def _setEnableCartAction
+
 	def _getCloseGui(self):
 
 		return self._closeGui
@@ -310,6 +327,23 @@ class Bridge(QObject):
 
 	#def onAutoRemoveChecked
 
+	@Slot(bool)
+	def onConfigureCartChecked(self,value):
+
+		self.launchCartConfiguration=value
+
+	#def onConfigureCartChecked
+
+	@Slot(int)
+	def updateCart(self,value):
+
+		self.selectedCart=int(value)+1
+
+		if self.selectedCart==1:
+			self.launchCartConfiguration=False
+
+	#def updateCart
+
 	@Slot()
 	def getNewCommand(self):
 		
@@ -326,7 +360,7 @@ class Bridge(QObject):
 		self.enableApplyBtn=False
 		self.isProgressBarVisible=True
 		self.isProcessRunning=True
-		Bridge.flavourSelectorManager.initLog(self.launchAutoRemove)
+		Bridge.flavourSelectorManager.initLog(self.launchAutoRemove,self.launchCartConfiguration,self.selectedCart)
 		self.core.installStack.checkInternetConnection()
 
 	#def launchChangeProcess
@@ -396,6 +430,9 @@ class Bridge(QObject):
 
 	on_enableRemoveAction=Signal()
 	enableRemoveAction=Property(bool,_getEnableRemoveAction,_setEnableRemoveAction,notify=on_enableRemoveAction)
+
+	on_enableCartAction=Signal()
+	enableCartAction=Property(bool,_getEnableCartAction,_setEnableCartAction,notify=on_enableCartAction)
 
 	on_closePopUp=Signal()
 	closePopUp=Property('QVariantList',_getClosePopUp,_setClosePopUp,notify=on_closePopUp)

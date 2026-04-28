@@ -36,6 +36,7 @@ class FlavourSelectorManager:
 	MSG_WARNING_REMOVE_META=8
 	MSG_FEEDBACK_AUTOREMOVE=10
 	MSG_FEEDBACK_PROTECTION=11
+	MSG_FEEDBACK_CONFIGURATION_CART=12
 
 	def __init__(self):
 
@@ -374,18 +375,23 @@ class FlavourSelectorManager:
 		
 	#def _managePkgSelected
 
-	def initLog(self,autoRemove):
+	def initLog(self,autoRemove,cartConfiguration,selectedCart):
 
 		msgLog="------------------------------------------------------\n"+"LLIUREX-FLAVOURS-SELECTOR STARTING AT "+datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S")+"\n------------------------------------------------------"
 		self.log(msgLog)
-		msgLog="- Installed flavours: %s"%str(self.pkgsInstalled)
+		msgLog=f"- Installed flavours: {self.pkgsInstalled}"
 		self.log(msgLog)
-		msgLog="- Flavours selected to install: %s"%str(self.flavourSelectedToInstall)
+		msgLog=f"- Flavours selected to install: {self.flavourSelectedToInstall}"
 		self.log(msgLog)
-		msgLog="- Flavours selected to remove: %s"%str(self.flavourSelectedToRemove)
+		msgLog=f"- Flavours selected to remove: {self.flavourSelectedToRemove}"
 		self.log(msgLog)
-		msgLog="- Launch autoremove: %s"%str(autoRemove)
+		msgLog=f"- Launch autoremove: {autoRemove}"
 		self.log(msgLog)
+		if cartConfiguration:
+			self.configureCart=cartConfiguration
+			self.selectedCart=selectedCart
+			msgLog=f"- Launch cart configuration: {cartConfiguration} - Selected cart: {selectedCart}"
+			self.log(msgLog)
 
 	#def initLog
 
@@ -472,6 +478,8 @@ class FlavourSelectorManager:
 		self.installAppDone=False
 		self.checkInstallLaunched=False
 		self.checkInstallDone=False
+		self.configureCartLaunched=False
+		self.configureCartDone=False
 		self._initAutoRemoveProcess()
 		self.flavourSelected=self.flavourSelectedToInstall
 		self._initProcessValues(pkg)
@@ -505,9 +513,8 @@ class FlavourSelectorManager:
 				break
 				
 		if not conflictDetected:
-			command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["installCmd"]
-		
-		length=len(command)
+			command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]["installCmd"]}"
+			length=len(command)
 
 		if length>0:
 			command=self._createProcessToken(command,"install")
@@ -536,10 +543,26 @@ class FlavourSelectorManager:
 			self._manageTags(pkg,"add")
 		
 		self.checkInstallDone=True
-		msgLog="- Installation of %s. Result: %s"%(pkg,typeMsg)
+		msgLog=f"- Installation of {pkg}. Result: {typeMsg}"
 		self.log(msgLog)
 
 	#def checkInstall
+
+	def getConfigurationCartCommand(self):
+
+		command=""
+		if self.configureCart and self.isInstalled("lliurex-meta-wifi-alu"):
+			command=f"lliurex-client-register-cli setcart {self.selectedCart} -u"
+			length=len(command)
+
+		if length>0:
+			command=self._createProcessToken(command,"configureCart")
+		else:
+			self.configureCartDone=True
+
+		return command
+
+	#def getConfigurationCartCommand
 
 	def isAllInstalled(self):
 
@@ -612,7 +635,7 @@ class FlavourSelectorManager:
 	def getUnInstallCommand(self,pkg):
 
 		command=""
-		command="DEBIAN_FRONTEND=noninteractive %s"%self.flavoursInfo[pkg]["removeCmd"]
+		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]["removeCmd"]}"
 		length=len(command)
 
 		if length>0:
@@ -641,7 +664,7 @@ class FlavourSelectorManager:
 			self.feedBackCheck=[True,msgCode,typeMsg]
 			self._manageTags(pkg,"remove")
 		
-		msgLog="- Uninstallation of %s. Result: %s"%(pkg,typeMsg)
+		msgLog=f"- Uninstallation of {pkg}. Result: {typeMsg}"
 		self.log(msgLog)
 
 		self.checkRemoveDone=True
@@ -689,7 +712,6 @@ class FlavourSelectorManager:
 						tmpParam["resultProcess"]=-1
 						if pkg in self.flavoursBase:
 							tmpParam["isManaged"]=False
-						#tmpParam["banner"]="%s_OK"%self.flavoursInfo[pkg]["banner"]
 					else:
 						tmpParam["resultProcess"]=1
 						tmpParam["showAction"]=-1
@@ -778,24 +800,27 @@ class FlavourSelectorManager:
 		
 		if action=="updaterepos":
 			self.tokenUpdaterepos=tempfile.mkstemp('_updaterepos')	
-			removeTmp=' rm -f %s'%self.tokenUpdaterepos[1]	
+			removeTmp=f' rm -f {self.tokenUpdaterepos[1]}'
 		elif action=="install":
 			self.tokenInstall=tempfile.mkstemp('_install')
-			removeTmp=' rm -f %s'%self.tokenInstall[1]
+			removeTmp=f' rm -f {self.tokenInstall[1]}'
+		elif action=="configureCart":
+			self.tokenConfigureCart=tempfile.mkstemp('_configurecart')
+			removeTmp=f' rm -f {self.tokenConfigureCart[1]}'
 		elif action=="disablemetaprotection":
 			self.tokenDisableMetaProtection=tempfile.mkstemp('_disablemetaprotection')
-			removeTmp=' rm -f %s'%self.tokenDisableMetaProtection[1]
+			removeTmp=f' rm -f {self.tokenDisableMetaProtection[1]}'
 		elif action=="uninstall":
 			self.tokenUnInstall=tempfile.mkstemp('_uninstall')
-			removeTmp=' rm -f %s'%self.tokenUnInstall[1]
+			removeTmp=f' rm -f {self.tokenUnInstall[1]}'
 		elif action=="enablemetaprotection":
 			self.tokenEnableMetaProtection=tempfile.mkstemp('_enablemetaprotection')
-			removeTmp=' rm -f %s'%self.tokenEnableMetaProtection[1]
+			removeTmp=f' rm -f {self.tokenEnableMetaProtection[1]}'
 		elif action=="autoremove":
 			self.tokenAutoRemove=tempfile.mkstemp("_autoremove")
-			removeTmp=' rm -f %s'%self.tokenAutoRemove[1]
+			removeTmp=f' rm -f {self.tokenAutoRemove[1]}'
 
-		cmd='%s ;stty -echo;%s\n'%(command,removeTmp)
+		cmd=f'{command} ;stty -echo;{removeTmp}\n'
 		if cmd.startswith(";"):
 			cmd=cmd[1:]
 
