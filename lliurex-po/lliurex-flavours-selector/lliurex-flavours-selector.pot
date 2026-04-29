@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 13:19+0100\n"
+"POT-Creation-Date: 2026-04-29 08:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,6 +102,10 @@ msgstr ""
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr ""
 
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+msgid "Assigning the laptop to cart %1. Wait a moment..."
+msgstr ""
+
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:39
 msgid "Click to expand the list of flavours"
 msgstr ""
@@ -175,13 +179,21 @@ msgid "Flavours to remove:"
 msgstr ""
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:80
+msgid "Additional actions:"
+msgstr ""
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:103
+msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
+msgstr ""
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:133
 msgid "Remove other installed packages that are no longer neeed"
 msgstr ""
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:107
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:161
 msgid "Accept"
 msgstr ""
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:122
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:178
 msgid "Cancel"
 msgstr ""

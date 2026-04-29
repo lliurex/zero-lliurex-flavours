@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 13:19+0100\n"
-"PO-Revision-Date: 2025-11-18 13:20+0100\n"
+"POT-Creation-Date: 2026-04-29 08:32+0200\n"
+"PO-Revision-Date: 2026-04-29 08:34+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:29
 msgid "Home"
@@ -113,6 +113,10 @@ msgstr ""
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr "S'està activant la protecció del metapaquet. Espereu un moment..."
 
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+msgid "Assigning the laptop to cart %1. Wait a moment..."
+msgstr "S'està assignant el portàtil al carret %1. Espereu un moment..."
+
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:39
 msgid "Click to expand the list of flavours"
 msgstr "Premeu per a expandir la llista de sabors"
@@ -186,13 +190,22 @@ msgid "Flavours to remove:"
 msgstr "Sabors a desinstal·lar:"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:80
+msgid "Additional actions:"
+msgstr "Accions addicionals:"
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:103
+msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
+msgstr ""
+"Assigna el portàtil a un carret (per defecte quedarà assignat al carret 1):"
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:133
 msgid "Remove other installed packages that are no longer neeed"
 msgstr "Desinstal·la altres paquets instal·lats que ja no són necessaris"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:107
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:161
 msgid "Accept"
 msgstr "Accepta"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:122
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:178
 msgid "Cancel"
 msgstr "Canceŀla"
