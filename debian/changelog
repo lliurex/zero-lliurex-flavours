@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.25.8) noble; urgency=medium
+
+  * Added option to assing laptop to cart if wifi-alu is installed
+  * Improved tag management
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 29 Apr 2026 11:57:13 +0200
+
 zero-lliurex-flavours (0.25.7) noble; urgency=medium
 
   * Fixed detection of session lang
