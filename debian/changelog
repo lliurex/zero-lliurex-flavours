@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.22.16) jammy; urgency=medium
+
+  * Added option to assign laptop to cart if wifi-alu is installed
+  * Improved tag management
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Wed, 29 Apr 2026 11:55:11 +0200
+
 zero-lliurex-flavours (0.22.15) jammy; urgency=medium
 
   * Fixed detection of session lang
