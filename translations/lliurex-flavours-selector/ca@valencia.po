@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 09:46+0100\n"
-"PO-Revision-Date: 2025-11-28 09:48+0100\n"
+"POT-Creation-Date: 2026-04-29 11:28+0200\n"
+"PO-Revision-Date: 2026-04-29 11:31+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -135,6 +135,10 @@ msgstr ""
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr "S'està activant la protecció del metapaquet. Espereu un moment..."
 
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+msgid "Assigning the laptop to cart %1. Wait a moment..."
+msgstr "S'està assignant el portàtil al carret %1. Espereu un moment..."
+
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:39
 msgid "Click to expand the list of flavours"
 msgstr "Premeu per a expandir la llista de sabors"
@@ -208,13 +212,22 @@ msgid "Flavours to remove:"
 msgstr "Sabors a desinstal·lar:"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:79
+msgid "Additional actions:"
+msgstr "Accions addicionals:"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:102
+msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
+msgstr ""
+"Assigna el portàtil a un carret (per defecte quedarà assignat al carret 1):"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:132
 msgid "Remove other installed packages that are no longer neeed"
 msgstr "Desinstal·la altres paquets instal·lats que ja no són necessaris"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:106
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:160
 msgid "Accept"
 msgstr "Accepta"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:121
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:177
 msgid "Cancel"
 msgstr "Canceŀla"
