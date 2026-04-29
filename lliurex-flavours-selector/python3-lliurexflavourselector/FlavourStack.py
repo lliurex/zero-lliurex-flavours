@@ -259,6 +259,10 @@ class Bridge(QObject):
 
 			enableBtn=True
 			self.core.mainStack.enableInstallAction=True
+			if "lliurex-meta-wifi-alu" in Bridge.flavourSelectorManager.flavourSelectedToInstall:
+				self.core.mainStack.enableCartAction=True
+			else:
+				self.core.mainStack.enableCartAction=False
 
 		if len(Bridge.flavourSelectorManager.flavourSelectedToRemove)>0:
 			for item in Bridge.flavourSelectorManager.flavourSelectedToRemove:

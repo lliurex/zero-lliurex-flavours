@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 09:46+0100\n"
-"PO-Revision-Date: 2025-11-28 09:47+0100\n"
+"POT-Creation-Date: 2026-04-29 11:28+0200\n"
+"PO-Revision-Date: 2026-04-29 11:32+0200\n"
 "Last-Translator: lliurex <lliurex@gva.es>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -135,6 +135,10 @@ msgstr "Desinstalando paquetes que ya no son necesarios. Espere un momento..."
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr "Activando la protección del metapaquete. Espere un momento..."
 
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+msgid "Assigning the laptop to cart %1. Wait a moment..."
+msgstr "Asignando el portátil al carrito %1. Espere un momento..."
+
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:39
 msgid "Click to expand the list of flavours"
 msgstr "Haga clic para expandir la lista de sabores"
@@ -208,13 +212,22 @@ msgid "Flavours to remove:"
 msgstr "Sabores a desinstalar:"
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:79
+msgid "Additional actions:"
+msgstr "Acciones adicionales:"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:102
+msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
+msgstr ""
+"Asignar el portátil a un carrito (por defecto quedará asignado al carrito 1):"
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:132
 msgid "Remove other installed packages that are no longer neeed"
 msgstr "Desinstalar otros paquetes instalados que ya no son necesarios"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:106
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:160
 msgid "Accept"
 msgstr "Aceptar"
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:121
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:177
 msgid "Cancel"
 msgstr "Cancelar"

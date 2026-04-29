@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 09:46+0100\n"
+"POT-Creation-Date: 2026-04-29 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,6 +121,10 @@ msgstr ""
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr ""
 
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+msgid "Assigning the laptop to cart %1. Wait a moment..."
+msgstr ""
+
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:39
 msgid "Click to expand the list of flavours"
 msgstr ""
@@ -194,13 +198,21 @@ msgid "Flavours to remove:"
 msgstr ""
 
 #: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:79
+msgid "Additional actions:"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:102
+msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:132
 msgid "Remove other installed packages that are no longer neeed"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:106
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:160
 msgid "Accept"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:121
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:177
 msgid "Cancel"
 msgstr ""
