@@ -60,7 +60,6 @@ class FlavourSelectorManager:
 		self.allUnExpanded=True
 		self.flavoursBase=["lliurex-meta-desktop","lliurex-meta-gva"]
 		self.tagsPath="/etc/lliurex-auto-upgrade/tags"
-		self.tagsToAdd=[]
 		self.tagsToRemove=[]
 		self.flavourReferenceForTags="lliurex-meta-gva"
 		self._isRunPkexec()
@@ -503,6 +502,7 @@ class FlavourSelectorManager:
 	def getInstallCommand(self,pkg):
 
 		command=""
+		length=0
 		conflictDetected=False
 		conflicts=self.flavoursInfo[pkg]["conflicts"]
 		
@@ -540,7 +540,6 @@ class FlavourSelectorManager:
 			msgCode=FlavourSelectorManager.SUCCESS_INSTALL_PROCESS
 			typeMsg="Ok"
 			self.feedBackCheck=[True,msgCode,typeMsg]
-			self._manageTags(pkg,"add")
 		
 		self.checkInstallDone=True
 		msgLog=f"- Installation of {pkg}. Result: {typeMsg}"
@@ -551,7 +550,8 @@ class FlavourSelectorManager:
 	def getConfigurationCartCommand(self):
 
 		command=""
-		if self.configureCart and self.isInstalled("lliurex-meta-wifi-alu") and self.selectedCart>1:
+		length=0
+		if self.configureCart and self.selectedCart>1 and self.isInstalled("lliurex-meta-wifi-alu"):
 			command=f"lliurex-client-register-cli setcart {self.selectedCart} -u"
 			length=len(command)
 
@@ -662,7 +662,7 @@ class FlavourSelectorManager:
 			msgCode=FlavourSelectorManager.SUCCESS_UNINSTALL_PROCESS
 			typeMsg="Ok"
 			self.feedBackCheck=[True,msgCode,typeMsg]
-			self._manageTags(pkg,"remove")
+			self._manageTags(pkg)
 		
 		msgLog=f"- Uninstallation of {pkg}. Result: {typeMsg}"
 		self.log(msgLog)
@@ -836,17 +836,12 @@ class FlavourSelectorManager:
 
 	#def log
 
-	def _manageTags(self,pkg,action):
+	def _manageTags(self,pkg):
 
 		if os.path.exists(self.tagsPath):
-			if action=="add":
-				for item in self.flavoursInfo[pkg]["tags"]:
-					if item not in self.tagsToAdd:
-						self.tagsToAdd.append(item)
-			elif action=="remove":
-				for item in self.flavoursInfo[pkg]["tags"]:
-					if item not in self.tagsToRemove:
-						self.tagsToRemove.append(item)
+			for item in self.flavoursInfo[pkg]["tags"]:
+				if item not in self.tagsToRemove:
+					self.tagsToRemove.append(item)
 
 	#def _manageTags
 
@@ -854,12 +849,14 @@ class FlavourSelectorManager:
 
 		if self.flavourReferenceForTags in self.pkgsInstalled:
 			if os.path.exists(self.tagsPath):
-				for item in self.tagsToAdd:
-					tmpTag=os.path.join(self.tagsPath,item)
-					if not os.path.exists(tmpTag):
-						cmd="touch %s"%tmpTag
-						os.system(cmd)
 
+				for pkg in self.pkgsInstalled:
+					for tag in self.flavoursInfo[pkg]["tags"]:
+						tmpTag=os.path.join(self.tagsPath,tag)
+						if not os.path.exists(tmpTag):
+							cmd=f"touch {tmpTag}"
+							os.system(cmd)
+	
 				for item in self.tagsToRemove:
 					tmpTag=os.path.join(self.tagsPath,item)
 					if os.path.exists(tmpTag):

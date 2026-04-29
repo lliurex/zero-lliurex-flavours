@@ -374,6 +374,8 @@ class Bridge(QObject):
 		self.enableApplyBtn=False
 		self.isProgressBarVisible=True
 		self.isProcessRunning=True
+		if self.selectedCart==1:
+			self.launchCartConfiguration=False
 		Bridge.flavourSelectorManager.initLog(self.launchAutoRemove,self.launchCartConfiguration,self.selectedCart)
 		self.core.installStack.checkInternetConnection()
 
