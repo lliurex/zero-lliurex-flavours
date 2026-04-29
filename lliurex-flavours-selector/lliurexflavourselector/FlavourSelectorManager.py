@@ -551,7 +551,7 @@ class FlavourSelectorManager:
 	def getConfigurationCartCommand(self):
 
 		command=""
-		if self.configureCart and self.isInstalled("lliurex-meta-wifi-alu"):
+		if self.configureCart and self.isInstalled("lliurex-meta-wifi-alu") and self.selectedCart>1:
 			command=f"lliurex-client-register-cli setcart {self.selectedCart} -u"
 			length=len(command)
 
@@ -832,7 +832,7 @@ class FlavourSelectorManager:
 
 		logFile="/var/log/lliurex-flavours-selector.log"
 		with open(logFile,"a+") as fd:
-			fd.write("%s\n"%msgLog)
+			fd.write(f"{msgLog}\n")
 
 	#def log
 

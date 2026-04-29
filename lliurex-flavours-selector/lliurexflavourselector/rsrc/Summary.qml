@@ -77,9 +77,16 @@ Popup {
 
             Text{
                 id:additionalActions
-                text:i18nd("lliurex-flavours-selector","Other actions:")
+                text:i18nd("lliurex-flavours-selector","Additional actions:")
                 font.family: "Quattrocento Sans Bold"
                 font.pointSize: 11
+                visible:{
+                    if (mainStackBridge.enableCartAction || mainStackBridge.enableRemoveAction){
+                        true
+                    }else{
+                        false
+                    }
+                }
                 Layout.leftMargin:10
             }
             
@@ -156,8 +163,10 @@ Popup {
                 enabled:true
 		        focusPolicy: Qt.NoFocus
                 onClicked:{
-                   autoRemoveCB.checked=false
-                   btnApplyClicked()
+                    configureCartCB.checked=false
+                    cartsValues.currentIndex=0
+                    autoRemoveCB.checked=false
+                    btnApplyClicked()
                 }
             }
             
@@ -172,6 +181,8 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 onClicked:{
                     autoRemoveCB.checked=false
+                    cartsValues.currentIndex=0
+                    configureCartCB.checked=false
                     btnCancelClicked()
                 }                
             }

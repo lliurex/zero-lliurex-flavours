@@ -204,7 +204,7 @@ class InstallStack(QObject):
 					self.core.mainStack.enableInstallAction=False
 					self.core.mainStack.enableRemoveAction=False
 					self.core.mainStack.launchAutoRemove=False
-					self.core.mainStack.launchCartConfiguration=False
+					self.core.mainStack.enableCartAction=False
 					self.core.mainStack.selectedCart=1		
 		
 		if InstallStack.flavourSelectorManager.updateReposLaunched:

@@ -57,7 +57,7 @@ class Bridge(QObject):
 		self.waitRetryCount=0
 		self.launchAutoRemove=False
 		self.launchCartConfiguration=False
-		self.selectedCart=1
+		self._selectedCart=1
 
 	#def __init__
 
@@ -300,6 +300,20 @@ class Bridge(QObject):
 
 	#def _setEnableCartAction
 
+	def _getSelectedCart(self):
+
+		return self._selectedCart
+
+	#def _getSelectedCart
+
+	def _setSelectedCart(self,selectedCart):
+
+		if self._selectedCart!=selectedCart:
+			self._selectedCart=selectedCart
+			self.on_selectedCart.emit()
+
+	#def _setSelectedCart
+
 	def _getCloseGui(self):
 
 		return self._closeGui
@@ -380,10 +394,10 @@ class Bridge(QObject):
 
 		if self._runPkexec:
 			user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name
-			self.helpCmd="su -c '%s' %s"%(self.helpCmd,user)
+			self.helpCmd=f"su -c '{self.helpCmd}' {user}"
 		else:
-			self.helpCmd="su -c '%s' $USER"%self.helpCmd
-		
+			self.helpCmd=f"su -c '{self.helpCmd}' $USER"
+
 		self.openHelp_t=threading.Thread(target=self._openHelpRet)
 		self.openHelp_t.daemon=True
 		self.openHelp_t.start()
@@ -434,6 +448,9 @@ class Bridge(QObject):
 	on_enableCartAction=Signal()
 	enableCartAction=Property(bool,_getEnableCartAction,_setEnableCartAction,notify=on_enableCartAction)
 
+	on_selectedCart=Signal()
+	selectedCart=Property(int,_getSelectedCart,_setSelectedCart,notify=on_selectedCart)
+	
 	on_closePopUp=Signal()
 	closePopUp=Property('QVariantList',_getClosePopUp,_setClosePopUp,notify=on_closePopUp)
 	
