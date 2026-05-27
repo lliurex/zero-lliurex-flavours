@@ -11,6 +11,7 @@ import threading
 import urllib.request
 import tempfile
 import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 BASE_DIR="/usr/share/lliurex-flavours-selector/"
 PACKAGE_NAME="zero-lliurex-flavours"
@@ -43,6 +44,7 @@ class FlavourSelectorManager:
 		self.supportedFlavours=os.path.join(BASE_DIR,"supported-flavours")
 		self.banners=os.path.join(BASE_DIR,"banners")
 		self.flavoursData=[]
+		self.flavoursMap={}
 		self.flavoursInfo={}
 		self.flavourSelected=[]
 		self.flavourSelectedToInstall=[]
@@ -85,7 +87,6 @@ class FlavourSelectorManager:
 		else:
 			self.sessionLang=os.environ["LANG"]
 
-
 	#def _getSessionLang
 
 	def loadFile(self,path):
@@ -99,9 +100,9 @@ class FlavourSelectorManager:
 				info["id"]=config.get("FLAVOUR","id")
 				info["pkg"]=config.get("FLAVOUR","pkg")
 				if 'ca' in self.sessionLang:
-					info["name"]=config.get("FLAVOUR","name[ca@valencia]")
+					info["name"]=config.get("FLAVOUR","name[ca@valencia]",fallback=config.get("FLAVOUR","name"))
 				elif 'es' in self.sessionLang:
-					info["name"]=config.get("FLAVOUR","name[es]")
+					info["name"]=config.get("FLAVOUR","name[es]",fallback=config.get("FLAVOUR","name"))
 				else:
 					info["name"]=config.get("FLAVOUR","name")
 
@@ -110,28 +111,19 @@ class FlavourSelectorManager:
 					info["installCmd"]=config.get("FLAVOUR","installCmd")
 					info["removeCmd"]=config.get("FLAVOUR","removeCmd")
 					info["parent"]=config.get("FLAVOUR","parent")
-					try:
-						info["conflicts"]=config.get("FLAVOUR","conflicts")
-					except:
-						info["conflicts"]=None
-					try:
-						test=config.get("FLAVOUR","remove")
-						info["isManaged"]=False
-					except:
-						info["isManaged"]=True
-
-					try:
-						info["tags"]=config.get("FLAVOUR","tags")
-					except:
-						info["tags"]=None	
+					info["conflicts"]=config.get("FLAVOUR","conflicts",fallback=None)
+					info["tags"]=config.get("FLAVOUR","tags",fallback=None)
+					info["isManaged"]=not config.has_option("FLAVOUR","remove")
 				else:
 					info["installCmd"]=None
 					info["removeCmd"]=None
 					info["parent"]="root"
 					info["conflicts"]=None
 					info["isManaged"]=False
-				if os.path.exists(os.path.join(self.banners,info["pkg"]+".png")):
-					info["banner"]=os.path.join(self.banners,info["pkg"]+".png")
+
+				banner_path=os.path.join(self.banners,f"{info['pkg']}.png")
+				if os.path.exists(banner_path):
+					info["banner"]=banner_path
 				else:
 					info["banner"]=os.path.join(self.banners,"default.png")
 				return info
@@ -146,90 +138,102 @@ class FlavourSelectorManager:
 		self.parentsWithMeta=[]
 
 		for item in sorted(os.listdir(self.supportedFlavours)):
-			if os.path.isfile(os.path.join(self.supportedFlavours,item)):
-				tmpInfo=self.loadFile(os.path.join(self.supportedFlavours,item))
-				if tmpInfo!=None:
-					if tmpInfo["type"]=="child":
-						status=self.isInstalled(tmpInfo["pkg"])
-						baseAptCmd = "apt-cache policy %s "%tmpInfo["pkg"]
-						p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-						output=p.communicate()[0]
-						
-						if type(output) is bytes:
-							output=output.decode()
+			filePath=os.path.join(self.supportedFlavours,item)
 
-						if tmpInfo["pkg"] not in output:
-							available=False
-						else:	
-							version=output.split("\n")[4]
-							if version !='':
-								available=True
-							else:
-								available=False
-					else:
+			if not os.path.isfile(filePath):
+				continue
+			
+			tmpInfo=self.loadFile(filePath)
+			
+			if tmpInfo is None:
+				continue
+
+			if tmpInfo["type"]=="child":
+				status=self.isInstalled(tmpInfo["pkg"])
+				baseAptCmd = f"apt-cache policy {tmpInfo['pkg']}"
+				p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
+				output=p.communicate()[0]
+				result=subprocess.run(
+					["apt-cache","policy",tmpInfo["pkg"]],
+					stdout=subprocess.PIPE,
+					stderr=subprocess.PIPE,
+					text=True
+					)
+				
+				output=result.stdout
+
+				if tmpInfo["pkg"] not in output:
+					available=False
+				else:
+					lines=output.split("\n")
+					if len(lines)>4 and lines[4] !="":
 						available=True
-						status=None
+					else:
+						available=False	
+			else:
+				available=True
+				status=None
+			
+			if not available:
+				continue
+				
+			tmp={}
+			tmp["pkgId"]=tmpInfo["id"]
+			tmp["pkg"]=tmpInfo["pkg"]
+			tmp["name"]=tmpInfo["name"]
+			tmp["type"]=tmpInfo["type"]
+			
+			if tmp["type"]=="child":
+				tmp["status"]=status
+			else:
+				tmp["status"]="available"
+			
+			tmp["banner"]=tmpInfo["banner"]
+			tmp["showSpinner"]=False
+			tmp["showAction"]=-1
+			tmp["isExpanded"]=False
+			tmp["isVisible"]=True
+			tmp["flavourParent"]=tmpInfo["parent"]
+			tmp["conflicts"]=tmpInfo["conflicts"]
+			tmp["resultProcess"]=-1
+			
+			if tmp["type"]=="child":
+				if tmp["pkg"] in self.flavoursBase:
+					tmp["isManaged"]=(status!="installed")
+				else:
+					tmp["isManaged"]=tmpInfo["isManaged"]
+			else:
+				tmp["isManaged"]=tmpInfo["isManaged"]
+
+			if tmp["type"]=="child":
+				if tmp["flavourParent"] not in self.parentsWithMeta:
+					self.parentsWithMeta.append(tmp["flavourParent"])
+				if status=="installed":
+					tmp["isChecked"]=True
+					tmp["showAction"]=0
+					self.totalPackages+=1
+					self.pkgsInstalled.append(tmp["pkg"])
+				else:
+					tmp["isChecked"]=False
+					self.totalPackages+=1
 					
-					if available:
-						tmp={}
-						tmp["pkgId"]=tmpInfo["id"]
-						tmp["pkg"]=tmpInfo["pkg"]
-						tmp["name"]=tmpInfo["name"]
-						tmp["type"]=tmpInfo["type"]
-						if tmp["type"]=="child":
-							tmp["status"]=status
-						else:
-							tmp["status"]="available"
-						tmp["banner"]=tmpInfo["banner"]
-						tmp["showSpinner"]=False
-						tmp["showAction"]=-1
-						tmp["isExpanded"]=False
-						tmp["isVisible"]=True
-						tmp["flavourParent"]=tmpInfo["parent"]
-						tmp["conflicts"]=tmpInfo["conflicts"]
-						tmp["resultProcess"]=-1
-						if tmp["type"]=="child":
-							if tmp["pkg"] in self.flavoursBase:
-								if status=="installed":
-									tmp["isManaged"]=False
-								else:
-									tmp["isManaged"]=True
-							else:
-								tmp["isManaged"]=tmpInfo["isManaged"]
-						else:
-							tmp["isManaged"]=tmpInfo["isManaged"]
-						if tmp["type"]=="child":
-							if tmp["flavourParent"] not in self.parentsWithMeta:
-								self.parentsWithMeta.append(tmp["flavourParent"])
-							if status=="installed":
-								tmp["isChecked"]=True
-								tmp["showAction"]=0
-								self.totalPackages+=1
-								self.pkgsInstalled.append(tmp["pkg"])
-							else:
-								tmp["isChecked"]=False
-								self.totalPackages+=1
-								
-						else:
-							tmp["isChecked"]=False
-						if tmp["pkg"] not in self.nonExpandedParent:
-							self.nonExpandedParent.append(tmp["pkg"])
-						self.flavoursData.append(tmp)
-						if tmpInfo["type"]=="child":
-							self.flavoursInfo[tmpInfo["pkg"]]={}
-							self.flavoursInfo[tmpInfo["pkg"]]["installCmd"]=tmpInfo["installCmd"]
-							self.flavoursInfo[tmpInfo["pkg"]]["removeCmd"]=tmpInfo["removeCmd"]
-							self.flavoursInfo[tmpInfo["pkg"]]["banner"]=tmpInfo["banner"]
-							if tmpInfo["conflicts"]!=None:
-								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=tmpInfo["conflicts"].split(",")
-							else:
-								self.flavoursInfo[tmpInfo["pkg"]]["conflicts"]=[]
-
-							if tmpInfo["tags"]!=None:
-								self.flavoursInfo[tmpInfo["pkg"]]["tags"]=tmpInfo["tags"].split(",")
-							else:
-								self.flavoursInfo[tmpInfo["pkg"]]["tags"]=[]
-
+			else:
+				tmp["isChecked"]=False
+			
+			if tmp["pkg"] not in self.nonExpandedParent:
+				self.nonExpandedParent.append(tmp["pkg"])
+			
+			self.flavoursData.append(tmp)
+			
+			if tmpInfo["type"]=="child":
+				self.flavoursInfo[tmpInfo["pkg"]]={
+					"installCmd":tmpInfo["installCmd"],
+					"removeCmd":tmpInfo["removeCmd"],
+					"banner":tmpInfo["banner"],
+					"conflicts":tmpInfo["conflicts"].split(",") if tmpInfo["conflicts"] else [],
+					"tags":tmpInfo["tags"].split(",") if tmpInfo["tags"] else []
+				}
+					
 		for item in self.flavoursData:
 			if item["type"]=="parent":
 				if item["pkg"] not in self.parentsWithMeta:
@@ -238,17 +242,22 @@ class FlavourSelectorManager:
 						self.nonExpandedParent.remove(item["pkg"])
 
 		self.flavoursData=sorted(self.flavoursData,key=lambda k:k["pkgId"],reverse=False)
+		self.flavoursMap = {item["pkg"]: item for item in self.flavoursData if "pkg" in item}
 
 	#def getSupportedFlavour	
 	
 	def isInstalled(self,pkg):
 		
-		p=subprocess.Popen(["dpkg-query -W -f='${db:Status-Status}' %s"%pkg],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		output=p.communicate()[0]
+		cmd=["dpkg-query", "-W","-f=${db:Status-Status}", pkg]
+		result=subprocess.run(
+			cmd,
+			stdout=subprocess.PIPE,
+			stderr=subprocess.PIPE,
+			text=True
+		)
 
-		if type(output) is bytes:
-			output=output.decode()
-		
+		output=result.stdout
+
 		if output=="installed":
 			return "installed"
 			
@@ -311,38 +320,37 @@ class FlavourSelectorManager:
 
 		conflicts=self.flavoursInfo[pkg]["conflicts"]
 		
-		if len(conflicts)>0:
-			if isChecked:
-				for item in conflicts:
-					self._managePkgSelected(item,False,True)
-					self._updateCheckedFlavours(item,False)
-			else:
-				for item in conflicts:
-					if item in self.pkgsInstalled:	
-						self._managePkgSelected(item,True)
-						if item not in self.wantToRemove:
-							self._updateCheckedFlavours(item,True)			
+		if not conflicts:
+			return
+
+		if isChecked:
+			for item in conflicts:
+				self._managePkgSelected(item,False,True)
+				self._updateCheckedFlavours(item,False)
+		else:
+			for item in conflicts:
+				if item in self.pkgsInstalled:	
+					self._managePkgSelected(item,True)
+					if item not in self.wantToRemove:
+						self._updateCheckedFlavours(item,True)			
 
 	#def _checkIncompatible
 
 	def _updateCheckedFlavours(self,pkg,isChecked):
 
-		tmpParam={}
 		showAction=-1
-		tmpParam["isChecked"]=isChecked
-		for item in self.flavoursData:
-			if item["pkg"]==pkg:
-				if item["status"]=="available":
-					if isChecked:
-						showAction=2
-				else:
-					if not isChecked:
-						showAction=1
-					else:
-						showAction=0
-				break
-						
-		tmpParam["showAction"]=showAction
+		item=self.flavoursMap.get(pkg)
+
+		if item:
+			if item["status"]=="available":
+				showAction=2 if isChecked else -1
+			else:
+				showAction=0 if isChecked else 1
+							
+		tmpParam={
+			"isChecked":isChecked,
+			"showAction":showAction
+		}
 		
 		self._updateFlavoursModel(tmpParam,pkg)			
 	
@@ -354,29 +362,28 @@ class FlavourSelectorManager:
 			if pkg not in self.pkgsInstalled:
 				if pkg not in self.flavourSelectedToInstall:
 					self.flavourSelectedToInstall.append(pkg)
-			else:
-				abort=False
-				if toConflict:
-					if pkg in self.wantToRemove:
-						abort=True
-				if not abort:
-					if pkg not in self.wantToRemove:
-						if pkg in self.flavourSelectedToRemove:
-							self.flavourSelectedToRemove.remove(pkg)
+				return
+	
+			if toConflict and pkg in wantToRemove:
+				return
+	
+			if pkg not in self.wantToRemove and pkg in self.flavourSelectedToRemove:
+				self.flavourSelectedToRemove.remove(pkg)
+
+			return
 			
+		if pkg in self.pkgsInstalled:
+			if pkg not in self.flavourSelectedToRemove:
+				self.flavourSelectedToRemove.append(pkg)
 		else:
-			if pkg in self.pkgsInstalled:
-				if pkg not in self.flavourSelectedToRemove:
-					self.flavourSelectedToRemove.append(pkg)
-			else:
-				if pkg in self.flavourSelectedToInstall:
-					self.flavourSelectedToInstall.remove(pkg)
+			if pkg in self.flavourSelectedToInstall:
+				self.flavourSelectedToInstall.remove(pkg)
 		
 	#def _managePkgSelected
 
 	def initLog(self,autoRemove,cartConfiguration,selectedCart):
 
-		msgLog="------------------------------------------------------\n"+"LLIUREX-FLAVOURS-SELECTOR STARTING AT "+datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S")+"\n------------------------------------------------------"
+		msgLog=f"------------------------------------------------------\nLLIUREX-FLAVOURS-SELECTOR STARTING AT {datetime.datetime.today().strftime("%d/%m/%y %H:%M:%S")}\n------------------------------------------------------"
 		self.log(msgLog)
 		msgLog=f"- Installed flavours: {self.pkgsInstalled}"
 		self.log(msgLog)
@@ -396,41 +403,24 @@ class FlavourSelectorManager:
 
 	def checkInternetConnection(self):
 
-		self.checkingUrl1_t=threading.Thread(target=self._checkingUrl1)
-		self.checkingUrl2_t=threading.Thread(target=self._checkingUrl2)
-		self.checkingUrl1_t.daemon=True
-		self.checkingUrl2_t.daemon=True
-		self.checkingUrl1_t.start()
-		self.checkingUrl2_t.start()
+		self.executor=ThreadPoolExecutor(max_workers=2)
+		self.future1=self.executor.submit(self._checkConnection,self.urltocheck1)
+		self.future2=self.executor.submit(self._checkConnection,self.urltocheck2)
 
 	#def checkInternetConnection
-
-	def _checkingUrl1(self):
-
-		self.connection=self._checkConnection(self.urltocheck1)
-		self.firstConnection=self.connection[0]
-
-	#def _checkingUrl1	
-
-	def _checkingUrl2(self):
-
-		self.connection=self._checkConnection(self.urltocheck2)
-		self.secondConnection=self.connection[0]
-
-	#def _checkingUrl2
 
 	def _checkConnection(self,url):
 		
 		result=[]
 		try:
-			res=urllib.request.urlopen(url)
+			res=urllib.request.urlopen(url,timeout=10)
 			result.append(True)
 			
 		except Exception as e:
 			result.append(False)
 			result.append(str(e))
 		
-		msgLog="- Check Internet connection: %s - %s"%(url,str(result))
+		msgLog=f"- Check Internet connection: {url} - {result}"
 		self.log(msgLog)
 
 		return result	
@@ -440,27 +430,25 @@ class FlavourSelectorManager:
 	def getResultCheckConnection(self):
 
  		self.endCheck=False
- 		error=False
- 		urlError=False
  		self.retConnection=[False,""]
 
- 		if self.checkingUrl1_t.is_alive() and self.checkingUrl2_t.is_alive():
- 			pass
- 		else:
- 			if not self.firstConnection and not self.secondConnection:
- 				if self.checkingUrl1_t.is_alive() or self.checkingUrl2_t.is_alive():
- 					pass
- 				else:
- 					self.endCheck=True
- 			else:
+ 		if not (self.future1.done() and not self.future2.done()):
+ 			self.firstConnection=self.future1.result() if self.future1.done() else [False]
+ 			self.secondConnection=self.future2.result() if self.future2.done() else [False]
+
+ 			if self.firstConnection[0] or self.secondConnection[0]:
  				self.endCheck=True
+ 			return
 
- 		if self.endCheck:
- 			if not self.firstConnection and not self.secondConnection:
- 				error=True
- 				msgError=FlavourSelectorManager.ERROR_INTERNET_CONNECTION
- 				self.retConnection=[error,msgError]
+ 		self.firstConnection=self.future1.result()
+ 		self.secondConnection=self.future2.result()
+ 		self.endCheck=True
 
+ 		if not self.firstConnection[0] and not self.secondConnection[0]:
+ 			self.retConnection=[True,FlavourSelectorManager.ERROR_INTERNET_CONNECTION]
+
+ 		self.executor.shutdown(wait=False)
+ 		
 	#def getResultCheckConnection
 
 	def initInstallProcess(self):
@@ -701,48 +689,52 @@ class FlavourSelectorManager:
 
 	def _updateProcessModelInfo(self,pkg,action,result):
 
-		for item in self.flavoursInfo:
-			if item==pkg and item in self.flavourSelected:
-				tmpParam={}
-				if action=="install":
-					if result=="installed":
-						if pkg not in self.pkgsInstalled:
-							self.pkgsInstalled.append(pkg)
-						tmpParam["showAction"]=0
-						tmpParam["resultProcess"]=-1
-						if pkg in self.flavoursBase:
-							tmpParam["isManaged"]=False
-					else:
-						tmpParam["resultProcess"]=1
-						tmpParam["showAction"]=-1
-						tmpParam["isChecked"]=False
-				elif action=="uninstall":
-					if result=="available":
-						if pkg in self.pkgsInstalled:
-							self.pkgsInstalled.remove(pkg)
-						tmpParam["resultProcess"]=0
-						tmpParam["showAction"]=-1
-						tmpParam["banner"]=self.flavoursInfo[pkg]["banner"]
-					else:
-						tmpParam["resultProcess"]=1
-						tmpParam["showAction"]=0
-						tmpParam["isChecked"]=True
 
-				tmpParam["status"]=result
-				tmpParam["showSpinner"]=False
-				
-				self._updateFlavoursModel(tmpParam,item)
+		if pkg not in self.flavoursInfo or pkg not in self.flavourSelected:
+			return
+
+		tmpParam={}
+
+		if action=="install":
+			if result=="installed":
+				if pkg not in self.pkgsInstalled:
+					self.pkgsInstalled.append(pkg)
+				tmpParam["showAction"]=0
+				tmpParam["resultProcess"]=-1
+				if pkg in self.flavoursBase:
+					tmpParam["isManaged"]=False
+			else:
+				tmpParam["resultProcess"]=1
+				tmpParam["showAction"]=-1
+				tmpParam["isChecked"]=False
+		
+		elif action=="uninstall":
+			if result=="available":
+				if pkg in self.pkgsInstalled:
+					self.pkgsInstalled.remove(pkg)
+				tmpParam["resultProcess"]=0
+				tmpParam["showAction"]=-1
+				tmpParam["banner"]=self.flavoursInfo[pkg]["banner"]
+			else:
+				tmpParam["resultProcess"]=1
+				tmpParam["showAction"]=0
+				tmpParam["isChecked"]=True
+
+		tmpParam["status"]=result
+		tmpParam["showSpinner"]=False
+		
+		self._updateFlavoursModel(tmpParam,pkg)
 	
 	#def _updateProcessModelInfo
 
 	def _updateFlavoursModel(self,param,pkg):
 
-		for item in self.flavoursData:
-			if item["pkg"]==pkg:
-				for element in param:
-					if item[element]!=param[element]:
-						item[element]=param[element]
-				break
+		item=self.flavoursMap.get(pkg)
+		
+		if item:
+			for element in param:
+				if item[element]!=param[element]:
+					item[element]=param[element]
 
 	#def _updateFlavoursModel
 
@@ -799,26 +791,26 @@ class FlavourSelectorManager:
 		cmd=""
 		
 		if action=="updaterepos":
-			self.tokenUpdaterepos=tempfile.mkstemp('_updaterepos')	
-			removeTmp=f' rm -f {self.tokenUpdaterepos[1]}'
+			self.tokenUpdaterepos=self._getTempFile(action)	
+			removeTmp=f' rm -f {self.tokenUpdaterepos}'
 		elif action=="install":
-			self.tokenInstall=tempfile.mkstemp('_install')
-			removeTmp=f' rm -f {self.tokenInstall[1]}'
+			self.tokenInstall=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenInstall}'
 		elif action=="configureCart":
-			self.tokenConfigureCart=tempfile.mkstemp('_configurecart')
-			removeTmp=f' rm -f {self.tokenConfigureCart[1]}'
+			self.tokenConfigureCart=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenConfigureCart}'
 		elif action=="disablemetaprotection":
-			self.tokenDisableMetaProtection=tempfile.mkstemp('_disablemetaprotection')
-			removeTmp=f' rm -f {self.tokenDisableMetaProtection[1]}'
+			self.tokenDisableMetaProtection=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenDisableMetaProtection}'
 		elif action=="uninstall":
-			self.tokenUnInstall=tempfile.mkstemp('_uninstall')
-			removeTmp=f' rm -f {self.tokenUnInstall[1]}'
+			self.tokenUnInstall=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenUnInstall}'
 		elif action=="enablemetaprotection":
-			self.tokenEnableMetaProtection=tempfile.mkstemp('_enablemetaprotection')
-			removeTmp=f' rm -f {self.tokenEnableMetaProtection[1]}'
+			self.tokenEnableMetaProtection=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenEnableMetaProtection}'
 		elif action=="autoremove":
-			self.tokenAutoRemove=tempfile.mkstemp("_autoremove")
-			removeTmp=f' rm -f {self.tokenAutoRemove[1]}'
+			self.tokenAutoRemove=self._getTempFile(action)
+			removeTmp=f' rm -f {self.tokenAutoRemove}'
 
 		cmd=f'{command} ;stty -echo;{removeTmp}\n'
 		if cmd.startswith(";"):
@@ -827,6 +819,16 @@ class FlavourSelectorManager:
 		return cmd
 
 	#def _createProcessToken
+
+	def _getTempFile(self,action):
+
+		suffixName=f"_{action}"
+		tmpFile=tempfile.NamedTemporaryFile(suffix=suffixName,delete=False)
+		tmpFile.close()
+
+		return tmpFile.name
+
+	#def _getTempFile
 
 	def log(self,msgLog):
 
@@ -838,29 +840,35 @@ class FlavourSelectorManager:
 
 	def _manageTags(self,pkg):
 
-		if os.path.exists(self.tagsPath):
-			for item in self.flavoursInfo[pkg]["tags"]:
-				if item not in self.tagsToRemove:
-					self.tagsToRemove.append(item)
+		if not os.path.exists(self.tagsPath):
+			return
+		
+		for item in self.flavoursInfo[pkg]["tags"]:
+			if item not in self.tagsToRemove:
+				self.tagsToRemove.append(item)
 
 	#def _manageTags
 
 	def updateTags(self):
 
-		if self.flavourReferenceForTags in self.pkgsInstalled:
-			if os.path.exists(self.tagsPath):
+		if self.flavourReferenceForTags not in self.pkgsInstalled:
+			return
 
-				for pkg in self.pkgsInstalled:
-					for tag in self.flavoursInfo[pkg]["tags"]:
-						tmpTag=os.path.join(self.tagsPath,tag)
-						if not os.path.exists(tmpTag):
-							cmd=f"touch {tmpTag}"
-							os.system(cmd)
-	
-				for item in self.tagsToRemove:
-					tmpTag=os.path.join(self.tagsPath,item)
-					if os.path.exists(tmpTag):
-						os.remove(tmpTag)
+		if not os.path.exists(self.tagsPath):
+			return 
+
+		for pkg in self.pkgsInstalled:
+			for tag in self.flavoursInfo[pkg]["tags"]:
+				tmpTag=os.path.join(self.tagsPath,tag)
+				if not os.path.exists(tmpTag):
+					cmd=f"touch {tmpTag}"
+					with open(tmpTag,'a'):
+						os.utime(tmpTag,None)
+
+		for item in self.tagsToRemove:
+			tmpTag=os.path.join(self.tagsPath,item)
+			if os.path.exists(tmpTag):
+				os.remove(tmpTag)
 
 	#ef updateTags	
 
