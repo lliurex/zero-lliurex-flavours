@@ -195,10 +195,10 @@ PC.ItemDelegate{
 	                        	for(var i = 0; i < flavourStackBridge.totalElements; ++i) {
 	                            	var item=flavourStackBridge.getModelData(i)
 	                              	if (item["pkg"]===pkg){
-	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",isExpanded])
+	                                	flavourStackBridge.onExpandedParent({"pkg":pkg,"isExpanded":isExpanded})
 	                            	}else{
 	                            		if (item["flavourParent"]===pkg){
-	                            			flavourStackBridge.onExpandedParent([item["pkg"],"isExpanded",isExpanded])
+	                            			flavourStackBridge.onExpandedParent({"pkg":item["pkg"],"isExpanded":isExpanded})
 	                            		}
 	                            	}
 	                            	
@@ -219,10 +219,10 @@ PC.ItemDelegate{
 	                        	if (type == "parent") {
 	                           		if (isExpanded == false) {
 	                                	expand(true,pkg)
-	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",true])
+	                                	flavourStackBridge.onExpandedParent({"pkg":pkg,"isExpanded":true})
 	                            	}else{
 	                                	expand(false,pkg)
-	                                	flavourStackBridge.onExpandedParent([pkg,"isExpanded",false])
+	                                	flavourStackBridge.onExpandedParent({"pkg":pkg,"isExpanded":false})
 	                            	}
 	                        	}
 	                    	}
@@ -240,7 +240,7 @@ PC.ItemDelegate{
 					}
 					checked:isChecked
 					onToggled:{
-						flavourStackBridge.onCheckedFlavour([pkg,checked])
+						flavourStackBridge.onCheckedFlavour({"pkg":pkg,"isChecked":checked})
 					}
 					anchors.left:expandedContainer.right
 					anchors.leftMargin:10

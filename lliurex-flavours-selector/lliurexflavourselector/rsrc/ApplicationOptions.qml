@@ -86,8 +86,8 @@ GridLayout{
 
         Kirigami.InlineMessage {
             id: messageLabel
-            visible:mainStackBridge.showStatusMessage[0]
-            text:getFeedBackText(mainStackBridge.showStatusMessage[1])
+            visible:mainStackBridge.showStatusMessage.show
+            text:getFeedBackText(mainStackBridge.showStatusMessage.msgCode)
             type:getMsgType()
             Layout.minimumWidth:555
             Layout.fillWidth:true
@@ -125,7 +125,7 @@ GridLayout{
                     indeterminate:true
                     visible:mainStackBridge.isProgressBarVisible
                     implicitWidth:200
-                    implicitHeight:mainStackBridge.runPkexec?7:25
+                    implicitHeight:25
                     Layout.alignment:Qt.AlignHCenter
                 }
                 
@@ -255,7 +255,7 @@ GridLayout{
 
     function getMsgType(){
 
-        switch(mainStackBridge.showStatusMessage[2]){
+        switch(mainStackBridge.showStatusMessage.type){
             case "Ok":
                 return Kirigami.MessageType.Positive;
             case "Error":
@@ -264,6 +264,8 @@ GridLayout{
                 return Kirigami.MessageType.Information;
             case "Warning":
                 return Kirigami.MessageType.Warning;
+            default:
+                return Kirigami.MessageType.Information;
         }
     }
 

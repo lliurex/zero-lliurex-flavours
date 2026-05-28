@@ -133,32 +133,32 @@ class UnInstallStack(QObject):
 						
 						if self.showError:
 							if self.countLimit==1:
-								self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
+								self.core.mainStack.showStatusMessage={"show":True,"msgCode":UnInstallStack.flavourSelectorManager.feedBackCheck[1],"type":UnInstallStack.flavourSelectorManager.feedBackCheck[2]}
 							else:
-								self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
+								self.core.mainStack.showStatusMessage={"show":True,"msgCode":UnInstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"type":"Error"}
 						
 						else:
-							self.core.mainStack.showStatusMessage=[True,UnInstallStack.flavourSelectorManager.feedBackCheck[1],UnInstallStack.flavourSelectorManager.feedBackCheck[2]]
+							self.core.mainStack.showStatusMessage={"show":True,"msgCode":UnInstallStack.flavourSelectorManager.feedBackCheck[1],"type":UnInstallStack.flavourSelectorManager.feedBackCheck[2]}
 						
 
 		if UnInstallStack.flavourSelectorManager.disableMetaProtectionLaunched:
 			if not UnInstallStack.flavourSelectorManager.disableMetaProtectionDone:
-				if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenDisableMetaProtection[1]):
+				if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenDisableMetaProtection):
 					UnInstallStack.flavourSelectorManager.disableMetaProtectionDone=True
 			else:
 				if UnInstallStack.flavourSelectorManager.removePkgLaunched:
 					if not UnInstallStack.flavourSelectorManager.removePkgDone:
-						if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenUnInstall[1]):
+						if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenUnInstall):
 							UnInstallStack.flavourSelectorManager.removePkgDone=True
 		
 		if UnInstallStack.flavourSelectorManager.enableMetaProtectionLaunched:
 			if not UnInstallStack.flavourSelectorManager.enableMetaProtectionDone:
-				if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenEnableMetaProtection[1]):
+				if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenEnableMetaProtection):
 					UnInstallStack.flavourSelectorManager.enableMetaProtectionDone=True
 			else:
 				if UnInstallStack.flavourSelectorManager.autoRemoveLaunched:
 					if not UnInstallStack.flavourSelectorManager.autoRemoveDone:
-						if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenAutoRemove[1]):
+						if not os.path.exists(UnInstallStack.flavourSelectorManager.tokenAutoRemove):
 							UnInstallStack.flavourSelectorManager.autoRemoveDone=True
 		
 	#def _uninstallProcessTimerRet

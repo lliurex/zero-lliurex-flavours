@@ -44,7 +44,7 @@ class InstallStack(QObject):
 				self.core.mainStack.isProgressBarVisible=False
 				self.core.mainStack.endProcess=True
 				self.core.mainStack.enableApplyBtn=True
-				self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.retConnection[1],"Error"]
+				self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.retConnection[1],"type":"Error"}
 				
 			else:
 				if self.core.mainStack.enableRemoveAction:
@@ -155,19 +155,19 @@ class InstallStack(QObject):
 
 					if self.showError:
 						if InstallStack.flavourSelectorManager.errorInConflicts:
-							self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS_CONFLICTS,"Error"]	
+							self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.ERROR_PROCESS_CONFLICTS,"type":"Error"}	
 						else:
 							installError=True
 							if self.core.mainStack.enableRemoveAction:
 								if self.core.unInstallStack.showError:
 									installError=False
-									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PROCESS,"Error"]	
+									self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.ERROR_PROCESS,"type":"Error"}	
 
 							if installError:
 								if self.countLimit==1 and self.core.unInstallStack.countLimit==1:
-									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
+									self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.feedBackCheck[1],"type":InstallStack.flavourSelectorManager.feedBackCheck[2]}
 								else:
-									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_INSTALL,"Error"]
+									self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.ERROR_PARTIAL_INSTALL,"type":"Error"}
 					else:
 						unInstallError=False
 						if self.core.mainStack.enableRemoveAction:
@@ -176,14 +176,14 @@ class InstallStack(QObject):
 
 						if not unInstallError:
 							if not self.core.mainStack.enableRemoveAction:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
+								self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.feedBackCheck[1],"type":InstallStack.flavourSelectorManager.feedBackCheck[2]}
 							else:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.SUCCESS_PROCESS,"Ok"]
+								self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.SUCCESS_PROCESS,"type":"Ok"}
 						else:
 							if self.core.unInstallStack.countLimit==1:
-									self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.feedBackCheck[1],InstallStack.flavourSelectorManager.feedBackCheck[2]]
+									self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.feedBackCheck[1],"type":InstallStack.flavourSelectorManager.feedBackCheck[2]}
 							else:
-								self.core.mainStack.showStatusMessage=[True,InstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"Error"]
+								self.core.mainStack.showStatusMessage={"show":True,"msgCode":InstallStack.flavourSelectorManager.ERROR_PARTIAL_UNINSTALL,"type":"Error"}
 
 					self.core.mainStack.isProgressBarVisible=False
 					self.core.mainStack.endProcess=True
@@ -209,23 +209,23 @@ class InstallStack(QObject):
 		
 		if InstallStack.flavourSelectorManager.updateReposLaunched:
 			if not InstallStack.flavourSelectorManager.updateReposDone:
-				if not os.path.exists(InstallStack.flavourSelectorManager.tokenUpdaterepos[1]):
+				if not os.path.exists(InstallStack.flavourSelectorManager.tokenUpdaterepos):
 					InstallStack.flavourSelectorManager.updateReposDone=True
 
 		if self.pkgProcessed:
 			if InstallStack.flavourSelectorManager.installAppLaunched:
 				if not InstallStack.flavourSelectorManager.installAppDone:
-					if not os.path.exists(InstallStack.flavourSelectorManager.tokenInstall[1]):
+					if not os.path.exists(InstallStack.flavourSelectorManager.tokenInstall):
 						InstallStack.flavourSelectorManager.installAppDone=True
 				else:
 					if InstallStack.flavourSelectorManager.autoRemoveLaunched:
 						if not InstallStack.flavourSelectorManager.autoRemoveDone:
-							if not os.path.exists(InstallStack.flavourSelectorManager.tokenAutoRemove[1]):
+							if not os.path.exists(InstallStack.flavourSelectorManager.tokenAutoRemove):
 								InstallStack.flavourSelectorManager.autoRemoveDone=True
 						else:
 							if InstallStack.flavourSelectorManager.configureCartLaunched:
 								if not InstallStack.flavourSelectorManager.configureCartDone:
-									if not os.path.exists(InstallStack.flavourSelectorManager.tokenConfigureCart[1]):
+									if not os.path.exists(InstallStack.flavourSelectorManager.tokenConfigureCart):
 										InstallStack.flavourSelectorManager.configureCartDone=True
 	#def _installProcessTimerRet
 

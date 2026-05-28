@@ -62,7 +62,7 @@ Rectangle{
                 enabled:{
                     if (flavourStackBridge.totalErrorInProcess==0){
                         if (flavourStackBridge.enableFlavourList){
-                            if (flavourStackBridge.isAllInstalled[0] || flavourStackBridge.isAllInstalled[1]){
+                            if (flavourStackBridge.isAllInstalled.allInstalled || flavourStackBridge.isAllInstalled.allAvailable){
                                 false
                             }else{
                                 true

@@ -150,26 +150,13 @@ class FlavourSelectorManager:
 
 			if tmpInfo["type"]=="child":
 				status=self.isInstalled(tmpInfo["pkg"])
-				baseAptCmd = f"apt-cache policy {tmpInfo['pkg']}"
-				p=subprocess.Popen([baseAptCmd],shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
-				output=p.communicate()[0]
 				result=subprocess.run(
-					["apt-cache","policy",tmpInfo["pkg"]],
-					stdout=subprocess.PIPE,
-					stderr=subprocess.PIPE,
-					text=True
+					["apt-cache","show",tmpInfo["pkg"]],
+					stdout=subprocess.DEVNULL,
+					stderr=subprocess.DEVNULL
 					)
+				available=(result.returncode==0)
 				
-				output=result.stdout
-
-				if tmpInfo["pkg"] not in output:
-					available=False
-				else:
-					lines=output.split("\n")
-					if len(lines)>4 and lines[4] !="":
-						available=True
-					else:
-						available=False	
 			else:
 				available=True
 				status=None
@@ -177,25 +164,21 @@ class FlavourSelectorManager:
 			if not available:
 				continue
 				
-			tmp={}
-			tmp["pkgId"]=tmpInfo["id"]
-			tmp["pkg"]=tmpInfo["pkg"]
-			tmp["name"]=tmpInfo["name"]
-			tmp["type"]=tmpInfo["type"]
-			
-			if tmp["type"]=="child":
-				tmp["status"]=status
-			else:
-				tmp["status"]="available"
-			
-			tmp["banner"]=tmpInfo["banner"]
-			tmp["showSpinner"]=False
-			tmp["showAction"]=-1
-			tmp["isExpanded"]=False
-			tmp["isVisible"]=True
-			tmp["flavourParent"]=tmpInfo["parent"]
-			tmp["conflicts"]=tmpInfo["conflicts"]
-			tmp["resultProcess"]=-1
+			tmp={
+				"pkgId":tmpInfo["id"],
+				"pkg":tmpInfo["pkg"],
+				"name":tmpInfo["name"],
+				"type":tmpInfo["type"],
+				"status":status if tmpInfo["type"]=="child" else "available",		
+				"banner":tmpInfo["banner"],
+				"showSpinner":False,
+				"showAction":-1,
+				"isExpanded":False,
+				"isVisible":True,
+				"flavourParent":tmpInfo["parent"],
+				"conflicts":tmpInfo["conflicts"],
+				"resultProcess":-1
+			}
 			
 			if tmp["type"]=="child":
 				if tmp["pkg"] in self.flavoursBase:
@@ -273,40 +256,43 @@ class FlavourSelectorManager:
 			expand=False
 
 		for item in self.flavoursData:
-			tmp=[]
-			tmp=[item["pkg"],"isExpanded",expand]
+			tmp={
+				"pkg":item["pkg"],
+				"isExpanded":expand
+			}
 			self.onExpandedParent(tmp)
 
 	#def manageExpansioList
 
 	def onExpandedParent(self,info):
 
-		tmpParam={}
-		tmpParam[info[1]]=info[2]
-		
-		if info[1]=="isExpanded":
-			if not info[2]:
-				if info[0] not in self.nonExpandedParent:
-					self.nonExpandedParent.append(info[0])
-			else:
-				if info[0] in self.nonExpandedParent:
-					self.nonExpandedParent.remove(info[0])
-					
+		pkg=info.get("pkg")
+
+		if not info.get("isExpanded"):
+			if pkg not in self.nonExpandedParent:
+				self.nonExpandedParent.append(pkg)
+		else:
+			if pkg in self.nonExpandedParent:
+				self.nonExpandedParent.remove(pkg)
+							
 		if len(self.nonExpandedParent)==len(self.flavoursData):
 			self.allUnExpanded=True
 		else:
 			self.allUnExpanded=False
 
-		self._updateFlavoursModel(tmpParam,info[0])			
+		info.pop("pkg",None)
+		self._updateFlavoursModel(info,pkg)			
 	
 	#def onExpandedParent
 
-	def onCheckedPackages(self,pkg,isChecked):
+	def onCheckedPackages(self,info):
+
+		pkg=info.get("pkg")
+		isChecked=info.get("isChecked")
 
 		if not isChecked:
-			if pkg in self.pkgsInstalled:
-				if pkg not in self.wantToRemove:
-					self.wantToRemove.append(pkg)
+			if pkg in self.pkgsInstalled and pkg not in self.wantToRemove:
+				self.wantToRemove.append(pkg)
 		else:
 			if pkg in self.wantToRemove:
 				self.wantToRemove.remove(pkg)
@@ -315,6 +301,8 @@ class FlavourSelectorManager:
 		self._updateCheckedFlavours(pkg,isChecked)
 
 		self._checkIncompatible(pkg,isChecked)
+
+	#def onCheckedPackages
 		
 	def _checkIncompatible(self,pkg,isChecked):
 
@@ -476,41 +464,26 @@ class FlavourSelectorManager:
 	def getUpdateReposCommand(self):
 
 		command="apt-get update"
-		length=len(command)
 
-		if length>0:
-			command=self._createProcessToken(command,"updaterepos")
-		else:
-			self.updateReposDone=True
-
-		return command
-
+		return self._createProcessToken(command,"updaterepos")
+	
 	#def getUpdateReposCommand
 
 	def getInstallCommand(self,pkg):
 
-		command=""
-		length=0
 		conflictDetected=False
 		conflicts=self.flavoursInfo[pkg]["conflicts"]
 		
 		for item in conflicts:
 			if item in self.pkgsInstalled:
 				self.errorInConflicts=True
-				conflictDetected=True
-				break
+				self.installAppDone=True
+				return ""
 				
-		if not conflictDetected:
-			command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]["installCmd"]}"
-			length=len(command)
-
-		if length>0:
-			command=self._createProcessToken(command,"install")
-		else:
-			self.installAppDone=True
-
-		return command
-
+		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]['installCmd']}"
+	
+		return self._createProcessToken(command,"install")
+	
 	#def getInstallCommand
 
 	def checkInstall(self,pkg):
@@ -537,33 +510,29 @@ class FlavourSelectorManager:
 
 	def getConfigurationCartCommand(self):
 
-		command=""
-		length=0
-		if self.configureCart and self.selectedCart>1 and self.isInstalled("lliurex-meta-wifi-alu"):
-			command=f"lliurex-client-register-cli setcart {self.selectedCart} -u"
-			length=len(command)
-
-		if length>0:
-			command=self._createProcessToken(command,"configureCart")
-		else:
+		if not (self.configureCart and self.selectedCart>1 and self.isInstalled("lliurex-meta-wifi-alu")):
 			self.configureCartDone=True
+			return ""
 
-		return command
+		command=f"lliurex-client-register-cli setcart {self.selectedCart} -u"
+	
+		return self._createProcessToken(command,"configureCart")
+	
 
 	#def getConfigurationCartCommand
 
 	def isAllInstalled(self):
 
-		pkgAvailable=0
-		if self.totalPackages==len(self.pkgsInstalled):
-			return [True,False]
-		else:
-			pkgAvailable=self.totalPackages-len(self.pkgsInstalled)
-			if pkgAvailable==self.totalPackages:
-				return [False,True]
-			else:
-				return [False,False]
+		installedCount=len(self.pkgsInstalled)
 
+		if self.totalPackages==installedCount:
+			return {"allInstalled":True,"allAvailable":False}
+
+		if self.totalPackages - installedCount == self.totalPackages:
+			return {"allInstalled":False,"allAvailable":True}
+
+		return {"allInstalled":False,"allAvailable":False}
+		
 	#def isAllInstalled
 
 	def preUninstallProcess(self):
@@ -596,42 +565,32 @@ class FlavourSelectorManager:
 
 	def _initProcessValues(self,pkg):
 
-		for item in self.flavoursData:
-			if item["pkg"]==pkg:
-				tmpParam={}
-				tmpParam["resultProcess"]=-1
-				if item["pkg"] in self.flavourSelected:
-					tmpParam["showSpinner"]=True
-					self._updateFlavoursModel(tmpParam,item["pkg"])
+		if pkg not in self.flavoursMap or pkg not in self.flavourSelected:
+			return
+
+		tmpParam={
+			"resultProcess":-1,
+			"showSpinner":True
+		}
+
+		self._updateFlavoursModel(tmpParam,pkg)
 
 	#def _initProcessValues
 
 	def getDisableProtectionCommand(self):
 
 		command="dpkg-unlocker-cli disableprotection -u"
-		length=len(command)
-
-		if length>0:
-			command=self._createProcessToken(command,"disablemetaprotection")
-		else:
-			self.disableMetaProtectionDone=True
-
-		return command
+	
+		return self._createProcessToken(command,"disablemetaprotection")
 
 	#def getDisableProtectionCommand
 
 	def getUnInstallCommand(self,pkg):
 
-		command=""
-		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]["removeCmd"]}"
-		length=len(command)
+		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]['removeCmd']}"
 
-		if length>0:
-			command=self._createProcessToken(command,"uninstall")
-		else:
-			self.installAppDone=True
-
-		return command
+		return self._createProcessToken(command,"uninstall")
+		
 
 	#def getUnInstallCommand
 
@@ -662,33 +621,20 @@ class FlavourSelectorManager:
 	def getEnableProtectionCommand(self):
 
 		command="dpkg-unlocker-cli enableprotection -u"
-		length=len(command)
-
-		if length>0:
-			command=self._createProcessToken(command,"enablemetaprotection")
-		else:
-			self.enableMetaProtectionDone=True
-
-		return command
-
+		
+		return self._createProcessToken(command,"enablemetaprotection")
+		
 	#def getEnableProtectionCommand
 
 	def getAutoRemoveCommand(self):
 
 		command="apt-get autoremove -y"
-		length=len(command)
 
-		if length>0:
-			command=self._createProcessToken(command,"autoremove")
-		else:
-			self.enableMetaProtectionDone=True
-
-		return command
+		return self._createProcessToken(command,"autoremove")
 
 	#def getAutoRemoveCommand
 
 	def _updateProcessModelInfo(self,pkg,action,result):
-
 
 		if pkg not in self.flavoursInfo or pkg not in self.flavourSelected:
 			return
