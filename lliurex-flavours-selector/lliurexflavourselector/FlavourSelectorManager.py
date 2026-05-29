@@ -39,6 +39,12 @@ class FlavourSelectorManager:
 	MSG_FEEDBACK_PROTECTION=11
 	MSG_FEEDBACK_CONFIGURATION_CART=12
 
+	KIRIGAMI_MSG_OK=0
+	KIRIGAMI_MSG_ERROR=1
+	KIRIGAMI_MSG_WARNING=2
+	KIRIGAMI_MSG_INFO=3
+
+
 	def __init__(self):
 
 		self.supportedFlavours=os.path.join(BASE_DIR,"supported-flavours")
@@ -418,7 +424,7 @@ class FlavourSelectorManager:
 	def getResultCheckConnection(self):
 
  		self.endCheck=False
- 		self.retConnection=[False,""]
+ 		self.retConnection={"status":True,"msgCode":""}
 
  		if not (self.future1.done() and not self.future2.done()):
  			self.firstConnection=self.future1.result() if self.future1.done() else [False]
@@ -433,7 +439,7 @@ class FlavourSelectorManager:
  		self.endCheck=True
 
  		if not self.firstConnection[0] and not self.secondConnection[0]:
- 			self.retConnection=[True,FlavourSelectorManager.ERROR_INTERNET_CONNECTION]
+ 			self.retConnection={"status":False,"msgCode":FlavourSelectorManager.ERROR_INTERNET_CONNECTION,"type":FlavourSelectorManager.KIRIGAMI_MSG_ERROR}
 
  		self.executor.shutdown(wait=False)
  		
@@ -488,20 +494,21 @@ class FlavourSelectorManager:
 
 	def checkInstall(self,pkg):
 
-		self.feedBackCheck=[True,"",""]
+		self.feedBackCheck={"status":True,"msgCode":"","type":""}
 		self.status=self.isInstalled(pkg)
 
 		self._updateProcessModelInfo(pkg,'install',self.status)
 		
 		if self.status!="installed":
 			msgCode=FlavourSelectorManager.ERROR_INSTALL_INSTALL
-			typeMsg="Error"
-			self.feedBackCheck=[False,msgCode,typeMsg]
+			typeMsg=FlavourSelectorManager.KIRIGAMI_MSG_ERROR
+			result=False
 		else:
 			msgCode=FlavourSelectorManager.SUCCESS_INSTALL_PROCESS
-			typeMsg="Ok"
-			self.feedBackCheck=[True,msgCode,typeMsg]
+			typeMsg=FlavourSelectorManager.KIRIGAMI_MSG_OK
+			result=True
 		
+		self.feedBackCheck={"status":result,"msgCode":msgCode,"type":typeMsg}
 		self.checkInstallDone=True
 		msgLog=f"- Installation of {pkg}. Result: {typeMsg}"
 		self.log(msgLog)
@@ -596,21 +603,22 @@ class FlavourSelectorManager:
 
 	def checkRemove(self,pkg):
 
-		self.feedBackCheck=[True,"",""]
+		self.feedBackCheck={"status":True,"msgCode":"","type":""}
 		self.status=self.isInstalled(pkg)
 
 		self._updateProcessModelInfo(pkg,'uninstall',self.status)
 		
 		if self.status!="available":
 			msgCode=FlavourSelectorManager.ERROR_UNINSTALL_UNINSTALL
-			typeMsg="Error"
-			self.feedBackCheck=[False,msgCode,typeMsg]
+			typeMsg=FlavourSelectorManager.KIRIGAMI_MSG_ERROR
+			result=False
 		else:
 			msgCode=FlavourSelectorManager.SUCCESS_UNINSTALL_PROCESS
-			typeMsg="Ok"
-			self.feedBackCheck=[True,msgCode,typeMsg]
+			typeMsg=FlavourSelectorManager.KIRIGAMI_MSG_OK
+			result=True
 			self._manageTags(pkg)
 		
+		self.feedBackCheck={"status":result,"msgCode":msgCode,"type":typeMsg}
 		msgLog=f"- Uninstallation of {pkg}. Result: {typeMsg}"
 		self.log(msgLog)
 
@@ -685,52 +693,43 @@ class FlavourSelectorManager:
 	#def _updateFlavoursModel
 
 	def _clearCache(self):
-
+		
 		clear=False
+		installedVersion=self._getPackageVersion()
+
 		versionFile="/root/.lliurex-flavours-selector.conf"
-		cachePath1="/root/.cache/lliurex-flavours-selector"
-		installedVersion=self.getPackageVersion()
+		cachePath="/root/.cache/lliurex-flavours-selector"
+	
+		if not os.path.exists(versionFile):
+			clear=True
+		else:
+			with open(versionFile,'r') as fd:
+				fileVersion=fd.readline().strip()
 
-		try:
-			if not os.path.exists(versionFile):
-				with open(versionFile,'w') as fd:
-					fd.write(installedVersion)
-					fd.close()
-
+			if fileVersion!=installedVersion:
 				clear=True
 
-			else:
-				with open(versionFile,'r') as fd:
-					fileVersion=fd.readline()
-					fd.close()
+		if clear:
+			with open(versionFile,'w') as fd:
+				fd.write(installedVersion)
 
-				if fileVersion!=installedVersion:
-					with open(versionFile,'w') as fd:
-						fd.write(installedVersion)
-						fd.close()
-					clear=True
-			
-			if clear:
-				if os.path.exists(cachePath1):
-					shutil.rmtree(cachePath1)
-		except:
-			pass
+			if os.path.exists(cachePath):
+				shutil.rmtree(cachePath)
 
-	#def _clearCache
+	#def clearCache
 
-	def getPackageVersion(self):
+	def _getPackageVersion(self):
 
 		packageVersionFile="/var/lib/zero-lliurex-flavours/version"
 		pkgVersion=""
 
 		if os.path.exists(packageVersionFile):
 			with open(packageVersionFile,'r') as fd:
-				pkgVersion=fd.readline()
-				fd.close()
+				pkgVersion=fd.readline().strip()
 
 		return pkgVersion
 
-	#def getPackageVersion
+	#def _getPackageVersion
 
 	def _createProcessToken(self,command,action):
 

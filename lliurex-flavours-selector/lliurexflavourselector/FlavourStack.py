@@ -279,7 +279,7 @@ class Bridge(QObject):
 		self.core.mainStack.enableApplyBtn=bool(toInstall or toRemove)
 
 		if showWarning:
-			self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.MSG_WARNING_REMOVE_META,"type":"Warning"}
+			self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.MSG_WARNING_REMOVE_META,"type":self.flavourManager.KIRIGAMI_MSG_WARNING}
 		else:
 			self.core.mainStack.showStatusMessage={"show":False,"msgCode":"","type":""}
 

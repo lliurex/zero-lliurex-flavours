@@ -195,78 +195,59 @@ GridLayout{
     
     function getFeedBackText(code){
 
-        var msg="";
         switch (code){
             case -1:
             case -2:
-                msg=i18nd("lliurex-flavours-selector","Installation process has ending with errors");
-                break;
+                return i18nd("lliurex-flavours-selector","Installation process has ending with errors");
            case -4:
-                msg=i18nd("lliurex-flavours-selector","Internet connection not detected")
-                break;
+                return i18nd("lliurex-flavours-selector","Internet connection not detected")
             case -5:
             case -6:
-                msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending with errors");
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstallation process has ending with errors");
             case -7:
-                msg=i18nd("lliurex-flavours-selector","The process has ending with errors")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending with errors")
             case -8:
-                msg=i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities between flavours")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities between flavours")
             case 1:
-                msg=i18nd("lliurex-flavours-selector","Installation process has ending successfully. It's necessary to restart the system");
-                break;
+                return i18nd("lliurex-flavours-selector","Installation process has ending successfully. It's necessary to restart the system");
            case 3:
-                msg=i18nd("lliurex-flavours-selector","Checking internet connection. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Checking internet connection. Wait a moment...")
             case 4:
-                msg=i18nd("lliurex-flavours-selector","Preparing installation. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Preparing installation. Wait a moment...")
             case 5:
-                msg=i18nd("lliurex-flavours-selector","Installing selected Flavours. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Installing selected Flavours. Wait a moment...")
             case 6:
-                msg=i18nd("lliurex-flavours-selector","Uninstalling selected Flavours. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstalling selected Flavours. Wait a moment...")
             case 7:
-                msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully. It's necessary to restart the system")
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully. It's necessary to restart the system")
             case 8:
-                msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility with other selected flavours")
-                break;
+                return i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility with other selected flavours")
             case 9:
-                msg=i18nd("lliurex-flavours-selector","The process has ending successfully. It's necessary to restart the system")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending successfully. It's necessary to restart the system")
             case 10:
-                msg=i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
             case 11:
-                msg=i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
             case 12:
-                msg=i18nd("lliurex-flavours-selector","Assigning the laptop to cart %1. Wait a moment...", mainStackBridge.selectedCart)
-                break;
+                return i18nd("lliurex-flavours-selector","Assigning the laptop to cart %1. Wait a moment...", mainStackBridge.selectedCart)
             default:
-                break;
+                return ""
         }
-        return msg;
     }
 
     function getMsgType(){
 
         switch(mainStackBridge.showStatusMessage.type){
-            case "Ok":
+            case 0:
                 return Kirigami.MessageType.Positive;
-            case "Error":
+            case 1:
                 return Kirigami.MessageType.Error;
-            case "Info":
-                return Kirigami.MessageType.Information;
-            case "Warning":
+            case 2:
                 return Kirigami.MessageType.Warning;
+            case 3:
             default:
                 return Kirigami.MessageType.Information;
-        }
+         }
     }
 
 }
