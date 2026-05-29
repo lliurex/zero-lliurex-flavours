@@ -3,6 +3,7 @@ import QtQml.Models
 
 DelegateModel {
 	id:filterModel
+	property var externalTimer: null
 	property string role
 	property string search
 	property string statusFilter

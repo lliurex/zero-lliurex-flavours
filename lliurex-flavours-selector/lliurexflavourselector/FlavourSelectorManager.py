@@ -220,7 +220,8 @@ class FlavourSelectorManager:
 					"removeCmd":tmpInfo["removeCmd"],
 					"banner":tmpInfo["banner"],
 					"conflicts":tmpInfo["conflicts"].split(",") if tmpInfo["conflicts"] else [],
-					"tags":tmpInfo["tags"].split(",") if tmpInfo["tags"] else []
+					"tags":tmpInfo["tags"].split(",") if tmpInfo["tags"] else [],
+					"flavourParent":tmpInfo["parent"]
 				}
 					
 		for item in self.flavoursData:
@@ -287,7 +288,11 @@ class FlavourSelectorManager:
 			self.allUnExpanded=False
 
 		info.pop("pkg",None)
-		self._updateFlavoursModel(info,pkg)			
+		self._updateFlavoursModel(info,pkg)
+
+		for item in self.flavoursInfo:
+			if self.flavoursInfo.get(item).get("flavourParent")==pkg:
+				self._updateFlavoursModel(info,item)
 	
 	#def onExpandedParent
 

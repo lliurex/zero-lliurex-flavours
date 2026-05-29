@@ -1,78 +1,65 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
 import org.kde.plasma.components as PC
 import org.kde.kirigami as Kirigami
 
-GridLayout{
+RowLayout{
     id: optionsGrid
-    columns: 2
-    flow: GridLayout.LeftToRight
-    columnSpacing:10
+    spacing:10
 
     Rectangle{
         width:130
-        Layout.minimumHeight:480
-        Layout.preferredHeight:480
         Layout.fillHeight:true
-        border.color: "#d3d3d3"
+        border.color: palette.mid
 
-        GridLayout{
+        ColumnLayout{
             id: menuGrid
-            rows:3 
-            flow: GridLayout.TopToBottom
-            rowSpacing:0
+            anchors.fill:parent
+            spacing:0
 
             MenuOptionBtn {
                 id:packagesOption
                 optionText:i18nd("lliurex-flavours-selector","Home")
-                optionIcon:"/usr/share/icons/breeze/places/22/user-home.svg"
+                optionIcon:"user-home"
                 visible:true
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.manageTransitions(0)
-                      
-                    }
-                }
+                onMenuOptionClicked:mainStackBridge.manageTransitions(0)
             }
+            
             MenuOptionBtn {
                 id:detailsOption
                 optionText:i18nd("lliurex-flavours-selector","View details")
-                optionIcon:"/usr/share/icons/breeze/apps/22/utilities-terminal.svg"
+                optionIcon:"utilities-terminal"
                 visible:mainStackBridge.enableKonsole
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.manageTransitions(1)
-                    }
-                }
+                onMenuOptionClicked: mainStackBridge.manageTransitions(1)
             }
             
             MenuOptionBtn {
                 id:helpOption
                 optionText:i18nd("lliurex-flavours-selector","Help")
-                optionIcon:"/usr/share/icons/breeze/actions/22/help-contents.svg"
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.openHelp()
-                    }
-                }
+                optionIcon:"help-contents"
+                onMenuOptionClicked:mainStackBridge.openHelp()
+            }
+
+            Item {
+                Layout.fillHeight:true
             }
         }
     }
 
-    GridLayout{
+    ColumnLayout{
         id: layoutGrid
-        rows:3 
-        flow: GridLayout.TopToBottom
-        rowSpacing:0
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.leftMargin:5
+        Layout.rightMargin:15
+        spacing:10
 
         StackLayout {
             id: optionsLayout
             currentIndex:mainStackBridge.currentOptionsStack
             Layout.fillHeight:true
             Layout.fillWidth:true
-            Layout.alignment:Qt.AlignHCenter
 
             FlavoursPanel{
                 id:flavoursPanel
@@ -89,20 +76,18 @@ GridLayout{
             visible:mainStackBridge.showStatusMessage.show
             text:getFeedBackText(mainStackBridge.showStatusMessage.msgCode)
             type:getMsgType()
-            Layout.minimumWidth:555
             Layout.fillWidth:true
-            Layout.rightMargin:10
             
         }
 
         RowLayout{
             id:feedbackRow
             spacing:10
-            Layout.topMargin:10
+            Layout.topMargin:5
             Layout.bottomMargin:15
             Layout.fillWidth:true
-            
-           ColumnLayout{
+
+            ColumnLayout{
                 id:feedbackColumn
                 spacing:10
                 Layout.alignment:Qt.AlignHCenter
@@ -111,7 +96,6 @@ GridLayout{
                     id:feedBackText
                     text:getFeedBackText(mainStackBridge.feedbackCode)
                     visible:true
-                    font.family: "Quattrocento Sans Bold"
                     font.pointSize: 10
                     horizontalAlignment:Text.AlignHCenter
                     Layout.preferredWidth:200
@@ -139,17 +123,16 @@ GridLayout{
                 icon.name:"dialog-ok"
                 text:i18nd("lliurex-flavours-selector","Apply")
                 enabled:mainStackBridge.enableApplyBtn?true:false
-                Layout.preferredHeight:40
-                Layout.leftMargin:10
-                Layout.rightMargin:10
                 Keys.onReturnPressed: installBtn.clicked()
                 Keys.onEnterPressed: installBtn.clicked()
+                Layout.leftMargin:10
                 onClicked:{
                     summary.open()
                 }
             }
         }
     }
+
     Summary{
         id:summary
         Connections{
@@ -166,32 +149,27 @@ GridLayout{
 
         }     
     }
-    
+
     Timer{
         id:timer
-    }
-
-    function delay(delayTime,cb){
-        timer.interval=delayTime;
-        timer.repeat=true;
-        timer.triggered.connect(cb);
-        timer.start()
-    }
-   
-    function applyChanges(){
-        delay(100, function() {
+        interval:100
+        repeat:true
+        onTriggered:{
             if (mainStackBridge.endProcess){
                 timer.stop()
-                
             }else{
                 if (mainStackBridge.endCurrentCommand){
                     mainStackBridge.getNewCommand()
                     var newCommand=mainStackBridge.currentCommand
                     konsolePanel.runCommand(newCommand)
-                }
+                }  
             }
-          })
-    } 
+        }
+    }
+
+    function applyChanges(){
+        timer.restart()
+    }
     
     function getFeedBackText(code){
 
