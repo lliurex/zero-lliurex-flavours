@@ -312,7 +312,7 @@ class FlavourSelectorManager:
 		
 	def _checkIncompatible(self,pkg,isChecked):
 
-		conflicts=self.flavoursInfo[pkg]["conflicts"]
+		conflicts=self.flavoursInfo.get(pkg,{}).get("conflicts",[])
 		
 		if not conflicts:
 			return
@@ -358,7 +358,7 @@ class FlavourSelectorManager:
 					self.flavourSelectedToInstall.append(pkg)
 				return
 	
-			if toConflict and pkg in wantToRemove:
+			if toConflict and pkg in self.wantToRemove:
 				return
 	
 			if pkg not in self.wantToRemove and pkg in self.flavourSelectedToRemove:
@@ -369,8 +369,7 @@ class FlavourSelectorManager:
 		if pkg in self.pkgsInstalled:
 			if pkg not in self.flavourSelectedToRemove:
 				self.flavourSelectedToRemove.append(pkg)
-		else:
-			if pkg in self.flavourSelectedToInstall:
+		elif pkg in self.flavourSelectedToInstall:
 				self.flavourSelectedToInstall.remove(pkg)
 		
 	#def _managePkgSelected
@@ -478,7 +477,7 @@ class FlavourSelectorManager:
 	def getInstallCommand(self,pkg):
 
 		conflictDetected=False
-		conflicts=self.flavoursInfo[pkg]["conflicts"]
+		conflicts=self.flavoursInfo.get(pkg,{}).get("conflicts",[])
 		
 		for item in conflicts:
 			if item in self.pkgsInstalled:
@@ -486,7 +485,7 @@ class FlavourSelectorManager:
 				self.installAppDone=True
 				return ""
 				
-		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]['installCmd']}"
+		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo.get(pkg,{}).get('installCmd','')}"
 	
 		return self._createProcessToken(command,"install")
 	
@@ -594,7 +593,7 @@ class FlavourSelectorManager:
 
 	def getUnInstallCommand(self,pkg):
 
-		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo[pkg]['removeCmd']}"
+		command=f"DEBIAN_FRONTEND=noninteractive {self.flavoursInfo.get(pkg,{}).get('removeCmd','')}"
 
 		return self._createProcessToken(command,"uninstall")
 		
@@ -668,7 +667,7 @@ class FlavourSelectorManager:
 					self.pkgsInstalled.remove(pkg)
 				tmpParam["resultProcess"]=0
 				tmpParam["showAction"]=-1
-				tmpParam["banner"]=self.flavoursInfo[pkg]["banner"]
+				tmpParam["banner"]=self.flavoursInfo.get(pkg,{}).get("banner",'')
 			else:
 				tmpParam["resultProcess"]=1
 				tmpParam["showAction"]=0
@@ -788,7 +787,7 @@ class FlavourSelectorManager:
 		if not os.path.exists(self.tagsPath):
 			return
 		
-		for item in self.flavoursInfo[pkg]["tags"]:
+		for item in self.flavoursInfo.get(pkg,{}).get("tags",[]):
 			if item not in self.tagsToRemove:
 				self.tagsToRemove.append(item)
 
@@ -803,10 +802,9 @@ class FlavourSelectorManager:
 			return 
 
 		for pkg in self.pkgsInstalled:
-			for tag in self.flavoursInfo[pkg]["tags"]:
+			for tag in self.flavoursInfo.get(pkg,{}).get("tags",[]):
 				tmpTag=os.path.join(self.tagsPath,tag)
 				if not os.path.exists(tmpTag):
-					cmd=f"touch {tmpTag}"
 					with open(tmpTag,'a'):
 						os.utime(tmpTag,None)
 

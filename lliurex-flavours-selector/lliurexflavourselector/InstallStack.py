@@ -186,23 +186,20 @@ class InstallStack(QObject):
 		if self.totalError>0:
 			self.showError=True
 
+		unInstallError=self.core.mainStack.enableRemoveAction and self.core.unInstallStack.showError
+
 		if self.showError:
 			if self.flavourManager.errorInConflicts:
 				self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PROCESS_CONFLICTS,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}	
 			else:
-				installError=True
-				if self.core.mainStack.enableRemoveAction and self.core.unInstallStack.showError:
-					installError=False
+				if unInstallError:
 					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PROCESS,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}	
 
-				if installError:
-					if self.countLimit==1 and self.core.unInstallStack.countLimit==1:
-						self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.feedBackCheck.get("msgCode"),"type":self.flavourManager.feedBackCheck.get("type")}
-					else:
-						self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PARTIAL_INSTALL,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}
+				elif self.countLimit==1 and self.core.unInstallStack.countLimit==1:
+					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.feedBackCheck.get("msgCode"),"type":self.flavourManager.feedBackCheck.get("type")}
+				else:
+					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PARTIAL_INSTALL,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}
 		else:
-			unInstallError=self.core.mainStack.enableRemoveAction and self.core.unInstallStack.showError
-
 			if not unInstallError:
 				if not self.core.mainStack.enableRemoveAction:
 					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.feedBackCheck.get("msgCode"),"type":self.flavourManager.feedBackCheck.get("type")}
@@ -210,7 +207,7 @@ class InstallStack(QObject):
 					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.SUCCESS_PROCESS,"type":self.flavourManager.KIRIGAMI_MSG_OK}
 			else:
 				if self.core.unInstallStack.countLimit==1:
-					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.feedBackCheck.get("msgCode"),"type":self.flavourManager.feedBackCheck.get("type")}
+					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PROCESS,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}	
 				else:
 					self.core.mainStack.showStatusMessage={"show":True,"msgCode":self.flavourManager.ERROR_PARTIAL_UNINSTALL,"type":self.flavourManager.KIRIGAMI_MSG_ERROR}
 
