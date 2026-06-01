@@ -18,10 +18,10 @@ ApplicationWindow {
     minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
     
     Component.onCompleted: {
-        x:(Screen.width-width)/2
-        y:(Screen.height-height)/2
+        x = Screen.width / 2  - minimumWidth/2
+        y = Screen.height / 2 - minimumHeight/2
     }
-    
+
     onClosing:(close)=> {
         close.accepted=closing;
 
