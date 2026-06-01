@@ -3,7 +3,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
-import QtQuick.Dialogs 1.3
 
 ApplicationWindow {
 
@@ -17,61 +16,61 @@ ApplicationWindow {
     height: mainLayout.implicitHeight + 2 * margin
     minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
     minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
+    
     Component.onCompleted: {
-        x = Screen.width / 2 - width / 2
-        y = Screen.height / 2 - height / 2
+        x:(Screen.width-width)/2
+        y:(Screen.height-height)/2
     }
+    
     onClosing:(close)=> {
         close.accepted=closing;
-        mainStackBridge.closeApplication()
-        delay(100, function() {
-            if (mainStackBridge.closeGui){
-                closing=true,
-                closeTimer.stop(), 
-                mainWindow.close();
-            }
-        })
+
+        if (!closing) {
+            mainStackBridge.closeApplication();
+            closeTimer.start();
+        }
         
     }
+
+    Timer {
+        id: closeTimer
+        interval: 100
+        repeat: true
+        onTriggered: {
+            if (mainStackBridge.closeGui) {
+                stop();
+                mainWindow.closing = true;
+                mainWindow.close();
+            }
+        }
+    }
+
     
     ColumnLayout {
         id: mainLayout
         anchors.fill: parent
-        anchors.margins: margin
         Layout.minimumWidth:800
-        Layout.preferredWidth:800
         Layout.minimumHeight:600
 
-        RowLayout {
-            id: bannerBox
-            Layout.alignment:Qt.AlignTop
-            
-            Rectangle{
-                color: "#07227d"
-                Layout.minimumWidth:mainLayout.width
-                Layout.preferredWidth:mainLayout.width
-                Layout.fillWidth:true
-                Layout.minimumHeight:120
-                Layout.maximumHeight:120
-                Image{
-                    id:banner
-                    source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/flavourselector-banner.png"
-                    anchors.centerIn:parent
-                }
+        Rectangle{
+            color: "#07227d"
+            Layout.fillWidth:true
+            Layout.preferredHeight: 120
+            Image{
+                id:banner
+                source: "/usr/lib/python3.12/dist-packages/lliurexflavourselector/rsrc/flavourselector-banner.png"
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit  
             }
         }
 
         StackView {
             id: mainView
-            property int currentView:mainStackBridge.currentStack
-            Layout.minimumWidth:800
-            Layout.preferredWidth: 800
-            Layout.minimumHeight:480
-            Layout.preferredHeight:480
-            Layout.alignment:Qt.AlignHCenter|Qt.AlignVCenter
-            Layout.leftMargin:0
-            Layout.fillWidth:true
+            Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.preferredHeight:475
+
+            property int currentView:mainStackBridge.currentStack
 
             initialItem:loadingView
 
@@ -86,6 +85,24 @@ ApplicationWindow {
                     case 2:
                         mainView.replace(applicationOptionView)
                         break
+                }
+            }
+
+            replaceEnter: Transition {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0
+                    to: 1
+                    duration: 60
+                }
+            }
+            
+            replaceExit: Transition {
+                NumberAnimation { 
+                    property: "opacity"
+                    from: 1
+                    to: 0
+                    duration: 60
                 }
             }
         }
@@ -105,17 +122,5 @@ ApplicationWindow {
             }
         }
     }
-
-    Timer{
-        id:closeTimer
-    }
-
-    function delay(delayTime,cb){
-        closeTimer.interval=delayTime;
-        closeTimer.repeat=true;
-        closeTimer.triggered.connect(cb);
-        closeTimer.start()
-    }
-
 }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-29 11:28+0200\n"
+"POT-Creation-Date: 2026-06-01 12:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,198 +21,202 @@ msgstr ""
 msgid "You need administration privileges to run this application."
 msgstr ""
 
-#: lliurex-flavours-selector/lliurex-flavours-selector:86
+#: lliurex-flavours-selector/lliurex-flavours-selector:92
 msgid "The device is configured as"
 msgstr ""
 
-#: lliurex-flavours-selector/lliurex-flavours-selector:87
+#: lliurex-flavours-selector/lliurex-flavours-selector:93
 msgid ""
 "for use in a classroom with a non standard network.\n"
 "This configuration is not compatible with the Flavour Selector.\n"
 "Uninstall LLIUREX-META-"
 msgstr ""
 
-#: lliurex-flavours-selector/lliurex-flavours-selector:88
+#: lliurex-flavours-selector/lliurex-flavours-selector:94
 msgid "and try again."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:29
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:24
 msgid "Home"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:41
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:32
 msgid "View details"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:53
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:40
 msgid "Help"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:140
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:125
 msgid "Apply"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:202
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:180
 msgid "Installation process has ending with errors"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:205
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:182
 msgid "Internet connection not detected"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:209
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:185
 msgid "Uninstallation process has ending with errors"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:212
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:187
 msgid "The process has ending with errors"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:215
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:189
 msgid ""
 "The process has ending with errors due to unresolved incompatibilities "
 "between flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:218
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:191
 msgid ""
 "Installation process has ending successfully. It's necessary to restart the "
 "system"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:221
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:193
 msgid "Checking internet connection. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:224
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:195
 msgid "Preparing installation. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:227
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:197
 msgid "Installing selected Flavours. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:230
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:199
 msgid "Uninstalling selected Flavours. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:233
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:201
 msgid ""
 "Uninstallation process has ending successfully. It's necessary to restart "
 "the system"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:236
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:203
 msgid ""
 "A current installed flavour will be remove due to incompatibility with other "
 "selected flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:239
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:205
 msgid ""
 "The process has ending successfully. It's necessary to restart the system"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:242
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:207
 msgid "Removing packages that are no longer neeed. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:245
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:209
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ApplicationOptions.qml:211
 msgid "Assigning the laptop to cart %1. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:39
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:40
 msgid "Click to expand the list of flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:54
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:55
 msgid "Click to collapse the list of flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:80
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:72
 msgid "Click to filter flavour by status"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:91
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:83
 msgid "Show installed Flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:104
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:90
 msgid "Show uninstalled Flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:116
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:96
 msgid "Show Flavours with error"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:132
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:103
 msgid "Remove filter"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:154
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:119
 msgid "Search..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:219
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:191
+msgid "Flavours not found"
+msgstr ""
+
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursList.qml:192
 msgid "Flavours not available"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursPanel.qml:11
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/FlavoursPanel.qml:18
 msgid "List of Flavours availables"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:12
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:20
 msgid "Uninstallation process details"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:14
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/KonsolePanel.qml:21
 msgid "Installation process details"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:187
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:92
 msgid "Click to hide flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:189
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:92
 msgid "Click to show flavours"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Loading.qml:38
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Loading.qml:30
 msgid "Loading information. Wait a moment..."
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:38
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:46
 msgid "Changes to be applied to the system"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:55
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:66
 msgid "Flavours to install:"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:67
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:75
 msgid "Flavours to remove:"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:79
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:84
 msgid "Additional actions:"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:102
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:97
 msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:132
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:127
 msgid "Remove other installed packages that are no longer neeed"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:160
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:154
 msgid "Accept"
 msgstr ""
 
-#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:177
+#: lliurex-flavours-selector/python3-lliurexflavourselector/rsrc/Summary.qml:170
 msgid "Cancel"
 msgstr ""

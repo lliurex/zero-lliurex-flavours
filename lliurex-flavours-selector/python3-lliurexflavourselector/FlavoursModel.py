@@ -103,14 +103,23 @@ class FlavoursModel(QtCore.QAbstractListModel):
 
 	def setData(self, index, valuesToUpdate, role=QtCore.Qt.EditRole):
 		
-		if role == QtCore.Qt.EditRole:
-			row = index.row()
-			for item in valuesToUpdate:
-				for param in item:
-					if param in ["status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded","showAction","isManaged"]:
-						self._entries[row][param]=item[param]
-						self.dataChanged.emit(index,index)
+		if role != QtCore.Qt.EditRole or not index.isValid():
+			return
 
+		row = index.row()
+		validParams={"status","banner","showSpinner","isVisible","isChecked","resultProcess","isExpanded","showAction","isManaged"}
+		changesMade=False
+
+		for item in valuesToUpdate:
+			for param,value in item.items():
+				if param in validParams:
+					self._entries[row][param]=value
+					changesMade=True
+
+		if changesMade:
+			self.dataChanged.emit(index,index)
+
+		
 	#def setData
 
 	def clear(self):
