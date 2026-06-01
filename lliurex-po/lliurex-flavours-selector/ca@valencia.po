@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-29 08:32+0200\n"
-"PO-Revision-Date: 2026-04-29 08:34+0200\n"
+"POT-Creation-Date: 2026-06-01 10:22+0200\n"
+"PO-Revision-Date: 2026-06-01 10:23+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:29
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:23
 msgid "Home"
 msgstr "Inici"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:41
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:31
 msgid "View details"
 msgstr "Veure details"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:53
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:39
 msgid "Help"
 msgstr "Ajuda"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:140
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:124
 msgid "Apply"
 msgstr "Aplica"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:202
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:179
 msgid "Installation process has ending with errors"
 msgstr "El procés d'instal·lació ha finalitzat amb errors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:205
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:181
 msgid "Internet connection not detected"
 msgstr "No s'ha detectat connexió a Internet"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:209
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:184
 msgid "Uninstallation process has ending with errors"
 msgstr "El procés de desinstal·lació ha finalitzat amb errors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:212
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:186
 msgid "The process has ending with errors"
 msgstr "El procés ha finalitzat amb errors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:215
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:188
 msgid ""
 "The process has ending with errors due to unresolved incompatibilities "
 "between flavours"
@@ -59,7 +59,7 @@ msgstr ""
 "El procés ha finalitzat amb errors a causa d'incompatibilitats no resoltes "
 "entre sabors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:218
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:190
 msgid ""
 "Installation process has ending successfully. It's necessary to restart the "
 "system"
@@ -67,23 +67,23 @@ msgstr ""
 "El procés d'instal·lació ha finalitzat correctament. És necessari reiniciar "
 "l'equip"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:221
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:192
 msgid "Checking internet connection. Wait a moment..."
 msgstr "S'està comprovant connexió a Internet. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:224
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:194
 msgid "Preparing installation. Wait a moment..."
 msgstr "S'està preparant la instal·lació. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:227
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:196
 msgid "Installing selected Flavours. Wait a moment..."
 msgstr "S'està instal·lant els sabors seleccionats. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:230
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:198
 msgid "Uninstalling selected Flavours. Wait a moment..."
 msgstr "S'està desinstal·lant els sabors seleccionats. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:233
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:200
 msgid ""
 "Uninstallation process has ending successfully. It's necessary to restart "
 "the system"
@@ -91,7 +91,7 @@ msgstr ""
 "El procés de desinstal·lació ha finalitzat correctament. És necessari "
 "reiniciar l'equip"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:236
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:202
 msgid ""
 "A current installed flavour will be remove due to incompatibility with other "
 "selected flavours"
@@ -99,113 +99,117 @@ msgstr ""
 "Un sabor ja instal·lat serà eliminat a causa d'incompatibilitat amb altres "
 "sabors seleccionats"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:239
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:204
 msgid ""
 "The process has ending successfully. It's necessary to restart the system"
 msgstr "El procés ha finalitzat correctament. És necessari reiniciar l'equip"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:242
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:206
 msgid "Removing packages that are no longer neeed. Wait a moment..."
 msgstr ""
 "S'està desinstal·lant paquets que ja no són necessaris. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:245
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:208
 msgid "Activating metapackages protection. Wait a moment..."
 msgstr "S'està activant la protecció del metapaquet. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:248
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ApplicationOptions.qml:210
 msgid "Assigning the laptop to cart %1. Wait a moment..."
 msgstr "S'està assignant el portàtil al carret %1. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:39
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:40
 msgid "Click to expand the list of flavours"
 msgstr "Premeu per a expandir la llista de sabors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:54
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:55
 msgid "Click to collapse the list of flavours"
 msgstr "Premeu per a contraure la llista de sabors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:80
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:72
 msgid "Click to filter flavour by status"
 msgstr "Premeu per a filtrar els sabors per estat"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:91
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:83
 msgid "Show installed Flavours"
 msgstr "Mostra sabors instal·lats"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:104
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:90
 msgid "Show uninstalled Flavours"
 msgstr "Mostra sabors sense instal·lar"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:116
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:96
 msgid "Show Flavours with error"
 msgstr "Mostra sabors amb errors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:132
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:103
 msgid "Remove filter"
 msgstr "Elimina el filtre"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:154
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:119
 msgid "Search..."
 msgstr "Busca..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:219
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:191
+msgid "Flavours not found"
+msgstr "No s'ha trobat cap sabor"
+
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursList.qml:192
 msgid "Flavours not available"
 msgstr "No s'ha detectat cap versió de sabor disponible"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursPanel.qml:11
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/FlavoursPanel.qml:19
 msgid "List of Flavours availables"
 msgstr "Llista de sabors disponibles"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:12
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:20
 msgid "Uninstallation process details"
 msgstr "Detalls del procés de desinstal·lació"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:14
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:21
 msgid "Installation process details"
 msgstr "Detalls del procés de instal·lació"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:188
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:92
 msgid "Click to hide flavours"
 msgstr "Premeu per a ocultar els sabors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:190
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:92
 msgid "Click to show flavours"
 msgstr "Premeu per a mostrar els sabors"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Loading.qml:39
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Loading.qml:30
 msgid "Loading information. Wait a moment..."
 msgstr "S'està carregant informació. Espereu un moment..."
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:39
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:47
 msgid "Changes to be applied to the system"
 msgstr "Canvis a aplicar en el sistema"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:56
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:67
 msgid "Flavours to install:"
 msgstr "Sabors a instal·lar:"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:68
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:76
 msgid "Flavours to remove:"
 msgstr "Sabors a desinstal·lar:"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:80
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:85
 msgid "Additional actions:"
 msgstr "Accions addicionals:"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:103
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:98
 msgid "Assign laptop to a cart (by default it will be assigned to cart 1):"
 msgstr ""
 "Assigna el portàtil a un carret (per defecte quedarà assignat al carret 1):"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:133
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:128
 msgid "Remove other installed packages that are no longer neeed"
 msgstr "Desinstal·la altres paquets instal·lats que ja no són necessaris"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:161
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:155
 msgid "Accept"
 msgstr "Accepta"
 
-#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:178
+#: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/Summary.qml:171
 msgid "Cancel"
 msgstr "Canceŀla"

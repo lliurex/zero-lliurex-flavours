@@ -1,13 +1,10 @@
 #!/usr/bin/python3
 
-from PySide6.QtCore import QObject,Signal,Slot,QThread,Property,QTimer,Qt,QModelIndex
+from PySide6.QtCore import QObject,Signal,Slot,QTimer
 import os
-import threading
 import signal
-import copy
-import time
 import sys
-import pwd
+
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 

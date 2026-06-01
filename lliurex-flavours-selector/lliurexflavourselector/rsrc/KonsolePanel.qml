@@ -12,7 +12,6 @@ Rectangle{
     ColumnLayout{
         id:terminalLayout
         spacing: 25
-        anchors.rightMargin:5
         anchors.fill:parent
         anchors.bottomMargin:10
     

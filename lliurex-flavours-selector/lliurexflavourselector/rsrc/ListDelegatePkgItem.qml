@@ -120,7 +120,9 @@ PC.ItemDelegate {
                 id: packageCheck
                 visible: type === "child"
                 checked: isChecked
-                enabled: isManaged
+                enabled: isManaged && flavourStackBridge.enableFlavourList
+                         ?true
+                         :false
                 anchors.left: expandedContainer.right
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter

@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 
-from PySide6.QtCore import QObject,Signal,Slot,QThread,Property,QTimer,Qt,QModelIndex
+from PySide6.QtCore import QObject,Signal,Slot,QThread,Property
 import os
 import subprocess
-import threading
 import signal
-import copy
-import time
 import sys
-import pwd
+
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
@@ -79,7 +76,6 @@ class Bridge(QObject):
 		self.waitRetryCount=0
 		self.launchAutoRemove=False
 		self.launchCartConfiguration=False
-		self.runPkexec=self.flavourManager.runPkexec
 
 	#def __init__
 
@@ -430,25 +426,19 @@ class Bridge(QObject):
 	@Slot()
 	def openHelp(self):
 
-		self.helpCmd='xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Configurar-sabores-en-LliureX-en-el-nuevo-modelo'
+		wikiUrl="https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Configurar-sabores-en-LliureX-en-el-nuevo-modelo"
 
-		if self.runPkexec:
-			user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name
-			self.helpCmd=f"su -c '{self.helpCmd}' {user}"
+		realUid=os.environ.get("PKEXEC_UID") or os.environ.get("SUDO_UID")
+
+		if realUid and os.getuid()==0:
+			#user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name
+			cmd=["sudo","-u",f"#{realUid}","gio","open",wikiUrl]
 		else:
-			self.helpCmd=f"su -c '{self.helpCmd}' $USER"
+			cmd=["xdg-open",wikiUrl]
 
-		self.openHelp_t=threading.Thread(target=self._openHelpRet)
-		self.openHelp_t.daemon=True
-		self.openHelp_t.start()
+		subprocess.Popen(cmd)
 
 	#def openHelp
-
-	def _openHelpRet(self):
-
-		subprocess.run(self.helpCmd,shell=True)
-
-	#def _openHelpRet
 
 	@Slot()
 	def closeApplication(self):

@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 
-from PySide6.QtCore import QObject,Signal,Slot,QThread,Property,QTimer,Qt,QModelIndex
+from PySide6.QtCore import QObject,Signal,Slot,QThread,Property,Qt,QModelIndex
 import os
-import threading
 import signal
-import copy
-import time
 import sys
-import pwd
 
 from . import FlavoursModel
 

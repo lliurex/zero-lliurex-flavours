@@ -173,7 +173,7 @@ Rectangle{
                     }
 
                     currentIndex:-1
-                    enabled:flavourStackBridge.enableFlavourList
+                    enabled:true
                     clip: true
                     focus:true
                     boundsBehavior: Flickable.StopAtBounds

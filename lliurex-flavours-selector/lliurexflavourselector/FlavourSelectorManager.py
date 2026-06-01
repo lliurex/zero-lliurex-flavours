@@ -70,19 +70,11 @@ class FlavourSelectorManager:
 		self.tagsPath="/etc/lliurex-auto-upgrade/tags"
 		self.tagsToRemove=[]
 		self.flavourReferenceForTags="lliurex-meta-gva"
-		self._isRunPkexec()
 		self._getSessionLang()
 		self._clearCache()
 				
 	#def __init__
 
-	def _isRunPkexec(self):
-
-		if 'PKEXEC_UID' not in os.environ:
-			self.runPkexec=False
-
-	#def _isRunPkexec
-	
 	def _getSessionLang(self):
 
 		tmpLang=os.environ["LANGUAGE"]
