@@ -166,7 +166,6 @@ PC.ItemDelegate {
                 text: name
                 elide: Text.ElideMiddle
                 clip: true
-                font.family: "Quattrocento Sans Bold"
                 font.pointSize: 10
                 font.bold: type === "parent"
                 anchors.verticalCenter: parent.verticalCenter
