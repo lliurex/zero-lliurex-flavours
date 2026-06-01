@@ -58,7 +58,7 @@ ApplicationWindow {
             Layout.preferredHeight: 120
             Image{
                 id:banner
-                source: "/usr/lib/python3.12/dist-packages/lliurexflavourselector/rsrc/flavourselector-banner.png"
+                source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/flavourselector-banner.png"
                 anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit  
             }
