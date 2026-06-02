@@ -64,7 +64,7 @@ PC.ItemDelegate {
         Item {
             id: menuItem
             height: containerParent.height
-            width: containerParent.width - 25
+            width: containerParent.width-5
 
             Rectangle {
                 id: expandedContainer
@@ -187,7 +187,7 @@ PC.ItemDelegate {
                 width: Kirigami.Units.iconSizes.medium
                 height: Kirigami.Units.iconSizes.medium
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
                 source: resultProcess === 0 ? "data-success" : "data-error"
             }
