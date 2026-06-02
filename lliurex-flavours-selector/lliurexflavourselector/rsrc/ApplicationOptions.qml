@@ -1,78 +1,65 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
 import org.kde.plasma.components as PC
 import org.kde.kirigami as Kirigami
 
-GridLayout{
+RowLayout{
     id: optionsGrid
-    columns: 2
-    flow: GridLayout.LeftToRight
-    columnSpacing:10
+    spacing:10
 
     Rectangle{
         width:130
-        Layout.minimumHeight:480
-        Layout.preferredHeight:480
         Layout.fillHeight:true
-        border.color: "#d3d3d3"
+        border.color: palette.mid
 
-        GridLayout{
+        ColumnLayout{
             id: menuGrid
-            rows:3 
-            flow: GridLayout.TopToBottom
-            rowSpacing:0
+            anchors.fill:parent
+            spacing:0
 
             MenuOptionBtn {
                 id:packagesOption
                 optionText:i18nd("lliurex-flavours-selector","Home")
-                optionIcon:"/usr/share/icons/breeze/places/22/user-home.svg"
+                optionIcon:"user-home"
                 visible:true
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.manageTransitions(0)
-                      
-                    }
-                }
+                onMenuOptionClicked:mainStackBridge.manageTransitions(0)
             }
+            
             MenuOptionBtn {
                 id:detailsOption
                 optionText:i18nd("lliurex-flavours-selector","View details")
-                optionIcon:"/usr/share/icons/breeze/apps/22/utilities-terminal.svg"
+                optionIcon:"utilities-terminal"
                 visible:mainStackBridge.enableKonsole
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.manageTransitions(1)
-                    }
-                }
+                onMenuOptionClicked: mainStackBridge.manageTransitions(1)
             }
             
             MenuOptionBtn {
                 id:helpOption
                 optionText:i18nd("lliurex-flavours-selector","Help")
-                optionIcon:"/usr/share/icons/breeze/actions/22/help-contents.svg"
-                Connections{
-                    function onMenuOptionClicked(){
-                        mainStackBridge.openHelp()
-                    }
-                }
+                optionIcon:"help-contents"
+                onMenuOptionClicked:mainStackBridge.openHelp()
+            }
+
+            Item {
+                Layout.fillHeight:true
             }
         }
     }
 
-    GridLayout{
+    ColumnLayout{
         id: layoutGrid
-        rows:3 
-        flow: GridLayout.TopToBottom
-        rowSpacing:0
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.leftMargin:5
+        Layout.rightMargin:15
+        spacing:10
 
         StackLayout {
             id: optionsLayout
             currentIndex:mainStackBridge.currentOptionsStack
             Layout.fillHeight:true
             Layout.fillWidth:true
-            Layout.alignment:Qt.AlignHCenter
 
             FlavoursPanel{
                 id:flavoursPanel
@@ -86,23 +73,21 @@ GridLayout{
 
         Kirigami.InlineMessage {
             id: messageLabel
-            visible:mainStackBridge.showStatusMessage[0]
-            text:getFeedBackText(mainStackBridge.showStatusMessage[1])
+            visible:mainStackBridge.showStatusMessage.show
+            text:getFeedBackText(mainStackBridge.showStatusMessage.msgCode)
             type:getMsgType()
-            Layout.minimumWidth:555
             Layout.fillWidth:true
-            Layout.rightMargin:10
             
         }
 
         RowLayout{
             id:feedbackRow
             spacing:10
-            Layout.topMargin:10
+            Layout.topMargin:5
             Layout.bottomMargin:15
             Layout.fillWidth:true
-            
-           ColumnLayout{
+
+            ColumnLayout{
                 id:feedbackColumn
                 spacing:10
                 Layout.alignment:Qt.AlignHCenter
@@ -111,7 +96,6 @@ GridLayout{
                     id:feedBackText
                     text:getFeedBackText(mainStackBridge.feedbackCode)
                     visible:true
-                    font.family: "Quattrocento Sans Bold"
                     font.pointSize: 10
                     horizontalAlignment:Text.AlignHCenter
                     Layout.preferredWidth:200
@@ -125,7 +109,7 @@ GridLayout{
                     indeterminate:true
                     visible:mainStackBridge.isProgressBarVisible
                     implicitWidth:200
-                    implicitHeight:mainStackBridge.runPkexec?7:25
+                    implicitHeight:25
                     Layout.alignment:Qt.AlignHCenter
                 }
                 
@@ -139,17 +123,16 @@ GridLayout{
                 icon.name:"dialog-ok"
                 text:i18nd("lliurex-flavours-selector","Apply")
                 enabled:mainStackBridge.enableApplyBtn?true:false
-                Layout.preferredHeight:40
-                Layout.leftMargin:10
-                Layout.rightMargin:10
                 Keys.onReturnPressed: installBtn.clicked()
                 Keys.onEnterPressed: installBtn.clicked()
+                Layout.leftMargin:10
                 onClicked:{
                     summary.open()
                 }
             }
         }
     }
+
     Summary{
         id:summary
         Connections{
@@ -166,105 +149,83 @@ GridLayout{
 
         }     
     }
-    
+
     Timer{
         id:timer
-    }
-
-    function delay(delayTime,cb){
-        timer.interval=delayTime;
-        timer.repeat=true;
-        timer.triggered.connect(cb);
-        timer.start()
-    }
-   
-    function applyChanges(){
-        delay(100, function() {
+        interval:100
+        repeat:true
+        onTriggered:{
             if (mainStackBridge.endProcess){
                 timer.stop()
-                
             }else{
                 if (mainStackBridge.endCurrentCommand){
                     mainStackBridge.getNewCommand()
                     var newCommand=mainStackBridge.currentCommand
                     konsolePanel.runCommand(newCommand)
-                }
+                }  
             }
-          })
-    } 
+        }
+    }
+
+    function applyChanges(){
+        timer.restart()
+    }
     
     function getFeedBackText(code){
 
-        var msg="";
         switch (code){
             case -1:
             case -2:
-                msg=i18nd("lliurex-flavours-selector","Installation process has ending with errors");
-                break;
+                return i18nd("lliurex-flavours-selector","Installation process has ending with errors");
            case -4:
-                msg=i18nd("lliurex-flavours-selector","Internet connection not detected")
-                break;
+                return i18nd("lliurex-flavours-selector","Internet connection not detected")
             case -5:
             case -6:
-                msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending with errors");
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstallation process has ending with errors");
             case -7:
-                msg=i18nd("lliurex-flavours-selector","The process has ending with errors")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending with errors")
             case -8:
-                msg=i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities between flavours")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending with errors due to unresolved incompatibilities between flavours")
             case 1:
-                msg=i18nd("lliurex-flavours-selector","Installation process has ending successfully. It's necessary to restart the system");
-                break;
+                return i18nd("lliurex-flavours-selector","Installation process has ending successfully. It's necessary to restart the system");
            case 3:
-                msg=i18nd("lliurex-flavours-selector","Checking internet connection. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Checking internet connection. Wait a moment...")
             case 4:
-                msg=i18nd("lliurex-flavours-selector","Preparing installation. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Preparing installation. Wait a moment...")
             case 5:
-                msg=i18nd("lliurex-flavours-selector","Installing selected Flavours. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Installing selected Flavours. Wait a moment...")
             case 6:
-                msg=i18nd("lliurex-flavours-selector","Uninstalling selected Flavours. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstalling selected Flavours. Wait a moment...")
             case 7:
-                msg=i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully. It's necessary to restart the system")
-                break;
+                return i18nd("lliurex-flavours-selector","Uninstallation process has ending successfully. It's necessary to restart the system")
             case 8:
-                msg=i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility with other selected flavours")
-                break;
+                return i18nd("lliurex-flavours-selector","A current installed flavour will be remove due to incompatibility with other selected flavours")
             case 9:
-                msg=i18nd("lliurex-flavours-selector","The process has ending successfully. It's necessary to restart the system")
-                break;
+                return i18nd("lliurex-flavours-selector","The process has ending successfully. It's necessary to restart the system")
             case 10:
-                msg=i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Removing packages that are no longer neeed. Wait a moment...")
             case 11:
-                msg=i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
-                break;
+                return i18nd("lliurex-flavours-selector","Activating metapackages protection. Wait a moment...")
             case 12:
-                msg=i18nd("lliurex-flavours-selector","Assigning the laptop to cart %1. Wait a moment...", mainStackBridge.selectedCart)
-                break;
+                return i18nd("lliurex-flavours-selector","Assigning the laptop to cart %1. Wait a moment...", mainStackBridge.selectedCart)
             default:
-                break;
+                return ""
         }
-        return msg;
     }
 
     function getMsgType(){
 
-        switch(mainStackBridge.showStatusMessage[2]){
-            case "Ok":
+        switch(mainStackBridge.showStatusMessage.type){
+            case 0:
                 return Kirigami.MessageType.Positive;
-            case "Error":
+            case 1:
                 return Kirigami.MessageType.Error;
-            case "Info":
-                return Kirigami.MessageType.Information;
-            case "Warning":
+            case 2:
                 return Kirigami.MessageType.Warning;
-        }
+            case 3:
+            default:
+                return Kirigami.MessageType.Information;
+         }
     }
 
 }
