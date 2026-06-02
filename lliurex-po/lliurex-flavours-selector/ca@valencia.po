@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-01 10:22+0200\n"
-"PO-Revision-Date: 2026-06-01 10:23+0200\n"
+"PO-Revision-Date: 2026-06-02 09:11+0200\n"
 "Last-Translator: Angels <gimenez_angcam@gva.es>\n"
 "Language-Team: Valencian <http://weblate.lliurex.net/projects/zero-lliurex-"
 "flavours/zero-lliurex-flavours/ca@valencia/>\n"
@@ -167,7 +167,7 @@ msgstr "Detalls del procés de desinstal·lació"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/KonsolePanel.qml:21
 msgid "Installation process details"
-msgstr "Detalls del procés de instal·lació"
+msgstr "Detalls del procés d'instal·lació"
 
 #: ../lliurex-flavours-selector/lliurexflavourselector/rsrc/ListDelegatePkgItem.qml:92
 msgid "Click to hide flavours"
