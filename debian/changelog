@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.25.10) noble; urgency=medium
+
+  * Fixed valencian translation
+  * Fixed minor details in flavours list
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 02 Jun 2026 09:45:22 +0200
+
 zero-lliurex-flavours (0.25.9) noble; urgency=medium
 
   * Refactorized code to improve performance
