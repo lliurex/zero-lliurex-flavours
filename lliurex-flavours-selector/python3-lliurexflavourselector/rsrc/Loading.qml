@@ -7,36 +7,27 @@ Rectangle{
     visible: true
     color:"transparent"
 
-    GridLayout{
+    ColumnLayout{
         id: loadGrid
-        rows: 2
-        flow: GridLayout.TopToBottom
-        anchors.centerIn:parent
+        anchors.centerIn: parent
+        width: parent.width * 0.9
+        spacing: 15
 
-        RowLayout{
-            Layout.fillWidth: true
+        ColumnLayout{
             Layout.alignment:Qt.AlignHCenter
+            spacing:10
 
-            Rectangle{
-                color:"transparent"
-                width:30
-                height:30
-                
-                AnimatedImage{
-                    source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.gif"
-                    transform: Scale {xScale:0.45;yScale:0.45}
-                }
+            AnimatedImage{
+                source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.gif"
+                Layout.preferredWidth: 32
+                Layout.preferredHeight: 32
+                Layout.alignment: Qt.AlignHCenter
+                fillMode: Image.PreserveAspectFit
             }
-        }
-
-        RowLayout{
-            Layout.fillWidth: true
-            Layout.alignment:Qt.AlignHCenter
 
             Text{
                 id:loadtext
                 text:i18nd("lliurex-flavours-selector","Loading information. Wait a moment...")
-                font.family: "Quattrocento Sans Bold"
                 font.pointSize: 10
                 Layout.alignment:Qt.AlignHCenter
             }

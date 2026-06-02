@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15 
 import org.kde.plasma.components 3.0 as PC
+import org.kde.kirigami 2.16 as Kirigami
 
 Popup {
 
@@ -10,55 +11,62 @@ Popup {
     signal btnCancelClicked
    
     width:650
-    height:450
+    height:480
     anchors.centerIn: Overlay.overlay
     modal:true
     focus:true
     closePolicy:Popup.NoAutoClose
     
     background:Rectangle{
-	color:"#ebeced"
-	border.color:"#b8b9ba"
+        color:"#ebeced"
+        border.color:"#b8b9ba"
         border.width:1
         radius:5.0
     }
    
-    contentItem:Rectangle{
-        id:container
-        width:650
-        height:450
-        color:"transparent"
-        Image{
-            id:dialogIcon
-            source:"/usr/share/icons/breeze/status/64/dialog-warning.svg"
+    contentItem:Item{
+ 
+        RowLayout {
+            id: headerRow
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            spacing: 10
 
+            Kirigami.Icon {
+                id:dialogIcon
+                Layout.preferredWidth: Kirigami.Units.iconSizes.huge
+                Layout.preferredHeight: Kirigami.Units.iconSizes.huge
+                source:"dialog-warning"
+
+            }
+
+            Text{
+                id:titleSummary 
+                text:i18nd("lliurex-flavours-selector","Changes to be applied to the system")
+                font.pointSize: 16
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillWidth: true
+            }
         }
-        Text{
-            id:titleSummary 
-            text:i18nd("lliurex-flavours-selector","Changes to be applied to the system")
-            font.pointSize: 16
-            anchors.left:dialogIcon.right
-            anchors.verticalCenter:dialogIcon.verticalCenter
-            anchors.leftMargin:10
-        }
-        GridLayout{
+
+        ColumnLayout{
             id:summaryLayout
-            rows:5
-            flow: GridLayout.TopToBottom
-            rowSpacing:0
+            anchors.top:headerRow.bottom
             anchors.left:parent.left
-            anchors.topMargin:80
-            enabled:true
+            anchors.right:parent.right
+            anchors.bottom:btnBox.top
+            anchors.topMargin:20
+            anchors.bottomMargin:20
+            anchors.leftMargin:10
+            spacing:8
 
             Text{
                 id:installText
                 text:i18nd("lliurex-flavours-selector","Flavours to install:")+"\n"+flavourStackBridge.flavoursToInstallList
                 visible:mainStackBridge.enableInstallAction
-                font.family: "Quattrocento Sans Bold"
                 font.pointSize: 11
-                Layout.leftMargin:10
-                Layout.topMargin:80
-                Layout.preferredWidth:480
+                Layout.fillWidth:true
                 wrapMode: Text.WordWrap
             }
 
@@ -66,34 +74,21 @@ Popup {
                 id:uninstallText
                 text:i18nd("lliurex-flavours-selector","Flavours to remove:")+"\n"+flavourStackBridge.flavoursToRemoveList
                 visible:mainStackBridge.enableRemoveAction
-                font.family: "Quattrocento Sans Bold"
                 font.pointSize: 11
-                Layout.leftMargin:10
-                Layout.topMargin:mainStackBridge.enableInstallAction?10:80
-                Layout.preferredWidth:480
+                Layout.fillWidth:true
                 wrapMode: Text.WordWrap
             }
 
             Text{
                 id:additionalActions
                 text:i18nd("lliurex-flavours-selector","Additional actions:")
-                font.family: "Quattrocento Sans Bold"
                 font.pointSize: 11
-                visible:{
-                    if (mainStackBridge.enableCartAction || mainStackBridge.enableRemoveAction){
-                        true
-                    }else{
-                        false
-                    }
-                }
-                Layout.leftMargin:10
-            }
+                visible:mainStackBridge.enableCartAction || mainStackBridge.enableRemoveAction?true:false
+             }
             
             RowLayout{
                 id:cartRow
-                Layout.alignment:Qt.AlignLeft
-                Layout.leftMargin:15
-                Layout.bottomMargin:10
+                Layout.leftMargin:10
                 visible:mainStackBridge.enableCartAction
                 spacing:10
 
@@ -119,7 +114,7 @@ Popup {
                     enabled:configureCartCB.checked?true:false
                     displayText:currentIndex+1
                     Layout.alignment:Qt.AlignLeft
-                    Layout.preferredWidth:70
+                    Layout.preferredWidth:60
                     onActivated:{
                         mainStackBridge.updateCart(cartsValues.currentIndex)
                     }
@@ -133,12 +128,13 @@ Popup {
                 visible:mainStackBridge.enableRemoveAction
                 font.pointSize: 11
                 focusPolicy: Qt.NoFocus
-                Layout.alignment:Qt.AlignLeft
-                Layout.bottomMargin:15
-                Layout.leftMargin:15
+                Layout.leftMargin:10
                 onToggled:{
                     mainStackBridge.onAutoRemoveChecked(checked)
                 }
+            }
+            Item{
+                Layout.fillHeight:true
             }
            
              
@@ -147,9 +143,7 @@ Popup {
             id:btnBox
             anchors.bottom:parent.bottom
             anchors.right:parent.right
-            anchors.topMargin:10
             anchors.bottomMargin:10
-            anchors.rightMargin:10
             spacing:10
 
             PC.Button {
@@ -158,7 +152,6 @@ Popup {
                 display:AbstractButton.TextBesideIcon
                 icon.name:"dialog-ok"
                 text:i18nd("lliurex-flavours-selector","Accept")
-                Layout.preferredHeight:40
                 enabled:true
 		        focusPolicy: Qt.NoFocus
                 onClicked:{
@@ -175,7 +168,6 @@ Popup {
                 display:AbstractButton.TextBesideIcon
                 icon.name:"dialog-cancel"
                 text:i18nd("lliurex-flavours-selector","Cancel")
-                Layout.preferredHeight: 40
                 enabled:true
                 focusPolicy: Qt.NoFocus
                 onClicked:{
