@@ -35,9 +35,9 @@ Popup {
 
             Kirigami.Icon {
                 id:dialogIcon
-                Layout.preferredWidth: 64
-                Layout.preferredHeight: 64
-                source:"dialog-warning.svg"
+                Layout.preferredWidth: Kirigami.Units.iconSizes.huge
+                Layout.preferredHeight: Kirigami.Units.iconSizes.huge
+                source:"dialog-warning"
 
             }
 

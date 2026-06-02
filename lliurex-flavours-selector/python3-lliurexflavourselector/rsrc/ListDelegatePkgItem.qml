@@ -64,7 +64,7 @@ PC.ItemDelegate {
         Item {
             id: menuItem
             height: containerParent.height
-            width: containerParent.width - 25
+            width: containerParent.width - 5
 
             Rectangle {
                 id: expandedContainer
@@ -81,8 +81,8 @@ PC.ItemDelegate {
                 Kirigami.Icon {
                     id: expandParentIcon
                     source: isExpanded ? "go-down" : "go-next"
-                    implicitWidth: 24
-                    implicitHeight: 24
+                    width: Kirigami.Units.iconSizes.smallMedium
+                    height: Kirigami.Units.iconSizes.smallMedium
                     visible: type === "parent"
                     anchors.centerIn: parent
 
@@ -137,8 +137,8 @@ PC.ItemDelegate {
                 anchors.left: packageCheck.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 5
-                implicitWidth: 32
-                implicitHeight: 32
+                width: Kirigami.Units.iconSizes.medium
+                height: Kirigami.Units.iconSizes.medium
                 source: {
                     switch(showAction) {
                         case 0:  return "data-success"
@@ -184,10 +184,10 @@ PC.ItemDelegate {
             Kirigami.Icon {
                 id: resultImg
                 visible: resultProcess !== -1
-                implicitWidth: 32
-                implicitHeight: 32
+                width: Kirigami.Units.iconSizes.medium
+                height: Kirigami.Units.iconSizes.medium
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
                 source: resultProcess === 0 ? "data-success" : "data-error"
             }
