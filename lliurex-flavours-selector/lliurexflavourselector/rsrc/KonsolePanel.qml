@@ -6,28 +6,26 @@ import QMLTermWidget
 
 Rectangle{
     color:"transparent"
-    Text{ 
-        text:{
-            if (mainStackBridge.launchedProcess=="uninstall"){  
-                i18nd("lliurex-flavours-selector","Uninstallation process details")
-            }else{
-                i18nd("lliurex-flavours-selector","Installation process details")
-            }
-        }
-        font.family: "Quattrocento Sans Bold"
-        font.pointSize: 16
-    }
+    Layout.fillWidth:true
+    Layout.fillHeight:true
 
-    RowLayout{
+    ColumnLayout{
         id:terminalLayout
-        anchors.left:parent.left
-        width:parent.width-10
-        height:parent.height-25
+        spacing: 25
+        anchors.fill:parent
+        anchors.bottomMargin:10
+    
+        Text{ 
+            text:mainStackBridge.launchedProcess=="uninstall"
+                ?i18nd("lliurex-flavours-selector","Uninstallation process details")
+                :i18nd("lliurex-flavours-selector","Installation process details")
+            font.pointSize: 16
+        }
         
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin:40
+            
             QMLTermWidget {
                 id: terminal
                 anchors.fill: parent

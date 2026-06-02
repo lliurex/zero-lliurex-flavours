@@ -1,27 +1,29 @@
 #!/usr/bin/python3
 
-from PySide6.QtCore import QObject,Signal,Slot,QThread,Property,QTimer,Qt,QModelIndex
+from PySide6.QtCore import QObject,Signal,Slot,QThread,Property
 import os
-import threading
+import subprocess
 import signal
-import copy
-import time
 import sys
-import pwd
+
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class GatherInfo(QThread):
 
-	def __init__(self,*args):
+	infoGathered=Signal()
 
-		QThread.__init__(self)
+	def __init__(self,manager):
+
+		super().__init__()
+		self.manager=manager
 		
 	#def __init__
 		
 	def run(self,*args):
 		
-		ret=Bridge.flavourSelectorManager.getSupportedFlavour()
+		self.manager.getSupportedFlavour()
+		self.infoGathered.emit()
 
 	#def run
 
@@ -29,16 +31,33 @@ class GatherInfo(QThread):
 
 class Bridge(QObject):
 
+	currentStackChanged=Signal()
+	currentOptionsStackChanged=Signal()
+	feedbackCodeChanged=Signal()
+	enableApplyBtnChanged=Signal()
+	isProcessRunningChanged=Signal()
+	showStatusMessageChanged=Signal()
+	enableInstallActionChanged=Signal()
+	enableRemoveActionChanged=Signal()
+	enableCartActionChanged=Signal()
+	selectedCartChanged=Signal()
+	endProcessChanged=Signal()
+	endCurrentCommandChanged=Signal()
+	currentCommandChanged=Signal()
+	enableKonsoleChanged=Signal()
+	launchedProcessChanged=Signal()
+	isProgressBarVisibleChanged=Signal()
+	closeGuiChanged=Signal()
+
 	def __init__(self):
 
-		QObject.__init__(self)
+		super().__init__()
 		self.core=Core.Core.get_core()
-		Bridge.flavourSelectorManager=self.core.flavourSelectorManager
+		self.flavourManager=self.core.flavourSelectorManager
 		self._closeGui=False
-		self._closePopUp=[True,""]
 		self._currentStack=0
 		self._currentOptionsStack=0
-		self._showStatusMessage=[False,"","Ok"]
+		self._showStatusMessage={"show":False,"msgCode":"","type":""}
 		self._feedbackCode=""
 		self._isProcessRunning=False
 		self._enableApplyBtn=False
@@ -48,291 +67,306 @@ class Bridge(QObject):
 		self._enableKonsole=False
 		self._launchedProcess=""
 		self._isProgressBarVisible=False
-		self._runPkexec=Bridge.flavourSelectorManager.runPkexec
 		self._enableInstallAction=False
 		self._enableRemoveAction=False
 		self._enableCartAction=False
+		self._selectedCart=1
 		self.moveToStack=""
 		self.waitMaxRetry=1
 		self.waitRetryCount=0
 		self.launchAutoRemove=False
 		self.launchCartConfiguration=False
-		self._selectedCart=1
 
 	#def __init__
 
+	@Property(int, notify=currentStackChanged)
+	def currentStack(self):
+
+		return self._currentStack
+
+	#def currentStack
+
+	@currentStack.setter
+	def currentStack(self,currentStack):
+
+		if self._currentStack!=currentStack:
+			self._currentStack=currentStack
+			self.currentStackChanged.emit()
+
+	#def currentStack
+
+	@Property(int, notify=currentOptionsStackChanged)
+	def currentOptionsStack(self):
+
+		return self._currentOptionsStack
+
+	#def currentOptionsStack
+
+	@currentOptionsStack.setter
+	def currentOptionsStack(self,currentOptionsStack):
+
+		if self._currentOptionsStack!=currentOptionsStack:
+			self._currentOptionsStack=currentOptionsStack
+			self.currentOptionsStackChanged.emit()
+
+	#def currentOptionsStack
+
+	@Property(int, notify=feedbackCodeChanged)
+	def feedbackCode(self):
+
+		return self._feedbackCode
+
+	#def feedbackCode
+
+	@feedbackCode.setter
+	def feedbackCode(self,feedbackCode):
+
+		if self._feedbackCode!=feedbackCode:
+			self._feedbackCode=feedbackCode
+			self.feedbackCodeChanged.emit()
+
+	#def feedbackCode
+
+	@Property(bool, notify=enableApplyBtnChanged)
+	def enableApplyBtn(self):
+
+		return self._enableApplyBtn
+
+	#def enableApplyBtn
+
+	@enableApplyBtn.setter
+	def enableApplyBtn(self,enableApplyBtn):
+
+		if self._enableApplyBtn!=enableApplyBtn:
+			self._enableApplyBtn=enableApplyBtn
+			self.enableApplyBtnChanged.emit()
+
+	#def enableApplyBtn
+
+	@Property(bool, notify=isProcessRunningChanged)
+	def isProcessRunning(self):
+
+		return self._isProcessRunning
+
+	#def isProcessRunning
+
+	@isProcessRunning.setter
+	def isProcessRunning(self, isProcessRunning):
+
+		if self._isProcessRunning!=isProcessRunning:
+			self._isProcessRunning=isProcessRunning
+			self.isProcessRunningChanged.emit()
+
+	#def isProcessRunning
+
+	@Property(dict, notify=showStatusMessageChanged)
+	def showStatusMessage(self):
+
+		return self._showStatusMessage
+
+	#def showStatusMessage
+
+	@showStatusMessage.setter
+	def showStatusMessage(self,showStatusMessage):
+
+		if self._showStatusMessage!=showStatusMessage:
+			self._showStatusMessage=showStatusMessage
+			self.showStatusMessageChanged.emit()
+
+	#def showStatusMessage
+
+	@Property(bool, notify=enableInstallActionChanged)
+	def enableInstallAction(self):
+
+		return self._enableInstallAction
+
+	#def enableInstallAction
+
+	@enableInstallAction.setter
+	def enableInstallAction(self,enableInstallAction):
+
+		if self._enableInstallAction!=enableInstallAction:
+			self._enableInstallAction=enableInstallAction
+			self.enableInstallActionChanged.emit()
+
+	#def enableInstallAction
+
+	@Property(bool, notify=enableRemoveActionChanged)
+	def enableRemoveAction(self):
+
+		return self._enableRemoveAction
+
+	#def enableRemoveAction
+
+	@enableRemoveAction.setter
+	def enableRemoveAction(self,enableRemoveAction):
+
+		if self._enableRemoveAction!=enableRemoveAction:
+			self._enableRemoveAction=enableRemoveAction
+			self.enableRemoveActionChanged.emit()
+
+	#def enableRemoveAction
+
+	@Property(bool, notify=enableCartActionChanged)
+	def enableCartAction(self):
+
+		return self._enableCartAction
+
+	#def enableCartAction
+
+	@enableCartAction.setter
+	def enableCartAction(self,enableCartAction):
+
+		if self._enableCartAction!=enableCartAction:
+			self._enableCartAction=enableCartAction
+			self.enableCartActionChanged.emit()
+
+	#def enableCartAction	
+	
+	@Property(int, notify=selectedCartChanged)
+	def selectedCart(self):
+
+		return self._selectedCart
+
+	#def selectedCart
+
+	@selectedCart.setter
+	def selectedCart(self,selectedCart):
+
+		if self._selectedCart!=selectedCart:
+			self._selectedCart=selectedCart
+			self.selectedCartChanged.emit()
+
+	#def selectedCart
+
+	@Property(bool, notify=endProcessChanged)
+	def endProcess(self):
+
+		return self._endProcess
+
+	#def endProcess	
+
+	@endProcess.setter
+	def endProcess(self,endProcess):
+		
+		if self._endProcess!=endProcess:
+			self._endProcess=endProcess		
+			self.endProcessChanged.emit()
+
+	#def endProcess
+
+	@Property(bool, notify=endCurrentCommandChanged)
+	def endCurrentCommand(self):
+
+		return self._endCurrentCommand
+
+	#def endCurrentCommand
+
+	@endCurrentCommand.setter
+	def endCurrentCommand(self,endCurrentCommand):
+		
+		if self._endCurrentCommand!=endCurrentCommand:
+			self._endCurrentCommand=endCurrentCommand		
+			self.endCurrentCommandChanged.emit()
+
+	#def endCurrentCommand
+
+	@Property(str, notify=currentCommandChanged)
+	def currentCommand(self):
+
+		return self._currentCommand
+
+	#def currentCommand
+
+	@currentCommand.setter
+	def currentCommand(self,currentCommand):
+		
+		if self._currentCommand!=currentCommand:
+			self._currentCommand=currentCommand		
+			self.currentCommandChanged.emit()
+
+	#def currentCommand
+	
+	@Property(bool, notify=enableKonsoleChanged)
+	def enableKonsole(self):
+
+		return self._enableKonsole
+
+	#def enableKonsole
+
+	@enableKonsole.setter
+	def enableKonsole(self,enableKonsole):
+
+		if self._enableKonsole!=enableKonsole:
+			self._enableKonsole=enableKonsole
+			self.enableKonsoleChanged.emit()
+
+	#def enableKonsole
+	
+	@Property(str, notify=launchedProcessChanged)
+	def launchedProcess(self):
+
+		return self._launchedProcess
+
+	#def lLaunchedProcess
+
+	@launchedProcess.setter
+	def launchedProcess(self,launchedProcess):
+
+		if self._launchedProcess!=launchedProcess:
+			self._launchedProcess=launchedProcess
+			self.launchedProcessChanged.emit()
+
+	#def launchedProcess
+
+	@Property(bool, notify=isProgressBarVisibleChanged)
+	def isProgressBarVisible(self):
+
+		return self._isProgressBarVisible
+
+	#def isProgressBarVisible
+
+	@isProgressBarVisible.setter
+	def isProgressBarVisible(self,isProgressBarVisible):
+
+		if self._isProgressBarVisible!=isProgressBarVisible:
+			self._isProgressBarVisible=isProgressBarVisible
+			self.isProgressBarVisibleChanged.emit()
+
+	#def isProgressBarVisible
+
+	@Property(bool, notify=closeGuiChanged)
+	def closeGui(self):
+
+		return self._closeGui
+
+	#def closeGui	
+
+	@closeGui.setter
+	def closeGui(self,closeGui):
+		
+		if self._closeGui!=closeGui:
+			self._closeGui=closeGui		
+			self.closeGuiChanged.emit()
+
+	#def closeGui
+
 	def initBridge(self):
 
-		self.gatherInfoT=GatherInfo()
+		self.gatherInfoT=GatherInfo(self.flavourManager)
 		self.gatherInfoT.start()
-		self.gatherInfoT.finished.connect(self._gatherInfoRet)
+		self.gatherInfoT.infoGathered.connect(self._gatherInfoRet)
+		self.gatherInfoT.finished.connect(self.gatherInfoT.deleteLater)
 
 	#def initBridge
 
+	@Slot()
 	def _gatherInfoRet(self):
 
 		self.core.flavourStack.getInfo()
 		self.currentStack=2
 
 	#def _gatherInfoRet
-
-	def _getCurrentStack(self):
-
-		return self._currentStack
-
-	#def _getCurrentStack
-
-	def _setCurrentStack(self,currentStack):
-
-		if self._currentStack!=currentStack:
-			self._currentStack=currentStack
-			self.on_currentStack.emit()
-
-	#def _setCurrentStack
-
-	def _getCurrentOptionsStack(self):
-
-		return self._currentOptionsStack
-
-	#def _getCurrentOptionsStack
-
-	def _setCurrentOptionsStack(self,currentOptionsStack):
-
-		if self._currentOptionsStack!=currentOptionsStack:
-			self._currentOptionsStack=currentOptionsStack
-			self.on_currentOptionsStack.emit()
-
-	#def _setCurrentOptionsStack
-
-	def _getFeedbackCode(self):
-
-		return self._feedbackCode
-
-	#def _getFeedbackCode
-
-	def _setFeedbackCode(self,feedbackCode):
-
-		if self._feedbackCode!=feedbackCode:
-			self._feedbackCode=feedbackCode
-			self.on_feedbackCode.emit()
-
-	#def _setFeedbackCode
-
-	def _getEnableApplyBtn(self):
-
-		return self._enableApplyBtn
-
-	#def _getEnableApplyBtn
-
-	def _setEnableApplyBtn(self,enableApplyBtn):
-
-		if self._enableApplyBtn!=enableApplyBtn:
-			self._enableApplyBtn=enableApplyBtn
-			self.on_enableApplyBtn.emit()
-
-	#def _setEnableApplyBtn
-
-	def _getIsProcessRunning(self):
-
-		return self._isProcessRunning
-
-	#def _getIsProcessRunning
-
-	def _setIsProcessRunning(self, isProcessRunning):
-
-		if self._isProcessRunning!=isProcessRunning:
-			self._isProcessRunning=isProcessRunning
-			self.on_isProcessRunning.emit()
-
-	#def _setIsProcessRunning
-
-	def _getShowStatusMessage(self):
-
-		return self._showStatusMessage
-
-	#def _getShowStatusMessage
-
-	def _setShowStatusMessage(self,showStatusMessage):
-
-		if self._showStatusMessage!=showStatusMessage:
-			self._showStatusMessage=showStatusMessage
-			self.on_showStatusMessage.emit()
-
-	#def _setShowStatusMessage
-
-	def _getClosePopUp(self):
-
-		return self._closePopUp
-
-	#def _getClosePopUp
-
-	def _setClosePopUp(self,closePopUp):
-
-		if self._closePopUp!=closePopUp:
-			self._closePopUp=closePopUp
-			self.on_closePopUp.emit()
-
-	#def _setClosePopUp
-
-	def _getEndProcess(self):
-
-		return self._endProcess
-
-	#def _getEndProcess	
-
-	def _setEndProcess(self,endProcess):
-		
-		if self._endProcess!=endProcess:
-			self._endProcess=endProcess		
-			self.on_endProcess.emit()
-
-	#def _setEndProcess
-
-	def _getEndCurrentCommand(self):
-
-		return self._endCurrentCommand
-
-	#def _getEndCurrentCommand
-
-	def _setEndCurrentCommand(self,endCurrentCommand):
-		
-		if self._endCurrentCommand!=endCurrentCommand:
-			self._endCurrentCommand=endCurrentCommand		
-			self.on_endCurrentCommand.emit()
-
-	#def _setEndCurrentCommand
-
-	def _getCurrentCommand(self):
-
-		return self._currentCommand
-
-	#def _getCurrentCommand
-
-	def _setCurrentCommand(self,currentCommand):
-		
-		if self._currentCommand!=currentCommand:
-			self._currentCommand=currentCommand		
-			self.on_currentCommand.emit()
-
-	#def _setCurrentCommand
-
-	def _getEnableKonsole(self):
-
-		return self._enableKonsole
-
-	#def _getEnableKonsole
-
-	def _setEnableKonsole(self,enableKonsole):
-
-		if self._enableKonsole!=enableKonsole:
-			self._enableKonsole=enableKonsole
-			self.on_enableKonsole.emit()
-
-	#def _setEnableKonsole
-
-	def _getLaunchedProcess(self):
-
-		return self._launchedProcess
-
-	#def _getLaunchedProcess
-
-	def _setLaunchedProcess(self,launchedProcess):
-
-		if self._launchedProcess!=launchedProcess:
-			self._launchedProcess=launchedProcess
-			self.on_launchedProcess.emit()
-
-	#def _setLaunchedProcess
-
-	def _getIsProgressBarVisible(self):
-
-		return self._isProgressBarVisible
-
-	#def _getIsProgressBarVisible
-
-	def _setIsProgressBarVisible(self,isProgressBarVisible):
-
-		if self._isProgressBarVisible!=isProgressBarVisible:
-			self._isProgressBarVisible=isProgressBarVisible
-			self.on_isProgressBarVisible.emit()
-
-	#def _setIsProgressBarVisible
-
-	def _getEnableInstallAction(self):
-
-		return self._enableInstallAction
-
-	#def _getEnableInstallAction
-
-	def _setEnableInstallAction(self,enableInstallAction):
-
-		if self._enableInstallAction!=enableInstallAction:
-			self._enableInstallAction=enableInstallAction
-			self.on_enableInstallAction.emit()
-
-	#def _setEnableInstallAction
-
-	def _getEnableRemoveAction(self):
-
-		return self._enableRemoveAction
-
-	#def _getEnableRemoveAction
-
-	def _setEnableRemoveAction(self,enableRemoveAction):
-
-		if self._enableRemoveAction!=enableRemoveAction:
-			self._enableRemoveAction=enableRemoveAction
-			self.on_enableRemoveAction.emit()
-
-	#def _setEnableRemoveAction
-
-	def _getEnableCartAction(self):
-
-		return self._enableCartAction
-
-	#def _getEnableCartAction
-
-	def _setEnableCartAction(self,enableCartAction):
-
-		if self._enableCartAction!=enableCartAction:
-			self._enableCartAction=enableCartAction
-			self.on_enableCartAction.emit()
-
-	#def _setEnableCartAction
-
-	def _getSelectedCart(self):
-
-		return self._selectedCart
-
-	#def _getSelectedCart
-
-	def _setSelectedCart(self,selectedCart):
-
-		if self._selectedCart!=selectedCart:
-			self._selectedCart=selectedCart
-			self.on_selectedCart.emit()
-
-	#def _setSelectedCart
-
-	def _getCloseGui(self):
-
-		return self._closeGui
-
-	#def _getCloseGui	
-
-	def _setCloseGui(self,closeGui):
-		
-		if self._closeGui!=closeGui:
-			self._closeGui=closeGui		
-			self.on_closeGui.emit()
-
-	#def _setCloseGui
-
-	def _getRunPkexec(self):
-
-		return self._runPkexec
-
-	#def _getRunPkexec
 
 	@Slot(bool)
 	def onAutoRemoveChecked(self,value):
@@ -368,7 +402,7 @@ class Bridge(QObject):
 	@Slot()
 	def launchChangeProcess(self):
 
-		self.showStatusMessage=[False,"","Ok"]
+		self.showStatusMessage={"show":False,"msgCode":"","type":""}
 		self.core.flavourStack.enableFlavourList=False
 		self.endProcess=False
 		self.enableApplyBtn=False
@@ -376,7 +410,7 @@ class Bridge(QObject):
 		self.isProcessRunning=True
 		if self.selectedCart==1:
 			self.launchCartConfiguration=False
-		Bridge.flavourSelectorManager.initLog(self.launchAutoRemove,self.launchCartConfiguration,self.selectedCart)
+		self.flavourManager.initLog(self.launchAutoRemove,self.launchCartConfiguration,self.selectedCart)
 		self.core.installStack.checkInternetConnection()
 
 	#def launchChangeProcess
@@ -392,25 +426,19 @@ class Bridge(QObject):
 	@Slot()
 	def openHelp(self):
 
-		self.helpCmd='xdg-open https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Configurar-sabores-en-LliureX-en-el-nuevo-modelo'
+		wikiUrl="https://wiki.edu.gva.es/lliurex/tiki-index.php?page=Configurar-sabores-en-LliureX-en-el-nuevo-modelo"
 
-		if self._runPkexec:
-			user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name
-			self.helpCmd=f"su -c '{self.helpCmd}' {user}"
+		realUid=os.environ.get("PKEXEC_UID") or os.environ.get("SUDO_UID")
+
+		if realUid and os.getuid()==0:
+			#user=pwd.getpwuid(int(os.environ["PKEXEC_UID"])).pw_name
+			cmd=["sudo","-u",f"#{realUid}","gio","open",wikiUrl]
 		else:
-			self.helpCmd=f"su -c '{self.helpCmd}' $USER"
+			cmd=["xdg-open",wikiUrl]
 
-		self.openHelp_t=threading.Thread(target=self._openHelpRet)
-		self.openHelp_t.daemon=True
-		self.openHelp_t.start()
+		subprocess.Popen(cmd)
 
 	#def openHelp
-
-	def _openHelpRet(self):
-
-		os.system(self.helpCmd)
-
-	#def _openHelpRet
 
 	@Slot()
 	def closeApplication(self):
@@ -421,63 +449,6 @@ class Bridge(QObject):
 			self.closeGui=False
 
 	#def closeApplication
-
-	
-	on_currentStack=Signal()
-	currentStack=Property(int,_getCurrentStack,_setCurrentStack, notify=on_currentStack)
-	
-	on_currentOptionsStack=Signal()
-	currentOptionsStack=Property(int,_getCurrentOptionsStack,_setCurrentOptionsStack, notify=on_currentOptionsStack)
-	
-	on_feedbackCode=Signal()
-	feedbackCode=Property(int,_getFeedbackCode,_setFeedbackCode,notify=on_feedbackCode)
-
-	on_enableApplyBtn=Signal()
-	enableApplyBtn=Property(bool,_getEnableApplyBtn,_setEnableApplyBtn,notify=on_enableApplyBtn)
-
-	on_isProcessRunning=Signal()
-	isProcessRunning=Property(bool,_getIsProcessRunning,_setIsProcessRunning,notify=on_isProcessRunning)
-
-	on_showStatusMessage=Signal()
-	showStatusMessage=Property('QVariantList',_getShowStatusMessage,_setShowStatusMessage,notify=on_showStatusMessage)
-	
-	on_enableInstallAction=Signal()
-	enableInstallAction=Property(bool,_getEnableInstallAction,_setEnableInstallAction,notify=on_enableInstallAction)
-
-	on_enableRemoveAction=Signal()
-	enableRemoveAction=Property(bool,_getEnableRemoveAction,_setEnableRemoveAction,notify=on_enableRemoveAction)
-
-	on_enableCartAction=Signal()
-	enableCartAction=Property(bool,_getEnableCartAction,_setEnableCartAction,notify=on_enableCartAction)
-
-	on_selectedCart=Signal()
-	selectedCart=Property(int,_getSelectedCart,_setSelectedCart,notify=on_selectedCart)
-	
-	on_closePopUp=Signal()
-	closePopUp=Property('QVariantList',_getClosePopUp,_setClosePopUp,notify=on_closePopUp)
-	
-	on_endProcess=Signal()
-	endProcess=Property(bool,_getEndProcess,_setEndProcess, notify=on_endProcess)
-
-	on_endCurrentCommand=Signal()
-	endCurrentCommand=Property(bool,_getEndCurrentCommand,_setEndCurrentCommand, notify=on_endCurrentCommand)
-
-	on_currentCommand=Signal()
-	currentCommand=Property('QString',_getCurrentCommand,_setCurrentCommand, notify=on_currentCommand)
-
-	on_enableKonsole=Signal()
-	enableKonsole=Property(bool,_getEnableKonsole,_setEnableKonsole,notify=on_enableKonsole)
-
-	on_launchedProcess=Signal()
-	launchedProcess=Property('QString',_getLaunchedProcess,_setLaunchedProcess,notify=on_launchedProcess)
-	
-	on_isProgressBarVisible=Signal()
-	isProgressBarVisible=Property(bool,_getIsProgressBarVisible,_setIsProgressBarVisible,notify=on_isProgressBarVisible)
-
-	on_closeGui=Signal()
-	closeGui=Property(bool,_getCloseGui,_setCloseGui, notify=on_closeGui)
-
-	runPkexec=Property(bool,_getRunPkexec,constant=True)
 
 #class Bridge
 

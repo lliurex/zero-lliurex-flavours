@@ -7,25 +7,26 @@ import QtQuick.Layouts
 
 
 Rectangle{
+    id: optionsGrid
     property alias flavoursModel:filterModel.model
     property alias listCount:listPkg.count
-    id: optionsGrid
+    Layout.fillWidth:true
+    Layout.fillHeight:true
     color:"transparent"
 
-    GridLayout{
+
+    ColumnLayout{
         id:mainGrid
-        rows:2
-        flow: GridLayout.TopToBottom
-        rowSpacing:10
-        anchors.left:parent.left
         anchors.fill:parent
+        spacing:10
+
         RowLayout{
             id: btnRow
             Layout.fillWidth:true
             Layout.alignment:Qt.AlignLeft
             spacing:10
-            Layout.topMargin:40
             enabled:true
+
             PC.Button{
                 id:expandBtn
                 display:AbstractButton.IconOnly
@@ -54,26 +55,17 @@ Rectangle{
                 ToolTip.text:i18nd("lliurex-flavours-selector","Click to collapse the list of flavours")
                 onClicked:flavourStackBridge.manageExpansionList("collpase")
             }
+
             PC.Button{
                 id:statusFilterBtn
                 display:AbstractButton.IconOnly
                 icon.name:"view-filter"
                 visible:true
-                enabled:{
-                    if (flavourStackBridge.totalErrorInProcess==0){
-                        if (flavourStackBridge.enableFlavourList){
-                            if (flavourStackBridge.isAllInstalled[0] || flavourStackBridge.isAllInstalled[1]){
-                                false
-                            }else{
-                                true
-                            }
-                        }else{
-                            false
-                        }
-                    }else{
-                        true
-                    }
-                }
+                enabled:flavourStackBridge.totalErrorInProcess!==0
+                        || (flavourStackBridge.enableFlavourList
+                            && !flavourStackBridge.isAllInstalled.allInstalled
+                            && !flavourStackBridge.isAllInstalled.allAvailable)
+                
                 ToolTip.delay: 1000
                 ToolTip.timeout: 3000
                 ToolTip.visible: hovered
@@ -89,54 +81,27 @@ Rectangle{
                     PC.MenuItem{
                         icon.name:"installed"
                         text:i18nd("lliurex-flavours-selector","Show installed Flavours")
-                        enabled:{
-                            if (flavourStackBridge.filterStatusValue!="installed"){
-                                true
-                            }else{
-                                false
-                            }
-                        }
+                        enabled:flavourStackBridge.filterStatusValue!="installed"?true:false
                         onClicked:flavourStackBridge.manageStatusFilter("installed")
                     }
 
                     PC.MenuItem{
                         icon.name:"noninstalled"
                         text:i18nd("lliurex-flavours-selector","Show uninstalled Flavours")
-                        enabled:{
-                            if (flavourStackBridge.filterStatusValue!="available"){
-                                true
-                            }else{
-                                false
-                            }
-                        }
+                        enabled:flavourStackBridge.filterStatusValue!="available"?true:false
                         onClicked:flavourStackBridge.manageStatusFilter("available")
                     }
                     PC.MenuItem{
                         icon.name:"emblem-error"
                         text:i18nd("lliurex-flavours-selector","Show Flavours with error")
-                        enabled:{
-                            if (flavourStackBridge.filterStatusValue!="error"){
-                                if (flavourStackBridge.totalErrorInProcess>0){
-                                    true
-                                }else{
-                                    false
-                                }
-                            }else{
-                                false
-                            }
-                        }
+                        enabled:flavourStackBridge.filterStatusValue!="error"
+                                && flavourStackBridge.totalErrorInProcess>0
                         onClicked:flavourStackBridge.manageStatusFilter("error")
                     }
                     PC.MenuItem{
                         icon.name:"kt-remove-filters"
                         text:i18nd("lliurex-flavours-selector","Remove filter")
-                        enabled:{
-                            if (flavourStackBridge.filterStatusValue!="all"){
-                                true
-                            }else{
-                                false
-                            }
-                        }
+                        enabled:flavourStackBridge.filterStatusValue!="all"?true:false
                         onClicked:flavourStackBridge.manageStatusFilter("all")
                     }
                 }
@@ -164,33 +129,29 @@ Rectangle{
             color:"white"
             Layout.fillHeight:true
             Layout.fillWidth:true
-            Layout.topMargin:0
        
             border.color: "#d3d3d3"
 
             PC.ScrollView{
-                implicitWidth:parent.width
-                implicitHeight:parent.height
-                anchors.leftMargin:10
+                anchors.fill:parent
        
                 ListView{
                     id: listPkg
-                    anchors.fill:parent
-                    height: parent.height+20
-                    enabled:flavourStackBridge.enableFlavourList
-                    currentIndex:-1
-                    clip: true
-                    focus:true
-                    boundsBehavior: Flickable.StopAtBounds
-                    highlight: Rectangle { color: "#add8e6"; opacity:0.8;border.color:"#53a1c9" }
-                    highlightMoveDuration: 0
-                    highlightResizeDuration: 0
+
+                    Timer {
+                        id: searchTimer
+                        interval: 150
+                        repeat: false
+                        onTriggered: filterModel.update()
+                    }
+
                     model:FilterDelegateModel{
                         id:filterModel
                         model:flavoursModel
                         role:"name"
                         search:pkgSearchEntry.text.trim()
                         statusFilter:flavourStackBridge.filterStatusValue
+                        externalTimer: searchTimer
                         
                         delegate: ListDelegatePkgItem{
                             width:pkgTable.width
@@ -211,12 +172,26 @@ Rectangle{
                         }
                     }
 
+                    currentIndex:-1
+                    enabled:true
+                    clip: true
+                    focus:true
+                    boundsBehavior: Flickable.StopAtBounds
+                    highlight: Rectangle { color: "#add8e6"; opacity:0.8;border.color:"#53a1c9" }
+                    highlightFollowsCurrentItem:true
+                    highlightMoveDuration: 0
+                    highlightResizeDuration: 0
                     Kirigami.PlaceholderMessage { 
                         id: emptyHint
                         anchors.centerIn: parent
                         width: parent.width - (Kirigami.Units.largeSpacing * 4)
                         visible: listPkg.count==0?true:false
-                        text: i18nd("lliurex-flavours-selector","Flavours not available")
+                        text: (pkgSearchEntry.text !== "" || 
+                              flavourStackBridge.filterStatusValue !== "all") 
+                              ? i18nd("lliurex-flavours-selector", "Flavours not found") 
+                              : i18nd("lliurex-flavours-selector", "Flavours not available")
+                        icon.name:"zero-lliurex-flavours"
+ 
                     }
 
                  } 
