@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.22.17) jammy; urgency=medium
+
+  * Refactorized code to improve performance
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 02 Jun 2026 10:04:06 +0200
+
 zero-lliurex-flavours (0.22.16) jammy; urgency=medium
 
   * Added option to assign laptop to cart if wifi-alu is installed
