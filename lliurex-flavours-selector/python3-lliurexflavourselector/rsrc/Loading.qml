@@ -8,7 +8,7 @@ Rectangle{
     color:"transparent"
 
     ColumnLayout{
-        id: loadGrid
+        id: loadRoot
         anchors.centerIn: parent
         width: parent.width * 0.9
         spacing: 15
@@ -17,12 +17,27 @@ Rectangle{
             Layout.alignment:Qt.AlignHCenter
             spacing:10
 
-            AnimatedImage{
-                source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.gif"
-                Layout.preferredWidth: 32
-                Layout.preferredHeight: 32
+            Image{
+                id:spinnerImage
+                source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.png"
+                Layout.preferredWidth: 24
+                Layout.preferredHeight: 24
                 Layout.alignment: Qt.AlignHCenter
                 fillMode: Image.PreserveAspectFit
+                smooth:false
+                antialiasing:false
+
+                rotation:0
+            }
+            Timer{
+                id:rotationTimer
+                running:(spinnerImage!==null && loadRoot!==null) && spinnerImage.visible && loadRoot.visible
+                repeat:true
+                interval:100
+
+                onTriggered:{
+                    spinnerImage.rotation=(spinnerImage.rotation+330)%360   
+                }
             }
 
             Text{
