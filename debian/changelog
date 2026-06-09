@@ -1,3 +1,9 @@
+zero-lliurex-flavours (0.25.11) noble; urgency=medium
+
+  * Changed animations to reduce CPU usage
+  
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Tue, 09 Jun 2026 09:35:02 +0200
+
 zero-lliurex-flavours (0.25.10) noble; urgency=medium
 
   * Fixed valencian translation
