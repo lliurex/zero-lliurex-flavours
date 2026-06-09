@@ -202,11 +202,25 @@ PC.ItemDelegate {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: showSpinner && mainStackBridge.isProcessRunning
 
-                AnimatedImage {
-                    id: animation
-                    source: "file:///usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.gif"
-                    anchors.fill: parent
-                    paused: !animationFrame.visible
+                Image{
+                    id:spinnerImage
+                    source: "/usr/lib/python3.10/dist-packages/lliurexflavourselector/rsrc/loading.png"
+                    anchors.fill:parent
+                    fillMode: Image.PreserveAspectFit
+                    smooth:false
+                    antialiasing:false
+
+                    rotation:0
+                }
+                Timer{
+                    id:rotationTimer
+                    running:animationFrame.visible
+                    repeat:true
+                    interval:100
+
+                    onTriggered:{
+                        spinnerImage.rotation=(spinnerImage.rotation+330)%360   
+                    }
                 }
             }
         }
