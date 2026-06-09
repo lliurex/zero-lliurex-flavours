@@ -131,14 +131,10 @@ RowLayout{
                         repeat:true
                         interval:60
                         onTriggered:{
-                            if (mainStackBridge.isProgressBarVisible){
-                                bar.x+=4;
-                                if (bar.x > feedBackBar.width){
-                                    bar.x=-bar.width
-                                }
-                            }else{
-                                pbTimer.stop()
-                            }  
+                            bar.x+=4;
+                            if (bar.x > feedBackBar.width){
+                                bar.x=-bar.width
+                            }
                         }
                     }
                 }
