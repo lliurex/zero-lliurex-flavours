@@ -1,3 +1,10 @@
+zero-lliurex-flavours (0.22.19) jammy; urgency=medium
+
+  * Fixed icon size in main menu
+  * Fixed session language retrieval
+
+ -- Juan Ramon Pelegrina <juapesai@hotmail.com>  Mon, 06 Jul 2026 13:51:17 +0200
+
 zero-lliurex-flavours (0.22.18) jammy; urgency=medium
 
   * Changed animations to reduce CPU usage
