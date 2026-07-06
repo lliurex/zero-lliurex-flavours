@@ -22,7 +22,7 @@ RowLayout{
             MenuOptionBtn {
                 id:packagesOption
                 optionText:i18nd("lliurex-flavours-selector","Home")
-                optionIcon:"user-home"
+                optionIcon:"places/24/user-home.svg"
                 visible:true
                 onMenuOptionClicked:mainStackBridge.manageTransitions(0)
             }
@@ -30,7 +30,7 @@ RowLayout{
             MenuOptionBtn {
                 id:detailsOption
                 optionText:i18nd("lliurex-flavours-selector","View details")
-                optionIcon:"utilities-terminal"
+                optionIcon:"apps/24/utilities-terminal.svg"
                 visible:mainStackBridge.enableKonsole
                 onMenuOptionClicked: mainStackBridge.manageTransitions(1)
             }
@@ -38,7 +38,7 @@ RowLayout{
             MenuOptionBtn {
                 id:helpOption
                 optionText:i18nd("lliurex-flavours-selector","Help")
-                optionIcon:"help-contents"
+                optionIcon:"actions/24/help-contents.svg"
                 onMenuOptionClicked:mainStackBridge.openHelp()
             }
 
