@@ -77,13 +77,13 @@ class FlavourSelectorManager:
 
 	def _getSessionLang(self):
 
-		tmpLang=os.environ["LANGUAGE"]
+		tmpLang=os.environ.get("LANGUAGE","")
 		if tmpLang!="":
 			tmpLang=tmpLang.split(":")
 		if len(tmpLang)>0:
 			self.sessionLang=tmpLang[0]
 		else:
-			self.sessionLang=os.environ["LANG"]
+			self.sessionLang=os.environ.get("LANG","")
 
 	#def _getSessionLang
 
