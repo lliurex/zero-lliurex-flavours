@@ -56,10 +56,12 @@ class FlavourSelectorManager:
 		self.flavourSelectedToInstall=[]
 		self.flavourSelectedToRemove=[]
 		self.wantToRemove=[]
-		self.firstConnection=False
-		self.secondConnection=False
 		self.urltocheck1="http://lliurex.net"
 		self.urltocheck2="https://github.com/lliurex"
+		self.executor=None
+		self.future1=None
+		self.future2=None
+		self.endCheck=False
 		self.pkgsInstalled=[]
 		self.nonManagedPkg=0
 		self.totalPackages=0
@@ -394,6 +396,9 @@ class FlavourSelectorManager:
 
 	def checkInternetConnection(self):
 
+		self.endCheck=False
+		self.retConnection={"status":True,"msgCode":""}
+
 		self.executor=ThreadPoolExecutor(max_workers=2)
 		self.future1=self.executor.submit(self._checkConnection,self.urltocheck1)
 		self.future2=self.executor.submit(self._checkConnection,self.urltocheck2)
@@ -420,25 +425,20 @@ class FlavourSelectorManager:
 
 	def getResultCheckConnection(self):
 
- 		self.endCheck=False
- 		self.retConnection={"status":True,"msgCode":""}
+		if not (self.future1.done() and self.future2.done()):
+			self.endCheck=False
+			return
 
- 		if not (self.future1.done() and not self.future2.done()):
- 			self.firstConnection=self.future1.result() if self.future1.done() else [False]
- 			self.secondConnection=self.future2.result() if self.future2.done() else [False]
+		self.endCheck=True	
+		firstConnection=self.future1.result() 
+		secondConnection=self.future2.result()
 
- 			if self.firstConnection[0] or self.secondConnection[0]:
- 				self.endCheck=True
- 			return
+		if firstConnection[0] or secondConnection[0]:
+			self.retConnection={"status":True,"msgCode":""}
+		else:
+			self.retConnection={"status":False,"msgCode":FlavourSelectorManager.ERROR_INTERNET_CONNECTION,"type":FlavourSelectorManager.KIRIGAMI_MSG_ERROR}
 
- 		self.firstConnection=self.future1.result()
- 		self.secondConnection=self.future2.result()
- 		self.endCheck=True
-
- 		if not self.firstConnection[0] and not self.secondConnection[0]:
- 			self.retConnection={"status":False,"msgCode":FlavourSelectorManager.ERROR_INTERNET_CONNECTION,"type":FlavourSelectorManager.KIRIGAMI_MSG_ERROR}
-
- 		self.executor.shutdown(wait=False)
+		self.executor.shutdown(wait=False)
  		
 	#def getResultCheckConnection
 
